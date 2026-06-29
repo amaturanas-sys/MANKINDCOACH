@@ -110,12 +110,16 @@ body::before {
   pointer-events: none;
   background-image: url('/brand/mankind-logo.png');
   background-repeat: no-repeat;
-  background-position: center 42%;
-  background-size: min(74vmin, 760px);
-  opacity: 0.05;
+  background-position: center 44%;
+  background-size: min(70vmin, 720px);
+  /* Vela radial: el logo se difumina hacia los bordes para que no “corte”. */
+  -webkit-mask-image: radial-gradient(closest-side at center 44%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(closest-side at center 44%, #000 55%, transparent 100%);
+  opacity: 0.06;
 }
+/* En tema claro el logo (fondo negro) ensuciaría el lavanda → se oculta. */
 :root[data-theme="light"] body::before {
-  opacity: 0.04;
+  display: none;
 }
 @media print {
   body::before { display: none !important; }
