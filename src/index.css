@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ----------------------------------------------------------------------- *
+ * Tokens semánticos (tema oscuro por defecto, tema claro vía data-theme).
+ * El morado de marca es constante en ambos temas.
+ * ----------------------------------------------------------------------- */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --brand: #5D36FF;
+  --brand-soft: rgba(93, 54, 255, 0.15);
+  --brand-soft-strong: rgba(93, 54, 255, 0.3);
+  --accent: #FF6B35;
+  --success: #10B981;
+  --warning: #FFB020;
+  --danger: #FF3C00;
+
+  /* Superficies */
+  --surface-base: #09090b;      /* fondo de la app */
+  --surface-sub: #0c0c0e;       /* nav, secondary */
+  --surface-card: #121214;      /* tarjetas elevadas */
+  --surface-muted: rgba(24, 24, 27, 0.6);
+  --surface-overlay: rgba(9, 9, 11, 0.9);
+
+  /* Bordes */
+  --border-strong: #27272a;     /* zinc-800 */
+  --border-soft: #18181b;       /* zinc-900 */
+  --border-faint: #0c0c0e;      /* zinc-950 */
+
+  /* Texto */
+  --text-primary: #fafafa;
+  --text-secondary: #d4d4d8;    /* zinc-300 */
+  --text-muted: #a1a1aa;        /* zinc-400 */
+  --text-faint: #71717a;        /* zinc-500 */
+  --text-disabled: #52525b;     /* zinc-600 */
+
+  /* Sombras */
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --brand: #5D36FF;
+  --brand-soft: rgba(93, 54, 255, 0.08);
+  --brand-soft-strong: rgba(93, 54, 255, 0.2);
+  --accent: #FF6B35;
+  --success: #059669;
+  --warning: #D97706;
+  --danger: #DC2626;
+
+  /* Superficies */
+  --surface-base: #f6f5fb;      /* lavanda muy suave */
+  --surface-sub: #ffffff;
+  --surface-card: #ffffff;
+  --surface-muted: rgba(244, 244, 248, 0.85);
+  --surface-overlay: rgba(255, 255, 255, 0.92);
+
+  /* Bordes */
+  --border-strong: #d4d4d8;
+  --border-soft: #e4e4e7;
+  --border-faint: #f4f4f5;
+
+  /* Texto */
+  --text-primary: #09090b;
+  --text-secondary: #18181b;
+  --text-muted: #3f3f46;
+  --text-faint: #52525b;
+  --text-disabled: #a1a1aa;
+
+  /* Sombras */
+  --shadow-card: 0 12px 32px -16px rgba(15, 23, 42, 0.18);
+}
+
+/* Aplicar tokens al html/body para evitar bandas blancas al hacer overscroll */
+html, body {
+  background-color: var(--surface-base);
+  color: var(--text-primary);
+  min-height: 100%;
+}
+html {
+  /* Cubre el overscroll/area de la barra inferior en iOS */
+  background-color: var(--surface-base);
+}
+body {
+  margin: 0;
+  /* Cubre el área de seguridad inferior en notch */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Utilidades semánticas pequeñas (úsalas con Tailwind como bg-surface-card o ad-hoc) */
+.bg-surface-base { background-color: var(--surface-base); }
+.bg-surface-sub { background-color: var(--surface-sub); }
+.bg-surface-card { background-color: var(--surface-card); }
+.bg-surface-muted { background-color: var(--surface-muted); }
+.bg-surface-overlay { background-color: var(--surface-overlay); }
+
+.border-surface-strong { border-color: var(--border-strong); }
+.border-surface-soft { border-color: var(--border-soft); }
+.border-surface-faint { border-color: var(--border-faint); }
+
+.text-primary-fg { color: var(--text-primary); }
+.text-secondary-fg { color: var(--text-secondary); }
+.text-muted-fg { color: var(--text-muted); }
+.text-faint-fg { color: var(--text-faint); }
+.text-disabled-fg { color: var(--text-disabled); }
+
+.text-brand { color: var(--brand); }
+.bg-brand { background-color: var(--brand); }
+.border-brand { border-color: var(--brand); }
+.bg-brand-soft { background-color: var(--brand-soft); }
+.bg-brand-soft-strong { background-color: var(--brand-soft-strong); }
+.border-brand-soft { border-color: var(--brand-soft-strong); }
+
+/* ----------------------------------------------------------------------- *
+ * Tema CLARO: overrides automáticos para clases hardcoded de la app.
+ * La app fue escrita con paleta dark fija (zinc oscuros + hex #09090b...).
+ * En vez de refactorizar cada componente, mapeamos esas clases a tokens
+ * claros aquí. Tema oscuro queda intacto (no hay overrides).
+ * ----------------------------------------------------------------------- */
+[data-theme="light"] {
+  /* Fondos hex hardcoded → superficies claras */
+  .bg-\[\#09090b\],
+  .bg-\[\#09090b\]\/90,
+  .bg-\[\#0a0a0c\],
+  .bg-\[\#0c0c0e\] { background-color: var(--surface-base) !important; }
+
+  .bg-\[\#121214\],
+  .bg-\[\#1a1a1c\],
+  .bg-\[\#0d0d10\] { background-color: var(--surface-card) !important; }
+
+  /* Gradientes con hex hardcoded oscuros */
+  .from-\[\#121214\] { --tw-gradient-from: var(--surface-card) !important; }
+  .via-\[\#121214\] { --tw-gradient-via: var(--surface-card) !important; }
+  .to-\[\#121214\] { --tw-gradient-to: var(--surface-card) !important; }
+
+  /* Fondos zinc oscuros → superficies claras CON JERARQUÍA CLARA.
+     Estrategia: cada nivel de "anidamiento visual" tiene un color claramente
+     distinto para que se separen visualmente sobre fondo lavanda (#f6f5fb). */
+  .bg-black { background-color: var(--surface-base) !important; }
+  .bg-black\/40,
+  .bg-black\/50,
+  .bg-black\/60,
+  .bg-black\/70,
+  .bg-black\/80,
+  .bg-black\/90 { background-color: rgba(15, 23, 42, 0.45) !important; }
+
+  /* zinc-950 sólido = superficie de la APP (igual al fondo base) */
+  .bg-zinc-950 { background-color: var(--surface-base) !important; }
+  /* zinc-950/40-60 = nivel sutil (tipo subbloque dentro de card) → blanco neutro */
+  .bg-zinc-950\/40,
+  .bg-zinc-950\/45,
+  .bg-zinc-950\/50,
+  .bg-zinc-950\/60 { background-color: #ffffff !important; }
+  /* zinc-950/70-90 = nivel destacado (celda interactiva, drag target) → blanco puro con borde sutil */
+  .bg-zinc-950\/70,
+  .bg-zinc-950\/80,
+  .bg-zinc-950\/90 { background-color: #ffffff !important; box-shadow: inset 0 0 0 1px rgba(228, 228, 231, 0.6); }
+
+  /* zinc-900 = headers de subsección o estados hover */
+  .bg-zinc-900 { background-color: #f1f1f5 !important; }
+  .bg-zinc-900\/30,
+  .bg-zinc-900\/40,
+  .bg-zinc-900\/50 { background-color: #f7f7f9 !important; }
+  .bg-zinc-900\/60,
+  .bg-zinc-900\/70,
+  .bg-zinc-900\/80 { background-color: #ececef !important; }
+
+  /* zinc-800 = más oscuro, para chips/dividers visibles */
+  .bg-zinc-800 { background-color: #e4e4e7 !important; }
+  .bg-zinc-800\/40,
+  .bg-zinc-800\/50,
+  .bg-zinc-800\/60,
+  .bg-zinc-800\/70 { background-color: #ededf0 !important; }
+  .bg-zinc-700 { background-color: #d4d4d8 !important; }
+  .bg-zinc-700\/40,
+  .bg-zinc-700\/60 { background-color: #dfdfe2 !important; }
+
+  /* Fondos teñidos rojos (zonas destructivas) — suavizar para tema claro */
+  .bg-red-950\/10,
+  .bg-red-950\/20,
+  .bg-red-950\/30,
+  .bg-red-950\/40 { background-color: rgba(254, 202, 202, 0.4) !important; }
+  .bg-emerald-950\/20,
+  .bg-emerald-950\/30 { background-color: rgba(187, 247, 208, 0.4) !important; }
+  .bg-purple-950\/20,
+  .bg-purple-950\/30 { background-color: rgba(216, 180, 254, 0.3) !important; }
+
+  /* Texto sobre fondos claros que originalmente era claro */
+  .text-red-300 { color: #b91c1c !important; }
+  .text-red-200 { color: #991b1b !important; }
+  .text-emerald-400 { color: #047857 !important; }
+  .text-emerald-300 { color: #065f46 !important; }
+  .text-teal-400 { color: #0d9488 !important; }
+  .text-amber-500,
+  .text-amber-400 { color: #b45309 !important; }
+  .text-indigo-400 { color: #4338ca !important; }
+  .text-sky-400 { color: #0369a1 !important; }
+
+  /* Texto */
+  .text-white,
+  .text-\[#fafafa\] { color: var(--text-primary) !important; }
+  .text-zinc-100,
+  .text-zinc-200,
+  .text-zinc-300 { color: var(--text-secondary) !important; }
+  .text-zinc-400 { color: var(--text-muted) !important; }
+  .text-zinc-500 { color: var(--text-faint) !important; }
+  .text-zinc-600,
+  .text-zinc-700 { color: var(--text-disabled) !important; }
+
+  /* Excepción: texto blanco SOBRE fondos brand/destructive debe seguir blanco
+     para mantener contraste. La specificity (atributo + 2 clases) gana al
+     override genérico (atributo + 1 clase). */
+  .bg-\[\#5D36FF\].text-white,
+  .bg-\[\#4A22F0\].text-white,
+  .bg-brand.text-white,
+  .bg-red-700.text-white,
+  .bg-red-600.text-white,
+  .bg-red-500.text-white,
+  .bg-emerald-500.text-white,
+  .bg-amber-500.text-white,
+  .bg-\[\#10B981\].text-white,
+  .bg-\[\#FF3C00\].text-white { color: #ffffff !important; }
+
+  /* Bordes — más contraste para que las celdas y subbloques se distingan */
+  .border-zinc-950 { border-color: #e8e8eb !important; }
+  .border-zinc-900 { border-color: #dcdce0 !important; }
+  .border-zinc-900\/40,
+  .border-zinc-900\/60,
+  .border-zinc-900\/80 { border-color: #e4e4e7 !important; }
+  .border-zinc-800,
+  .border-zinc-800\/40,
+  .border-zinc-800\/60,
+  .border-zinc-800\/80 { border-color: #cfcfd4 !important; }
+  .border-zinc-700 { border-color: #b8b8be !important; }
+
+  /* Marca (preservar morado, suavizar tintes) */
+  .bg-\[\#5D36FF\]\/5 { background-color: rgba(93, 54, 255, 0.05) !important; }
+  .bg-\[\#5D36FF\]\/10 { background-color: rgba(93, 54, 255, 0.08) !important; }
+
+  /* Gradientes oscuros — neutralizar el negro circundante */
+  .from-zinc-950 { --tw-gradient-from: #ffffff !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255,255,255,0)); }
+  .from-zinc-900 { --tw-gradient-from: #f4f4f5 !important; }
+  .from-zinc-800 { --tw-gradient-from: #e4e4e7 !important; }
+  .via-zinc-950 { --tw-gradient-via: #ffffff !important; }
+  .via-zinc-900 { --tw-gradient-via: #f4f4f5 !important; }
+  .to-zinc-950 { --tw-gradient-to: #ffffff !important; }
+  .to-zinc-900 { --tw-gradient-to: #f4f4f5 !important; }
+  .to-zinc-800 { --tw-gradient-to: #e4e4e7 !important; }
+  .from-\[\#09090b\] { --tw-gradient-from: #ffffff !important; }
+  .to-\[\#09090b\] { --tw-gradient-to: #ffffff !important; }
+  .via-purple-950\/20 { --tw-gradient-via: rgba(216, 180, 254, 0.2) !important; }
+
+  /* Forzar color-scheme claro en controles nativos (dropdowns, date pickers, etc.) */
+  input, select, textarea { color-scheme: light; }
+
+  /* Placeholders más legibles sobre fondo claro */
+  ::placeholder { color: #71717a !important; opacity: 0.9; }
+
+  /* Selectores de focus/hover que asumían contraste oscuro */
+  .hover\:bg-zinc-900:hover { background-color: #e4e4e7 !important; }
+  .hover\:bg-zinc-900\/70:hover { background-color: rgba(228, 228, 231, 0.8) !important; }
+  .hover\:bg-zinc-950\/70:hover { background-color: rgba(244, 244, 245, 0.9) !important; }
+  .hover\:text-white:hover { color: var(--text-primary) !important; }
+  .hover\:text-zinc-300:hover { color: var(--text-secondary) !important; }
+  .hover\:text-zinc-400:hover { color: var(--text-muted) !important; }
+}
+
+/* Scrollbar fino para sensación industrial — usa tokens del tema */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: var(--surface-muted);
+  border-radius: 99px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 99px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-soft-strong);
+}
+
+/* Respeta el motion-reduce del usuario */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print: dossier limpio para impresión (siempre fondo blanco/texto negro) */
+@media print {
+  header,
+  nav,
+  footer,
+  #welcome_bento,
+  .print\:hidden,
+  button,
+  #toggle_edit_btn,
+  #ai_optimizer_card,
+  #equipment_checklist_card {
+    display: none !important;
+  }
+
+  body {
+    background-color: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  #printable_dossier_canvas {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    background-color: white !important;
+    color: black !important;
+  }
+
+  #printable_dossier_canvas h1,
+  #printable_dossier_canvas h2,
+  #printable_dossier_canvas h3,
+  #printable_dossier_canvas h4,
+  #printable_dossier_canvas p,
+  #printable_dossier_canvas table {
+    color: black !important;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+    break-before: page;
+  }
+}
