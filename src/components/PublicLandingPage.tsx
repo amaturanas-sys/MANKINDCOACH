@@ -261,7 +261,8 @@ export default function PublicLandingPage() {
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <a href="#hero" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }}
             className="flex items-center gap-2 font-sans font-black tracking-tight text-base">
-            <span className="text-[#5D36FF]">▲</span>
+            <img src="/brand/mankind-logo.png" alt="" aria-hidden="true"
+              className="h-7 w-7 rounded-md object-cover ring-1 ring-zinc-800" />
             <span>{SITE.brand}</span>
           </a>
           <div className="hidden md:flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider">
@@ -326,8 +327,9 @@ export default function PublicLandingPage() {
           <SectionLabel label="Acerca" icon={Users} />
           <div className="grid md:grid-cols-3 gap-10 mt-8">
             <div className="md:col-span-1">
-              <div className="aspect-square bg-gradient-to-br from-[#5D36FF]/20 to-[#EC4899]/10 border border-zinc-800 rounded-2xl flex items-center justify-center">
-                <span className="text-9xl opacity-30">👤</span>
+              <div className="aspect-square bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden flex items-center justify-center p-5">
+                <img src="/brand/mankind-logo.png" alt="MankindFactory"
+                  className="w-full h-full object-contain" />
               </div>
             </div>
             <div className="md:col-span-2 space-y-5">
@@ -701,7 +703,8 @@ export default function PublicLandingPage() {
       <footer className="border-t border-zinc-900 bg-zinc-950">
         <div className="max-w-6xl mx-auto px-4 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-[#5D36FF]">▲</span>
+            <img src="/brand/mankind-logo.png" alt="" aria-hidden="true"
+              className="h-6 w-6 rounded object-cover ring-1 ring-zinc-800" />
             <span className="font-sans font-bold">{SITE.brand}</span>
             <span className="text-zinc-600">·</span>
             <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider">© {new Date().getFullYear()}</span>
