@@ -4,6 +4,7 @@
  */
 
 import {
+  AnatomyImage,
   ClientProfile,
   CommunicationLog,
   CustomExercise,
@@ -64,6 +65,7 @@ interface Workspace {
   customExercises: CustomExercise[];
   exerciseWarnings: Record<string, ExerciseWarning[]>;
   userImages: UserImage[];
+  anatomyImages: AnatomyImage[];
 }
 
 const FIRST_RUN_PRESCHEDULE = (): ScheduledRoutine[] => ([
@@ -189,7 +191,8 @@ function freshWorkspace(): Workspace {
     globalReminders: [],
     customExercises: [],
     exerciseWarnings: {},
-    userImages: []
+    userImages: [],
+    anatomyImages: []
   };
 }
 
@@ -224,6 +227,8 @@ export function migrateAndLoad(): Workspace {
     if (!r.exerciseWarnings) r.exerciseWarnings = {};
     /* v12 → v13: banco de imágenes propias. */
     if (!r.userImages) r.userImages = [];
+    /* v13 → v14: banco de ilustraciones anatómicas con licencia. */
+    if (!r.anatomyImages) r.anatomyImages = [];
     const wsParsed = workspaceSchema.safeParse(r);
     if (wsParsed.success) {
       const data = wsParsed.data;
@@ -275,7 +280,8 @@ export function migrateAndLoad(): Workspace {
     globalReminders: [],
     customExercises: [],
     exerciseWarnings: {},
-    userImages: []
+    userImages: [],
+    anatomyImages: []
   };
 }
 
@@ -312,6 +318,7 @@ export function parseBackup(json: unknown): Workspace {
     if (!data.customExercises) data.customExercises = [];
     if (!data.exerciseWarnings) data.exerciseWarnings = {};
     if (!data.userImages) data.userImages = [];
+    if (!data.anatomyImages) data.anatomyImages = [];
     return { ...r, data };
   };
 
@@ -341,7 +348,8 @@ export function parseBackup(json: unknown): Workspace {
       globalReminders: [],
       customExercises: [],
       exerciseWarnings: {},
-      userImages: []
+      userImages: [],
+      anatomyImages: []
     };
     const final = workspaceSchema.safeParse(adapted);
     if (final.success) return final.data;
@@ -376,7 +384,8 @@ export function parseBackup(json: unknown): Workspace {
         exerciseWarnings: (data.exerciseWarnings && typeof data.exerciseWarnings === 'object')
           ? data.exerciseWarnings as Record<string, ExerciseWarning[]>
           : {},
-        userImages: Array.isArray(data.userImages) ? data.userImages as UserImage[] : []
+        userImages: Array.isArray(data.userImages) ? data.userImages as UserImage[] : [],
+        anatomyImages: Array.isArray(data.anatomyImages) ? data.anatomyImages as AnatomyImage[] : []
       };
       const final = workspaceSchema.safeParse(adapted);
       if (final.success) return final.data;

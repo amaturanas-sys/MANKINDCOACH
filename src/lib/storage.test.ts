@@ -85,7 +85,8 @@ describe('persist y migrate — round trip', () => {
       globalReminders: original.globalReminders,
       customExercises: original.customExercises,
       exerciseWarnings: original.exerciseWarnings,
-      userImages: original.userImages
+      userImages: original.userImages,
+      anatomyImages: original.anatomyImages
     });
     const reloaded = migrateAndLoad();
     expect(reloaded.activeClientId).toBe(original.activeClientId);

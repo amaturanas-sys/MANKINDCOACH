@@ -14,14 +14,15 @@
 import React, { useMemo, useState } from 'react';
 import {
   Library, Search, Filter, Plus, Pencil, Trash2, AlertTriangle, X, Check, ExternalLink,
-  Dumbbell, ChevronDown, ChevronUp, Tag as TagIcon
+  Dumbbell, ChevronDown, ChevronUp, Tag as TagIcon, Image as ImageIcon
 } from 'lucide-react';
 import {
-  CustomExercise, ExerciseWarning, MedicalCondition
+  AnatomyImage, CustomExercise, ExerciseWarning, MedicalCondition
 } from '../types';
 import { MovementPattern, MovementIcon, PATTERN_LABELS, patternForExercise } from '../lib/movementIcons';
 import { NSCA_EXERCISES, MUSCLE_GROUP_LABELS, MuscleGroup, NscaExercise, isEnduranceExercise } from '../lib/nsca';
 import AnatomyReferencePanel from './AnatomyReferencePanel';
+import AnatomyImageBank, { AnatomyImageStrip, imagesForMuscles } from './AnatomyImageBank';
 import {
   MEDICAL_CONDITIONS, SEVERITY_META, CUSTOM_EXERCISE_CATEGORIES, EQUIPMENT_OPTIONS
 } from '../constants';
@@ -31,6 +32,9 @@ interface ExerciseLibraryTabProps {
   exerciseWarnings: Record<string, ExerciseWarning[]>;
   onUpdateCustom: (next: CustomExercise[]) => void;
   onUpdateWarnings: (next: Record<string, ExerciseWarning[]>) => void;
+  anatomyImages: AnatomyImage[];
+  onAddAnatomyImage: (img: AnatomyImage) => void;
+  onRemoveAnatomyImage: (id: string) => void;
 }
 
 /** Entrada unificada: NSCA o custom, con warnings resueltos */
@@ -63,8 +67,10 @@ const PATTERN_KEYS: MovementPattern[] = [
 ];
 
 export default function ExerciseLibraryTab({
-  customExercises, exerciseWarnings, onUpdateCustom, onUpdateWarnings
+  customExercises, exerciseWarnings, onUpdateCustom, onUpdateWarnings,
+  anatomyImages, onAddAnatomyImage, onRemoveAnatomyImage
 }: ExerciseLibraryTabProps) {
+  const [bankOpen, setBankOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [filterPattern, setFilterPattern] = useState<'all' | MovementPattern>('all');
   const [filterMuscle, setFilterMuscle] = useState<'all' | MuscleGroup>('all');
@@ -232,14 +238,31 @@ export default function ExerciseLibraryTab({
             {stats.nsca - stats.endurance} fuerza/halterofilia NSCA · {stats.endurance} endurance/cross-training · {stats.custom} personales · {stats.withWarnings} con contraindicaciones marcadas
           </p>
         </div>
-        <button
-          type="button"
-          onClick={handleCreateCustom}
-          className="px-4 py-2 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded-lg font-mono text-xs uppercase tracking-wider font-bold transition flex items-center gap-2 shrink-0"
-        >
-          <Plus size={14} aria-hidden="true" /> Nuevo ejercicio
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => setBankOpen(true)}
+            className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#5D36FF]/50 text-zinc-300 hover:text-white rounded-lg font-mono text-xs uppercase tracking-wider font-bold transition flex items-center gap-2"
+          >
+            <ImageIcon size={14} aria-hidden="true" /> Ilustraciones ({anatomyImages.length})
+          </button>
+          <button
+            type="button"
+            onClick={handleCreateCustom}
+            className="px-4 py-2 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded-lg font-mono text-xs uppercase tracking-wider font-bold transition flex items-center gap-2"
+          >
+            <Plus size={14} aria-hidden="true" /> Nuevo ejercicio
+          </button>
+        </div>
       </section>
+
+      <AnatomyImageBank
+        open={bankOpen}
+        onClose={() => setBankOpen(false)}
+        images={anatomyImages}
+        onAdd={onAddAnatomyImage}
+        onRemove={onRemoveAnatomyImage}
+      />
 
       {/* REFERENCIA ANATÓMICA (enlace externo + atribución; no se empaqueta) */}
       <AnatomyReferencePanel
@@ -380,9 +403,11 @@ export default function ExerciseLibraryTab({
           {selected ? (
             <ExerciseDetail
               entry={selected}
+              images={imagesForMuscles(anatomyImages, [selected.primaryMuscle, ...selected.muscleGroups])}
               onEditCustom={() => selected.custom && setEditingCustom({ ...selected.custom })}
               onDeleteCustom={() => selected.custom && handleDeleteCustom(selected.custom.id)}
               onEditWarnings={() => setEditingWarningsFor(selected.id)}
+              onOpenBank={() => setBankOpen(true)}
             />
           ) : (
             <div className="text-center py-16 space-y-3">
@@ -424,11 +449,13 @@ export default function ExerciseLibraryTab({
  * Detalle de ejercicio
  * ----------------------------------------------------------------------- */
 
-function ExerciseDetail({ entry, onEditCustom, onDeleteCustom, onEditWarnings }: {
+function ExerciseDetail({ entry, images, onEditCustom, onDeleteCustom, onEditWarnings, onOpenBank }: {
   entry: LibraryEntry;
+  images: AnatomyImage[];
   onEditCustom: () => void;
   onDeleteCustom: () => void;
   onEditWarnings: () => void;
+  onOpenBank: () => void;
 }) {
   return (
     <div className="space-y-4">
@@ -488,6 +515,23 @@ function ExerciseDetail({ entry, onEditCustom, onDeleteCustom, onEditWarnings }:
           </div>
         </div>
       )}
+
+      {/* Ilustraciones anatómicas (banco con licencia, emparejadas por músculo) */}
+      <div>
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[9px] uppercase font-mono tracking-wider text-zinc-500">Ilustraciones anatómicas</span>
+          <button type="button" onClick={onOpenBank} className="text-[9px] font-mono uppercase text-[#5D36FF] hover:underline">
+            {images.length ? 'Gestionar' : 'Añadir'}
+          </button>
+        </div>
+        {images.length > 0 ? (
+          <AnatomyImageStrip images={images} />
+        ) : (
+          <p className="text-[10px] font-mono text-zinc-600 italic">
+            Sin ilustraciones para estos músculos. Importa imágenes con licencia (CC) y etiquétalas por músculo.
+          </p>
+        )}
+      </div>
 
       {/* Técnica */}
       {entry.technique && (

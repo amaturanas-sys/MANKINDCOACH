@@ -22,6 +22,7 @@ import {
   ServiceCatalogItem,
   SessionNote,
   UserImage,
+  AnatomyImage,
   WorkoutRoutine
 } from './types';
 import {
@@ -141,6 +142,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
   const [customExercises, setCustomExercises] = useState<CustomExercise[]>(initialState.customExercises);
   const [exerciseWarnings, setExerciseWarnings] = useState<Record<string, ExerciseWarning[]>>(initialState.exerciseWarnings);
   const [userImages, setUserImages] = useState<UserImage[]>(initialState.userImages);
+  const [anatomyImages, setAnatomyImages] = useState<AnatomyImage[]>(initialState.anatomyImages);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
 
@@ -160,13 +162,13 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
         clients, activeClientId, routines, scheduledRoutines,
         metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates,
         sessionNotes, communicationLogs, globalReminders,
-        customExercises, exerciseWarnings, userImages
+        customExercises, exerciseWarnings, userImages, anatomyImages
       });
     }, 350);
     return () => {
       if (persistTimer.current !== null) window.clearTimeout(persistTimer.current);
     };
-  }, [clients, activeClientId, routines, scheduledRoutines, metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates, sessionNotes, communicationLogs, globalReminders, customExercises, exerciseWarnings, userImages]);
+  }, [clients, activeClientId, routines, scheduledRoutines, metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates, sessionNotes, communicationLogs, globalReminders, customExercises, exerciseWarnings, userImages, anatomyImages]);
 
   /* URL sync */
   useEffect(() => {
@@ -277,6 +279,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     customExercises?: CustomExercise[];
     exerciseWarnings?: Record<string, ExerciseWarning[]>;
     userImages?: UserImage[];
+    anatomyImages?: AnatomyImage[];
   }) => {
     setClients(imported.clients);
     setActiveClientId(imported.activeClientId);
@@ -294,6 +297,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     setCustomExercises(imported.customExercises ?? []);
     setExerciseWarnings(imported.exerciseWarnings ?? {});
     setUserImages(imported.userImages ?? []);
+    setAnatomyImages(imported.anatomyImages ?? []);
     if (imported.scheduledRoutines.length > 0) {
       setViewedMonth({ year: imported.scheduledRoutines[0].year, monthIndex: imported.scheduledRoutines[0].monthIndex });
     }
@@ -317,6 +321,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     setCustomExercises([]);
     setExerciseWarnings({});
     setUserImages([]);
+    setAnatomyImages([]);
   }, []);
 
   /* Navegación */
@@ -378,6 +383,10 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
   /* User images (banco personal) */
   const onAddUserImage = useCallback((img: UserImage) => setUserImages(prev => [...prev, img]), []);
   const onRemoveUserImage = useCallback((id: string) => setUserImages(prev => prev.filter(x => x.id !== id)), []);
+
+  /* Ilustraciones anatómicas con licencia (banco para la Biblioteca) */
+  const onAddAnatomyImage = useCallback((img: AnatomyImage) => setAnatomyImages(prev => [...prev, img]), []);
+  const onRemoveAnatomyImage = useCallback((id: string) => setAnatomyImages(prev => prev.filter(x => x.id !== id)), []);
 
   /* Pagos del paciente activo (filtrados) */
   const paymentsForActive = useMemo(
@@ -674,6 +683,9 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
                   exerciseWarnings={exerciseWarnings}
                   onUpdateCustom={setCustomExercises}
                   onUpdateWarnings={setExerciseWarnings}
+                  anatomyImages={anatomyImages}
+                  onAddAnatomyImage={onAddAnatomyImage}
+                  onRemoveAnatomyImage={onRemoveAnatomyImage}
                 />
               )}
 
@@ -692,10 +704,11 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
                   sessionNotes={sessionNotes}
                   communicationLogs={communicationLogs}
                   globalReminders={globalReminders}
-                  onImportBackup={(c, aci, r, sr, ms, t) => handleImportBackup({
-                    clients: c, activeClientId: aci, routines: r, scheduledRoutines: sr,
-                    metricSamples: ms, templates: t
-                  })}
+                  customExercises={customExercises}
+                  exerciseWarnings={exerciseWarnings}
+                  userImages={userImages}
+                  anatomyImages={anatomyImages}
+                  onImportBackup={(data) => handleImportBackup(data)}
                   onClearDatabase={handleClearDatabase}
                 />
               )}

@@ -27,7 +27,8 @@ import {
 import {
   ClientProfile, MetricSample, MicrocycleTemplate, ScheduledRoutine, WorkoutRoutine,
   BackupPayload, LoyaltyCampaign, MessageTemplate, PaymentRecord, ServiceCatalogItem,
-  SessionNote, CommunicationLog, GlobalReminder
+  SessionNote, CommunicationLog, GlobalReminder,
+  CustomExercise, ExerciseWarning, UserImage, AnatomyImage
 } from '../types';
 import { SCHEMA_VERSION } from '../constants';
 import { parseBackup } from '../lib/storage';
@@ -54,14 +55,13 @@ interface OfflineTabProps {
   sessionNotes?: SessionNote[];
   communicationLogs?: CommunicationLog[];
   globalReminders?: GlobalReminder[];
-  onImportBackup: (
-    clients: ClientProfile[],
-    activeClientId: string,
-    routines: WorkoutRoutine[],
-    scheduledRoutines: ScheduledRoutine[],
-    metricSamples: MetricSample[],
-    templates: MicrocycleTemplate[]
-  ) => void;
+  /* v12-v14 — opcionales para retrocompat */
+  customExercises?: CustomExercise[];
+  exerciseWarnings?: Record<string, ExerciseWarning[]>;
+  userImages?: UserImage[];
+  anatomyImages?: AnatomyImage[];
+  /** Restaura el workspace completo desde un backup ya validado. */
+  onImportBackup: (data: BackupPayload['data']) => void;
   onClearDatabase: () => void;
 }
 
@@ -73,6 +73,7 @@ export default function OfflineTab(props: OfflineTabProps) {
     clients, activeClientId, routines, scheduledRoutines, metricSamples, templates,
     payments = [], services = [], loyaltyCampaigns = [], messageTemplates = [],
     sessionNotes = [], communicationLogs = [], globalReminders = [],
+    customExercises = [], exerciseWarnings = {}, userImages = [], anatomyImages = [],
     onImportBackup, onClearDatabase
   } = props;
   const profile = clients.find(c => c.id === activeClientId) ?? clients[0];
@@ -159,7 +160,8 @@ export default function OfflineTab(props: OfflineTabProps) {
       data: {
         clients, activeClientId, routines, scheduledRoutines, metricSamples, templates,
         payments, services, loyaltyCampaigns, messageTemplates,
-        sessionNotes, communicationLogs, globalReminders
+        sessionNotes, communicationLogs, globalReminders,
+        customExercises, exerciseWarnings, userImages, anatomyImages
       }
     };
     const stamp = new Date().toISOString().slice(0, 10);
@@ -181,7 +183,7 @@ export default function OfflineTab(props: OfflineTabProps) {
       try {
         const json = JSON.parse(String(e.target?.result ?? ''));
         const data = parseBackup(json);
-        onImportBackup(data.clients, data.activeClientId, data.routines, data.scheduledRoutines, data.metricSamples, data.templates);
+        onImportBackup(data);
         setImportStatus({
           type: 'success',
           message: `Importado: ${data.clients.length} paciente(s), ${data.routines.length} pautas, ${data.metricSamples.length} mediciones, ${data.templates.length} plantillas. Recarga la pestaña para ver todo aplicado.`

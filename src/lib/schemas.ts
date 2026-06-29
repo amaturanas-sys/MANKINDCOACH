@@ -340,6 +340,25 @@ export const customExerciseSchema = z.object({
 export const customExercisesSchema = z.array(customExerciseSchema);
 export const exerciseWarningsMapSchema = z.record(z.string(), z.array(exerciseWarningSchema));
 
+/* v14: ilustraciones anatómicas con licencia (CC) etiquetadas por músculo */
+export const imageLicenseSchema = z.enum([
+  'CC0', 'CC BY 4.0', 'CC BY-SA 4.0', 'CC BY-NC 4.0', 'CC BY-NC-SA 4.0',
+  'Public Domain', 'Other'
+]);
+
+export const anatomyImageSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  dataUrl: z.string().min(1),
+  muscleGroups: z.array(z.string()),
+  author: z.string().min(1),
+  license: imageLicenseSchema,
+  sourceUrl: z.string().optional(),
+  notes: z.string().optional(),
+  createdAt: z.number()
+});
+export const anatomyImagesSchema = z.array(anatomyImageSchema);
+
 export const workspaceSchema = z.object({
   clients: clientsSchema,
   activeClientId: z.string().min(1),
@@ -364,7 +383,9 @@ export const workspaceSchema = z.object({
     dataUrl: z.string(),
     category: z.string().optional(),
     createdAt: z.number()
-  })).default([])
+  })).default([]),
+  /* v14 */
+  anatomyImages: anatomyImagesSchema.default([])
 });
 
 export const backupSchema = z.object({

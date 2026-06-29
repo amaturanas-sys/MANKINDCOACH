@@ -10,7 +10,32 @@ export const INITIAL_CALENDAR: MonthRef = {
   monthIndex: 4 // Mayo
 };
 
-export const SCHEMA_VERSION = 13;
+export const SCHEMA_VERSION = 14;
+
+/* ----------------------------------------------------------------------- *
+ * Licencias para ilustraciones reutilizables (banco de imágenes anatómicas).
+ * `requiresAttribution` decide si la UI exige mostrar autor/fuente.
+ * `nonCommercial` marca licencias NC (relevante para uso comercial de la app).
+ * ----------------------------------------------------------------------- */
+export const IMAGE_LICENSES: {
+  code: import('./types').ImageLicense;
+  label: string;
+  url: string;
+  requiresAttribution: boolean;
+  nonCommercial: boolean;
+}[] = [
+  { code: 'CC0', label: 'CC0 (dominio público)', url: 'https://creativecommons.org/publicdomain/zero/1.0/', requiresAttribution: false, nonCommercial: false },
+  { code: 'Public Domain', label: 'Dominio público', url: 'https://en.wikipedia.org/wiki/Public_domain', requiresAttribution: false, nonCommercial: false },
+  { code: 'CC BY 4.0', label: 'CC BY 4.0', url: 'https://creativecommons.org/licenses/by/4.0/', requiresAttribution: true, nonCommercial: false },
+  { code: 'CC BY-SA 4.0', label: 'CC BY-SA 4.0', url: 'https://creativecommons.org/licenses/by-sa/4.0/', requiresAttribution: true, nonCommercial: false },
+  { code: 'CC BY-NC 4.0', label: 'CC BY-NC 4.0 (no comercial)', url: 'https://creativecommons.org/licenses/by-nc/4.0/', requiresAttribution: true, nonCommercial: true },
+  { code: 'CC BY-NC-SA 4.0', label: 'CC BY-NC-SA 4.0 (no comercial)', url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/', requiresAttribution: true, nonCommercial: true },
+  { code: 'Other', label: 'Otra / personalizada', url: '', requiresAttribution: true, nonCommercial: false }
+];
+
+export const IMAGE_LICENSE_BY_CODE = Object.fromEntries(
+  IMAGE_LICENSES.map(l => [l.code, l])
+) as Record<import('./types').ImageLicense, (typeof IMAGE_LICENSES)[number]>;
 
 /* ----------------------------------------------------------------------- *
  * Catálogo de condiciones médicas para warnings de ejercicios

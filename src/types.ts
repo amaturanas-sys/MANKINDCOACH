@@ -473,6 +473,8 @@ export interface BackupPayload {
     exerciseWarnings?: Record<string, ExerciseWarning[]>;
     /** v13: banco personal de imágenes (subidas por el usuario, comprimidas a base64). */
     userImages?: UserImage[];
+    /** v14: banco de ilustraciones anatómicas con licencia (CC), etiquetadas por músculo. */
+    anatomyImages?: AnatomyImage[];
   };
 }
 
@@ -487,5 +489,43 @@ export interface UserImage {
   dataUrl: string;
   /** Categoría libre para agrupar (ej "logos", "fondos", "ilustraciones") */
   category?: string;
+  createdAt: number;
+}
+
+/* ----------------------------------------------------------------------- *
+ * v14: banco de ilustraciones anatómicas con licencia (Creative Commons)
+ *
+ * Imágenes importadas por el coach (p. ej. de AnatomyTOOL / Wikimedia) que se
+ * almacenan offline (dataURL) y se etiquetan por grupo muscular para mostrarse
+ * en la Biblioteca de movimientos. Autor y licencia son OBLIGATORIOS para que
+ * la atribución viaje siempre con la imagen.
+ * ----------------------------------------------------------------------- */
+
+/** Licencias admitidas para ilustraciones reutilizables. */
+export type ImageLicense =
+  | 'CC0'
+  | 'CC BY 4.0'
+  | 'CC BY-SA 4.0'
+  | 'CC BY-NC 4.0'
+  | 'CC BY-NC-SA 4.0'
+  | 'Public Domain'
+  | 'Other';
+
+export interface AnatomyImage {
+  id: string;
+  /** Título de la ilustración. */
+  name: string;
+  /** Imagen comprimida (data:image/...;base64,…) — offline. */
+  dataUrl: string;
+  /** Grupos musculares que ilustra (códigos MuscleGroup: 'back', 'quads', …). */
+  muscleGroups: string[];
+  /** Autor/crédito — OBLIGATORIO. */
+  author: string;
+  /** Licencia — OBLIGATORIO. */
+  license: ImageLicense;
+  /** URL de la ficha/fuente original (recomendado para la atribución). */
+  sourceUrl?: string;
+  /** Notas libres del coach. */
+  notes?: string;
   createdAt: number;
 }
