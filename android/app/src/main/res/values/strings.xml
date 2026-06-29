@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MankindFactory</string>
+    <string name="title_activity_main">MankindFactory</string>
+    <string name="package_name">cl.mankindfactory.workspace</string>
+    <string name="custom_url_scheme">cl.mankindfactory.workspace</string>
+</resources>

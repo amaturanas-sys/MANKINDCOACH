@@ -36,6 +36,12 @@ npm install --legacy-peer-deps
 | `npm run build:landing` | Build de la landing pública (Vercel) | `dist-landing/` |
 | `npm test` | Tests (Vitest) | — |
 | `npm run typecheck` | Verificación de tipos (`tsc`) | — |
+| `npm run cap:android` | Build web + sync + abre el proyecto Android (Capacitor) | Android Studio → APK/AAB |
+| `npm run cap:sync` | Build web + sincroniza el contenedor nativo | `android/` |
+
+> **Empaquetado nativo:** Android está configurado con **Capacitor** (proyecto en
+> `android/`) y Windows vía **Tauri**. Guía completa en
+> [`docs/NATIVE.md`](docs/NATIVE.md).
 
 > **PWA / instalación nativa:** la app sirve `manifest.json`, íconos y un service worker
 > (`public/sw.js`), por lo que Chrome/Edge ofrecen **Instalar como app** en Windows y Android.
@@ -125,6 +131,8 @@ Detalle técnico en [`docs/PROTOTYPE.md`](docs/PROTOTYPE.md).
 ├── vitest.config.ts            # Config de tests
 ├── tsconfig*.json              # TypeScript (app + node)
 ├── vercel.json                 # Deploy de la landing en Vercel
+├── capacitor.config.ts         # Config Capacitor (empaquetado Android)
+├── android/                    # Proyecto nativo Android (Capacitor) — ver docs/NATIVE.md
 ├── public/                     # Assets servidos en "/": manifest.json, sw.js, icons/
 ├── src/
 │   ├── App.tsx                 # Componente raíz (navegación de 3 niveles)
