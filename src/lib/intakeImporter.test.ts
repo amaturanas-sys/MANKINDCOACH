@@ -80,6 +80,41 @@ describe('applyIntake — equipamiento estructurado (formato nuevo)', () => {
     expect(patchedProfile.clinical.notes).toContain('Discos 1.25, 2.5, 5, 10, 20 kg');
   });
 
+  it('mapea datos de contacto/administrativos al bloque practice', () => {
+    const profile = makeProfile({ focus: '' });
+    const intake = {
+      formType: 'intake',
+      phone: '+56 9 1234 5678',
+      email: 'paciente@correo.com',
+      instagram: '@mi_usuario',
+      address: 'Santiago',
+      emergencyContact: 'María · hermana · +56 9 8765 4321',
+      birthday: '1992-07-15',
+      occupation: 'Triatleta amateur'
+    };
+    const { patchedProfile } = applyIntake(intake, profile);
+    expect(patchedProfile.practice?.phone).toBe('+56 9 1234 5678');
+    expect(patchedProfile.practice?.email).toBe('paciente@correo.com');
+    // El handle se normaliza (sin @)
+    expect(patchedProfile.practice?.instagram).toBe('mi_usuario');
+    expect(patchedProfile.practice?.address).toBe('Santiago');
+    expect(patchedProfile.practice?.emergencyContact).toContain('María');
+    expect(patchedProfile.practice?.birthday).toEqual({ month: 7, day: 15 });
+    // Con teléfono y sin método previo, asume whatsapp
+    expect(patchedProfile.practice?.contactMethod).toBe('whatsapp');
+    // Ocupación alimenta el foco si estaba vacío
+    expect(patchedProfile.focus).toContain('Triatleta amateur');
+  });
+
+  it('no pisa el foco existente del coach con la ocupación', () => {
+    const profile = makeProfile({ focus: 'Fuerza máxima e hipertrofia' });
+    const { patchedProfile } = applyIntake(
+      { formType: 'intake', occupation: 'Oficinista' },
+      profile
+    );
+    expect(patchedProfile.focus).toBe('Fuerza máxima e hipertrofia');
+  });
+
   it('genera un MetricSample baseline con la fecha del momento de import', () => {
     const profile = makeProfile();
     const intake = {

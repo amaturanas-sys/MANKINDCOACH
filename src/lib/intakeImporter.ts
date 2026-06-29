@@ -39,6 +39,24 @@ function combineNotes(previous?: string, fromForm?: string, equipmentExtras?: st
   return parts.join('\n\n');
 }
 
+/** Normaliza un handle de Instagram quitando @, URL y espacios. */
+function cleanHandle(v: unknown): string | undefined {
+  if (typeof v !== 'string') return undefined;
+  const h = v.trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/^@/, '').replace(/\/+$/, '').trim();
+  return h.length ? h : undefined;
+}
+
+/** Convierte 'YYYY-MM-DD' en { month, day } (1-based) sin depender de zona horaria. */
+function parseBirthday(v: unknown): { month: number; day: number } | undefined {
+  if (typeof v !== 'string') return undefined;
+  const m = v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return undefined;
+  const month = Number(m[2]);
+  const day = Number(m[3]);
+  if (month < 1 || month > 12 || day < 1 || day > 31) return undefined;
+  return { month, day };
+}
+
 function isSex(v: unknown): v is Sex {
   return v === 'masculino' || v === 'femenino' || v === 'otro';
 }
@@ -96,11 +114,35 @@ export function applyIntake(json: any, current: ClientProfile): IntakeApplyResul
     equipmentNoteFromIntake = json.equipment.trim();
   }
 
+  /* Datos de contacto / administrativos → bloque practice (evita transcripción manual). */
+  const prevPractice = current.practice ?? {};
+  const phone = stringOrUndef(json.phone);
+  const birthday = parseBirthday(json.birthday);
+  const newPractice = {
+    ...prevPractice,
+    phone: phone ?? prevPractice.phone,
+    email: stringOrUndef(json.email) ?? prevPractice.email,
+    instagram: cleanHandle(json.instagram) ?? prevPractice.instagram,
+    address: stringOrUndef(json.address) ?? prevPractice.address,
+    emergencyContact: stringOrUndef(json.emergencyContact) ?? prevPractice.emergencyContact,
+    birthday: birthday ?? prevPractice.birthday,
+    /* Si el paciente dio teléfono y no había método de contacto, asumimos WhatsApp. */
+    contactMethod: prevPractice.contactMethod ?? (phone ? 'whatsapp' : prevPractice.contactMethod)
+  };
+
+  /* Ocupación/deporte: alimenta el foco si está vacío (no pisa lo que el coach escribió). */
+  const occupation = stringOrUndef(json.occupation);
+  const newFocus = current.focus && current.focus.trim()
+    ? current.focus
+    : (occupation ? `Ocupación / deporte: ${occupation}` : current.focus);
+
   const patchedProfile: ClientProfile = {
     ...current,
     name: stringOrUndef(json.name) ?? current.name,
+    focus: newFocus,
     equipment: newEquipment,
     metrics: newMetrics,
+    practice: newPractice,
     clinical: {
       ...current.clinical,
       morbidities: stringOrUndef(json.morbidities) ?? current.clinical.morbidities,

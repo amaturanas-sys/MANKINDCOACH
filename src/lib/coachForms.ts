@@ -82,6 +82,18 @@ export function intakeFormHtml(opts: CommonOpts): string {
       <label><span class="lbl">Sexo</span><select name="sex"><option value="">—</option><option value="masculino">Masculino</option><option value="femenino">Femenino</option><option value="otro">Otro</option></select></label>
       <label><span class="lbl">Ocupación / deporte</span><input name="occupation"/></label>
     </div>
+    <div class="row2">
+      <label><span class="lbl">Teléfono / WhatsApp</span><input name="phone" type="tel" inputmode="tel" placeholder="+56 9 ..."/></label>
+      <label><span class="lbl">Email</span><input name="email" type="email" placeholder="tucorreo@ejemplo.com"/></label>
+    </div>
+    <div class="row2">
+      <label><span class="lbl">Instagram (sin @)</span><input name="instagram" placeholder="tu_usuario"/></label>
+      <label><span class="lbl">Fecha de nacimiento</span><input name="birthday" type="date"/></label>
+    </div>
+    <div class="row2">
+      <label><span class="lbl">Ciudad / dirección</span><input name="address"/></label>
+      <label><span class="lbl">Contacto de emergencia (nombre · relación · teléfono)</span><input name="emergencyContact"/></label>
+    </div>
 
     <h2>2. Antropometría</h2>
     <div class="grid">
