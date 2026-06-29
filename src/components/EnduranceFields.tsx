@@ -65,7 +65,7 @@ export default function EnduranceFields({ exercise, endurance, onChange, onRemov
   const isInterval = isIntervalProtocol(endurance.protocol);
 
   return (
-    <div className="bg-gradient-to-br from-[#F59E0B]/5 to-[#EC4899]/5 border border-[#F59E0B]/30 rounded-lg p-3 space-y-3">
+    <div className="bg-gradient-to-br from-[#F59E0B]/5 to-[#5D36FF]/5 border border-[#F59E0B]/30 rounded-lg p-3 space-y-3">
       <div className="flex items-center justify-between border-b border-[#F59E0B]/20 pb-2">
         <div className="flex items-center gap-2">
           <Activity className="text-[#F59E0B]" size={14} aria-hidden="true" />

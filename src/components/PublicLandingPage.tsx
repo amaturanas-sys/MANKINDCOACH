@@ -293,7 +293,7 @@ export default function PublicLandingPage() {
 
       {/* ────── HERO ────── */}
       <section id="hero" className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#5D36FF]/10 via-transparent to-[#EC4899]/5 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#5D36FF]/15 via-transparent to-[#5D36FF]/5 pointer-events-none" />
         <div className="max-w-6xl mx-auto px-4 py-20 md:py-32 relative">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#5D36FF]/10 border border-[#5D36FF]/30 mb-6">
             <Activity size={11} className="text-[#5D36FF]" aria-hidden="true" />
@@ -536,7 +536,7 @@ export default function PublicLandingPage() {
       {/* ────── CONTACTO / CTA FINAL ────── */}
       <section id="contacto" className="border-t border-zinc-900">
         <div className="max-w-4xl mx-auto px-4 py-20 md:py-28">
-          <div className="bg-gradient-to-br from-[#5D36FF]/15 via-zinc-950 to-[#EC4899]/10 border border-[#5D36FF]/30 rounded-3xl p-8 md:p-12 text-center">
+          <div className="bg-gradient-to-br from-[#5D36FF]/15 via-zinc-950 to-[#5D36FF]/10 border border-[#5D36FF]/30 rounded-3xl p-8 md:p-12 text-center">
             <SectionLabel label="Comencemos" icon={Calendar} center />
             <h2 className="font-sans font-bold text-3xl md:text-4xl tracking-tight mt-4 mb-4">
               Agenda tu evaluación inicial
