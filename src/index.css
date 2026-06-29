@@ -91,6 +91,34 @@ body {
   margin: 0;
   /* Cubre el área de seguridad inferior en notch */
   padding-bottom: env(safe-area-inset-bottom);
+  /* Establece un contexto de apilamiento para la marca de agua de fondo. */
+  position: relative;
+  z-index: 0;
+}
+
+/* ----------------------------------------------------------------------- *
+ * Marca de agua de marca (logo MankindFactory) como parte del fondo.
+ * Fija, centrada y muy sutil; al usar la app superficies translúcidas,
+ * el logo permea de forma ambiental sin afectar la legibilidad.
+ * z-index:-1 → se pinta sobre el color de fondo pero bajo el contenido.
+ * ----------------------------------------------------------------------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url('/brand/mankind-logo.png');
+  background-repeat: no-repeat;
+  background-position: center 42%;
+  background-size: min(74vmin, 760px);
+  opacity: 0.05;
+}
+:root[data-theme="light"] body::before {
+  opacity: 0.04;
+}
+@media print {
+  body::before { display: none !important; }
 }
 
 /* Utilidades semánticas pequeñas (úsalas con Tailwind como bg-surface-card o ad-hoc) */
