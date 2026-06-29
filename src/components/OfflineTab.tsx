@@ -22,7 +22,7 @@ import {
   Wifi, WifiOff,
   Download, Upload, Trash2, HardDrive, FileText, CheckCircle, Database,
   Shield, Monitor, AlertTriangle, BarChart3, RefreshCw, Smartphone,
-  Lock, Tag, MessageSquare, Users, Package, Clock
+  Lock, Tag, MessageSquare, Users, Package, Clock, Cloud, LogOut
 } from 'lucide-react';
 import {
   ClientProfile, MetricSample, MicrocycleTemplate, ScheduledRoutine, WorkoutRoutine,
@@ -32,6 +32,7 @@ import {
 } from '../types';
 import { SCHEMA_VERSION } from '../constants';
 import { parseBackup } from '../lib/storage';
+import { useAuthState, signOut } from '../lib/auth';
 import { clearEvents, eventsToCsv, getEvents, isEnabled as telemetryEnabled, setEnabled as setTelemetryEnabled, summarize, track } from '../lib/telemetry';
 import {
   promptInstall, isInstallable, isStandalone, detectBrowser,
@@ -288,6 +289,9 @@ export default function OfflineTab(props: OfflineTabProps) {
 
   return (
     <div className="space-y-8">
+
+      {/* SESIÓN / CUENTA (solo con backend configurado) */}
+      <AccountCard />
 
       {/* ALERTA DE BACKUP VENCIDO */}
       {backupOverdue && (
@@ -847,6 +851,44 @@ function PwaInstallFallback({ browser }: { browser: 'chrome' | 'edge' | 'safari'
       <p className="text-[11px] font-mono text-zinc-400">
         Tu navegador no soporta instalación PWA. Para usarla como aplicación, prueba con <strong className="text-white">Chrome</strong>, <strong className="text-white">Edge</strong> o <strong className="text-white">Safari</strong>.
       </p>
+    </div>
+  );
+}
+
+/**
+ * Tarjeta de cuenta/sesión: solo aparece cuando hay backend de red configurado
+ * y una sesión activa. Muestra el email y permite cerrar sesión. En modo local
+ * (sin backend) no renderiza nada.
+ */
+function AccountCard() {
+  const { configured, session, user } = useAuthState();
+  const [busy, setBusy] = useState(false);
+  if (!configured || !session) return null;
+
+  const handleSignOut = async () => {
+    setBusy(true);
+    try { await signOut(); } finally { setBusy(false); }
+  };
+
+  return (
+    <div className="bg-[#121214] border border-[#5D36FF]/30 rounded-xl p-4 flex items-center justify-between gap-3">
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="w-9 h-9 rounded-lg bg-[#5D36FF]/15 border border-[#5D36FF]/30 flex items-center justify-center shrink-0">
+          <Cloud size={16} className="text-[#5D36FF]" aria-hidden="true" />
+        </div>
+        <div className="min-w-0">
+          <p className="font-mono text-[10px] uppercase tracking-wider text-[#10B981]">Sincronizado en la nube</p>
+          <p className="text-white text-sm font-semibold truncate">{user?.email ?? 'Sesión activa'}</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        onClick={handleSignOut}
+        disabled={busy}
+        className="px-3 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#FF3C00]/50 text-zinc-300 hover:text-[#FF3C00] rounded-lg font-mono text-[10px] uppercase tracking-wider transition flex items-center gap-2 shrink-0 disabled:opacity-50"
+      >
+        <LogOut size={12} aria-hidden="true" /> Cerrar sesión
+      </button>
     </div>
   );
 }

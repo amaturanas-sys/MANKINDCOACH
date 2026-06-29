@@ -36,6 +36,7 @@ import {
   STORAGE_KEYS
 } from './constants';
 import { migrateAndLoad, persist } from './lib/storage';
+import { useCloudSync } from './lib/remoteSync';
 import { track } from './lib/telemetry';
 import { motion, AnimatePresence } from 'motion/react';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -154,21 +155,28 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     return INITIAL_CALENDAR;
   });
 
+  /* Workspace completo memoizado: fuente única para persistir y sincronizar. */
+  const workspace = useMemo(() => ({
+    clients, activeClientId, routines, scheduledRoutines,
+    metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates,
+    sessionNotes, communicationLogs, globalReminders,
+    customExercises, exerciseWarnings, userImages, anatomyImages
+  }), [clients, activeClientId, routines, scheduledRoutines, metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates, sessionNotes, communicationLogs, globalReminders, customExercises, exerciseWarnings, userImages, anatomyImages]);
+
   const persistTimer = useRef<number | null>(null);
   useEffect(() => {
     if (persistTimer.current !== null) window.clearTimeout(persistTimer.current);
     persistTimer.current = window.setTimeout(() => {
-      persist({
-        clients, activeClientId, routines, scheduledRoutines,
-        metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates,
-        sessionNotes, communicationLogs, globalReminders,
-        customExercises, exerciseWarnings, userImages, anatomyImages
-      });
+      persist(workspace);
     }, 350);
     return () => {
       if (persistTimer.current !== null) window.clearTimeout(persistTimer.current);
     };
-  }, [clients, activeClientId, routines, scheduledRoutines, metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates, sessionNotes, communicationLogs, globalReminders, customExercises, exerciseWarnings, userImages, anatomyImages]);
+  }, [workspace]);
+
+  /* Sincronización con la nube (no-op si no hay backend/sesión).
+     Arrow para diferir la lectura de handleImportBackup (declarado más abajo). */
+  useCloudSync(workspace, (ws) => handleImportBackup(ws));
 
   /* URL sync */
   useEffect(() => {
