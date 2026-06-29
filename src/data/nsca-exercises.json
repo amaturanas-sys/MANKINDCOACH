@@ -1,0 +1,2987 @@
+[
+  {
+    "id": "nsca-power-snatch",
+    "englishName": "Power Snatch",
+    "name": "Arranque (Snatch)",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Sogas de Batalla (Battle Ropes)",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie tras la barra, pies al ancho de caderas con los dedos bajo la barra. Agarre pronado, ancho (manos a 1.5-2 veces el ancho de hombros). Caderas más altas que rodillas, espalda neutra, hombros levemente sobre la barra, brazos extendidos.",
+      "primer_tiron": "Empuja el piso con los pies y eleva la barra de forma controlada manteniendo el ángulo del torso constante hasta que la barra pase sobre las rodillas. La barra viaja pegada a las piernas.",
+      "segundo_tiron": "Extiende violentamente tobillos, rodillas y caderas (triple extensión). Encoge los hombros y eleva los codos altos. Mantén la barra cerca del cuerpo.",
+      "recepcion": "Cae rápido bajo la barra a una sentadilla parcial (cuarto), recibiendo la barra con brazos completamente extendidos sobre la cabeza. Estabiliza y termina extendiendo las piernas.",
+      "errores_frecuentes": "Iniciar con caderas demasiado bajas (sentadilla), tirar la barra hacia adelante alejándola del cuerpo, doblar los brazos prematuramente, no completar la triple extensión antes de bajar."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-hang-power-snatch",
+    "englishName": "Hang Power Snatch",
+    "name": "Arranque (Snatch)",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie sosteniendo la barra a la altura del muslo superior con agarre pronado y ancho. Hombros sobre la barra, espalda neutra, rodillas ligeramente flexionadas.",
+      "movimiento": "Realiza una bisagra de cadera bajando la barra hasta justo encima de la rodilla. Desde ahí ejecuta una extensión explosiva de tobillos, rodillas y caderas, encoge los hombros y recibe la barra arriba en sentadilla parcial con brazos bloqueados.",
+      "errores_frecuentes": "Doblar los brazos antes de la extensión, no llevar la barra cerca del cuerpo, recibir con codos suaves, descender demasiado al inicio."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-one-arm-dumbbell-snatch",
+    "englishName": "One-Arm Dumbbell Snatch",
+    "name": "Arranque (Snatch)",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Sistema de Poleas y Cables",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con una mancuerna entre los pies. Caderas atrás, espalda neutra, una mano agarra la mancuerna y el otro brazo queda libre para equilibrio.",
+      "movimiento": "Tirón explosivo elevando la mancuerna en línea recta junto al cuerpo. Acompaña con extensión de cadera y rodillas. En la cima, gira la palma hacia adelante y atrapa la mancuerna sobre la cabeza con brazo bloqueado.",
+      "errores_frecuentes": "Alejar la mancuerna del cuerpo en la subida, no terminar con brazo completamente bloqueado, perder neutralidad lumbar en el inicio."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-muscle-snatch",
+    "englishName": "Muscle Snatch",
+    "name": "Arranque (Snatch)",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Sogas de Batalla (Battle Ropes)",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "Idéntica al snatch convencional: pies al ancho de caderas, agarre ancho pronado, caderas altas, espalda neutra.",
+      "movimiento": "Tirón explosivo sin recepción en sentadilla. La barra viaja en línea recta y termina sobre la cabeza con brazos extendidos, manteniendo las piernas casi rectas. Útil como ejercicio de fuerza para enseñar la trayectoria.",
+      "errores_frecuentes": "Doblar las piernas para asistir la subida (convierte en snatch), perder verticalidad del torso, codos no totalmente bloqueados arriba."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-power-clean",
+    "englishName": "Power Clean",
+    "name": "Cargada de Potencia (Power Clean)",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "Pies al ancho de caderas, dedos bajo la barra. Agarre pronado al ancho de hombros, caderas más altas que rodillas, hombros sobre la barra, espalda neutra, mirada al frente.",
+      "primer_tiron": "Eleva la barra del piso empujando con las piernas y manteniendo el ángulo del torso constante. La barra debe pasar muy cerca de las espinillas.",
+      "segundo_tiron": "Cuando la barra cruza las rodillas, extiende violentamente tobillos, rodillas y caderas. Encoge los hombros y eleva los codos altos. La barra se acelera junto al torso.",
+      "recepcion": "Gira los codos rápidamente bajo la barra recibiéndola sobre los deltoides anteriores en posición de \"front rack\" en cuarto de sentadilla. Estabiliza y extiende a posición de pie.",
+      "errores_frecuentes": "Empezar con caderas demasiado bajas, \"saltar\" la barra hacia adelante, no completar la extensión, recibir la barra con codos bajos."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-hang-power-clean",
+    "englishName": "Hang Power Clean",
+    "name": "Cargada de Potencia (Power Clean)",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie sosteniendo la barra a media altura del muslo, agarre pronado al ancho de hombros, hombros ligeramente adelantados, rodillas semi-flexionadas.",
+      "movimiento": "Baja a posición de bisagra hasta justo encima de la rodilla, luego ejecuta triple extensión explosiva. Encoge los hombros, gira los codos rápido y recibe la barra en front rack en cuarto de sentadilla. Sube a posición de pie.",
+      "errores_frecuentes": "Doblar los brazos antes de extender, descender más allá de la rodilla, perder el \"ataque\" explosivo, recibir con codos caídos."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-dumbbell-hang-power-clean",
+    "englishName": "Dumbbell Hang Power Clean",
+    "name": "Cargada de Potencia (Power Clean)",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con mancuernas a los costados, palmas hacia el cuerpo, espalda neutra. Mancuernas a la altura del muslo medio.",
+      "movimiento": "Bisagra de cadera bajando las mancuernas hasta encima de la rodilla. Triple extensión explosiva, encogimiento, y rota los codos rápido para recibir las mancuernas sobre los hombros con palmas mirándose. Estabiliza de pie.",
+      "errores_frecuentes": "Falta de coordinación entre los dos lados, doblar los brazos para asistir, no fijar el front rack al final."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-push-press",
+    "englishName": "Push Press",
+    "name": "Push Press",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "equipment": [
+      "Barras Paralelas",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra en front rack sobre los deltoides anteriores (codos al frente, levemente más bajos que los hombros). Pies al ancho de caderas, core firme.",
+      "movimiento": "Realiza una flexión rápida y poco profunda de rodillas (dip), inmediatamente extiende las piernas con fuerza para impulsar la barra hacia arriba. Cuando los brazos toman el relevo, presiona la barra a posición vertical completa.",
+      "errores_frecuentes": "Dip demasiado profundo (parece sentadilla), perder el front rack durante el dip, no transferir el impulso al press, terminar con codos doblados."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-push-jerk",
+    "englishName": "Push Jerk",
+    "name": "Push Jerk",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "shoulders"
+    ],
+    "equipment": [
+      "Barras Paralelas",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "Igual al push press: barra en front rack, pies al ancho de caderas.",
+      "movimiento": "Dip explosivo de rodillas seguido de extensión potente. Cuando la barra deja los hombros, ejecutá una segunda flexión rápida descendiendo bajo la barra para recibirla con brazos extendidos en cuarto de sentadilla. Termina extendiendo las piernas.",
+      "errores_frecuentes": "Empujar la barra hacia adelante en lugar de vertical, no descender bajo la barra al recibir, codos no bloqueados al final."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-split-jerk",
+    "englishName": "Split Jerk",
+    "name": "Split Jerk",
+    "chapter": "Potencia y Ejercicios Explosivos",
+    "category": "power",
+    "pushPull": "power",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "shoulders"
+    ],
+    "equipment": [
+      "Sogas de Batalla (Battle Ropes)",
+      "Barras Paralelas",
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
+    ],
+    "technique": {
+      "posicion_inicial": "Barra en front rack, pies juntos o al ancho de caderas, codos al frente.",
+      "movimiento": "Dip y extensión explosiva. Al separar la barra de los hombros, divide rápido las piernas (una adelante flexionada a 90°, otra atrás con rodilla casi al piso) mientras recibes la barra con brazos extendidos arriba. Junta los pies primero el pie delantero, luego el trasero.",
+      "errores_frecuentes": "Pasos asimétricos en cada repetición, torso inclinado al recibir, pie trasero con rodilla totalmente extendida (sin amortiguar)."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch01_d78.html"
+  },
+  {
+    "id": "nsca-front-squat",
+    "englishName": "Front Squat",
+    "name": "Sentadilla Frontal",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Barra apoyada sobre los deltoides anteriores en front rack, codos altos y al frente. Pies al ancho de hombros, dedos ligeramente abiertos, espalda neutra.",
+      "fase_descendente": "Baja flexionando cadera, rodillas y tobillos simultáneamente, manteniendo el torso lo más vertical posible. Desciende hasta que los muslos pasen la paralela (o el rango cómodo). Las rodillas siguen la dirección de los dedos.",
+      "fase_ascendente": "Empuja el piso con todo el pie, mantiene los codos altos y extiende cadera y rodillas hasta volver a la posición inicial.",
+      "errores_frecuentes": "Codos caídos (provoca redondeo torácico), valgo de rodilla, talones que se levantan, profundidad insuficiente."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-back-squat",
+    "englishName": "Back Squat",
+    "name": "Sentadilla Trasera",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Barra apoyada sobre el trapecio medio (alto o bajo según preferencia), agarre pronado más ancho que los hombros. Pies al ancho de hombros, dedos ligeramente abiertos.",
+      "fase_descendente": "Flexiona cadera y rodillas simultáneamente manteniendo la espalda neutra. Las rodillas siguen los dedos. Desciende hasta que los muslos al menos alcancen la paralela.",
+      "fase_ascendente": "Empuja con todo el pie, extiende cadera y rodillas al mismo ritmo. Mantén el pecho elevado para no inclinarte excesivamente adelante.",
+      "errores_frecuentes": "Caer en valgo de rodilla, redondear la zona lumbar al subir desde abajo, inclinarse hacia adelante perdiendo el centro de masa sobre el mediopié."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-romanian-deadlift-rdl",
+    "englishName": "Romanian Deadlift (RDL)",
+    "name": "Peso Muerto Rumano",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra al frente, agarre pronado al ancho de hombros, brazos colgando. Rodillas ligeramente flexionadas (fijas durante todo el ejercicio).",
+      "fase_descendente": "Bisagra de cadera empujando los glúteos hacia atrás. La barra desciende cerca de los muslos hasta sentir tensión máxima en isquiotibiales (típicamente media-baja tibia).",
+      "fase_ascendente": "Empuja la cadera hacia adelante contrayendo glúteos para volver a la posición de pie. La barra acompaña pegada a las piernas.",
+      "errores_frecuentes": "Flexionar más las rodillas (convierte en peso muerto convencional), redondear la espalda baja, alejar la barra del cuerpo, hiperextender al final."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-deadlift",
+    "englishName": "Deadlift",
+    "name": "Deadlift",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Pies al ancho de caderas, barra sobre el mediopié casi tocando las espinillas. Agarre pronado o mixto justo fuera de las rodillas. Caderas más altas que rodillas, hombros ligeramente por delante de la barra, espalda neutra, mirada al frente.",
+      "fase_ascendente": "Empuja el piso con los pies y eleva la barra manteniendo el ángulo del torso hasta que pase las rodillas. Luego extiende las caderas para terminar de pie. La barra viaja pegada a las piernas.",
+      "fase_descendente": "Inicia la bajada con una bisagra de cadera empujando glúteos atrás; una vez que la barra pasa las rodillas, flexiona rodillas para devolverla al piso.",
+      "errores_frecuentes": "Redondear la zona lumbar, separar la barra del cuerpo, \"sentar\" mucho la cadera al inicio, hiperextender la espalda al final."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-hip-sled-machine",
+    "englishName": "Hip Sled (Machine)",
+    "name": "Hip Sled (Machine)",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas",
+      "Sogas de Batalla (Battle Ropes)",
+      "Trineo (Sled)"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en el carro inclinado con espalda apoyada, pies al ancho de hombros en la plataforma superior. Suelta los topes de seguridad.",
+      "fase_descendente": "Flexiona controladamente cadera y rodillas hasta que los muslos formen 90° con las piernas (o el rango que mantiene la lumbar apoyada).",
+      "fase_ascendente": "Empuja la plataforma extendiendo piernas sin bloquear las rodillas al final del movimiento.",
+      "errores_frecuentes": "Levantar la lumbar de la espalda del asiento, bloquear las rodillas violentamente, descender demasiado y perder neutralidad pélvica."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-seated-leg-press-machine",
+    "englishName": "Seated Leg Press (Machine)",
+    "name": "Prensa de Piernas",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "chest",
+      "triceps",
+      "shoulders",
+      "back",
+      "biceps",
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con espalda apoyada y pies al ancho de hombros en la plataforma. Caderas a 90°.",
+      "fase_descendente": "Flexiona rodillas controladamente acercando la plataforma sin levantar la lumbar del respaldo.",
+      "fase_ascendente": "Empuja la plataforma extendiendo las piernas sin bloquear las rodillas en el tope.",
+      "errores_frecuentes": "Subir las caderas, valgo de rodillas, no controlar la fase excéntrica."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-step-up",
+    "englishName": "Step-Up",
+    "name": "Step-Up",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Cajón Pliométrico"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie frente a un cajón o banco resistente a la altura cercana a la rodilla. Mancuernas a los costados o barra en back rack.",
+      "movimiento": "Sube apoyando el pie completo sobre el cajón y empujando con esa pierna hasta quedar de pie sobre la superficie. Desciende controlado con la otra pierna primero. Alterna pierna por repetición o por serie.",
+      "errores_frecuentes": "Impulsarse con la pierna trasera (rebote), apoyar solo la punta del pie, perder el equilibrio lateral, descender en caída libre."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-forward-step-lunge",
+    "englishName": "Forward Step Lunge",
+    "name": "Zancadas",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con mancuernas a los costados o barra en la espalda alta. Pies al ancho de caderas.",
+      "movimiento": "Da un paso largo hacia adelante y desciende flexionando ambas rodillas a 90°. La rodilla trasera casi toca el piso. Empuja con el talón delantero para volver a la posición inicial.",
+      "errores_frecuentes": "Paso demasiado corto (rodilla pasa los dedos), inclinar el torso adelante, dejar caer la rodilla trasera al piso, valgo en la rodilla delantera."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-glute-ham-raise",
+    "englishName": "Glute Ham Raise",
+    "name": "Glute Ham Raise",
+    "chapter": "Cadera y Muslo (Multiarticular)",
+    "category": "squat",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "calves",
+      "shoulders"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Arrodillado en la máquina GHR con tobillos fijos bajo las almohadillas, rodillas justo detrás de la almohadilla principal. Cuerpo recto desde rodillas a hombros.",
+      "fase_descendente": "Desciende lentamente extendiendo las rodillas mientras los isquiotibiales controlan el descenso. Termina con el cuerpo paralelo al piso.",
+      "fase_ascendente": "Sube usando solo la contracción de isquiotibiales y glúteos, sin doblar la cadera. Mantén el cuerpo recto.",
+      "errores_frecuentes": "Doblar la cadera para asistir (transforma en hiperextensión), descender demasiado rápido, no mantener línea recta cuerpo-hombros."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch02_d80.html"
+  },
+  {
+    "id": "nsca-stiff-leg-deadlift",
+    "englishName": "Stiff-Leg Deadlift",
+    "name": "Peso Muerto Piernas Rígidas",
+    "chapter": "Cadera y Muslo (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra al frente, pies al ancho de caderas, rodillas ligeramente flexionadas pero rígidas durante todo el movimiento.",
+      "fase_descendente": "Bisagra de cadera empujando glúteos atrás. La barra desciende cerca de las piernas hasta el máximo estiramiento de isquiotibiales sin redondear la espalda.",
+      "fase_ascendente": "Empuja la cadera adelante contrayendo glúteos para volver a la vertical.",
+      "errores_frecuentes": "Redondear la lumbar (alto riesgo de lesión), flexionar las rodillas, alejar la barra del cuerpo, sobrecargar (es un ejercicio de rango y técnica, no de máxima carga)."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch03_d81.html"
+  },
+  {
+    "id": "nsca-good-morning",
+    "englishName": "Good Morning",
+    "name": "Buenos Días",
+    "chapter": "Cadera y Muslo (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Sogas de Batalla (Battle Ropes)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra en back rack alto (sobre trapecio medio), pies al ancho de hombros, rodillas semi-flexionadas.",
+      "fase_descendente": "Bisagra de cadera inclinando el torso hacia adelante manteniendo la espalda neutra. Llega hasta torso paralelo al piso o el rango cómodo.",
+      "fase_ascendente": "Vuelve a la vertical contrayendo glúteos e isquiotibiales, sin redondear la zona lumbar.",
+      "errores_frecuentes": "Flexionar excesivamente las rodillas (convierte en sentadilla), redondear la espalda al bajar, hiperextender al final."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch03_d81.html"
+  },
+  {
+    "id": "nsca-leg-knee-extension-machine",
+    "englishName": "Leg (Knee) Extension (Machine)",
+    "name": "Leg (Knee) Extension (Machine)",
+    "chapter": "Cadera y Muslo (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "back",
+      "biceps",
+      "triceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con espalda apoyada, almohadilla de tobillos justo encima del empeine, rodillas alineadas con el eje de la máquina.",
+      "movimiento": "Extiende las rodillas contra la resistencia hasta lograr extensión casi completa. Baja controladamente.",
+      "errores_frecuentes": "Hiperextender violentamente al final, ayudarse con el torso, valgo de rodilla."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch03_d81.html"
+  },
+  {
+    "id": "nsca-seated-leg-knee-curl-machine",
+    "englishName": "Seated Leg (Knee) Curl (Machine)",
+    "name": "Seated Leg (Knee) Curl (Machine)",
+    "chapter": "Cadera y Muslo (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "legs",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con espalda apoyada, piernas extendidas y almohadilla justo detrás del tobillo.",
+      "movimiento": "Flexiona las rodillas tirando los tobillos hacia los glúteos. Pausa breve en la contracción y vuelve controlado.",
+      "errores_frecuentes": "Subir las caderas, balancearse con el torso, rango incompleto."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch03_d81.html"
+  },
+  {
+    "id": "nsca-seated-calf-heel-raise-machine",
+    "englishName": "Seated Calf (Heel) Raise (Machine)",
+    "name": "Seated Calf (Heel) Raise (Machine)",
+    "chapter": "Pantorrillas (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "calves",
+    "muscleGroups": [
+      "calves",
+      "back",
+      "biceps",
+      "shoulders"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con almohadillas sobre los muslos justo encima de las rodillas, antepié sobre la plataforma con los talones colgando.",
+      "movimiento": "Eleva los talones contrayendo las pantorrillas hasta la máxima extensión plantar. Baja lentamente sintiendo el estiramiento.",
+      "errores_frecuentes": "Rango incompleto, no detenerse en el tope, ayudarse con balanceo."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch04_d82.html"
+  },
+  {
+    "id": "nsca-standing-calf-heel-raise-machine",
+    "englishName": "Standing Calf (Heel) Raise (Machine)",
+    "name": "Standing Calf (Heel) Raise (Machine)",
+    "chapter": "Pantorrillas (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "calves",
+    "muscleGroups": [
+      "calves",
+      "back",
+      "biceps",
+      "shoulders"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie en la máquina con hombros bajo las almohadillas, antepié sobre la plataforma con los talones colgando.",
+      "movimiento": "Eleva los talones contrayendo pantorrillas hasta la máxima extensión. Desciende controlado hasta estiramiento completo.",
+      "errores_frecuentes": "Flexionar las rodillas para asistir, rango parcial, descender rápido sin control."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch04_d82.html"
+  },
+  {
+    "id": "nsca-flat-barbell-bench-press",
+    "englishName": "Flat Barbell Bench Press",
+    "name": "Press de Banca Plano (Barra)",
+    "chapter": "Pectoral (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca plana con los ojos bajo la barra, pies firmes en el piso, omóplatos retraídos y deprimidos. Cinco puntos de contacto: cabeza, hombros, glúteos, ambos pies. Agarre pronado ligeramente más ancho que los hombros.",
+      "fase_descendente": "Baja la barra controlada hacia la zona del pezón / esternón bajo. Los codos forman un ángulo de 45-75° con el torso (nunca a 90°). Pausa breve cuando la barra toca el pecho.",
+      "fase_ascendente": "Empuja la barra hacia arriba siguiendo una trayectoria ligeramente diagonal hacia los ojos. Extiende los codos sin bloquear violentamente.",
+      "errores_frecuentes": "Rebotar la barra en el pecho, abrir los codos a 90° (alto riesgo en hombros), perder retracción escapular, levantar los glúteos de la banca."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch05_d84.html"
+  },
+  {
+    "id": "nsca-incline-barbell-bench-press",
+    "englishName": "Incline Barbell Bench Press",
+    "name": "Press de Banca Inclinado (Barra)",
+    "chapter": "Pectoral (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca inclinada (30-45°), omóplatos retraídos, pies firmes en el piso. Agarre pronado ligeramente más ancho que los hombros.",
+      "fase_descendente": "Baja la barra hacia la clavícula / pecho superior. Codos a 45-60° del torso.",
+      "fase_ascendente": "Empuja la barra hacia arriba terminando sobre los hombros, con extensión casi completa.",
+      "errores_frecuentes": "Inclinación demasiado alta (convierte en press de hombros), arquear excesivamente la lumbar para asistir, codos demasiado abiertos."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch05_d84.html"
+  },
+  {
+    "id": "nsca-flat-dumbbell-bench-press",
+    "englishName": "Flat Dumbbell Bench Press",
+    "name": "Press de Banca Plano (Mancuernas)",
+    "chapter": "Pectoral (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca plana con mancuernas a los costados a la altura del pecho, palmas mirándose o hacia los pies. Omóplatos retraídos.",
+      "fase_descendente": "Baja las mancuernas controladamente hasta sentir estiramiento sin perder retracción escapular. Mayor rango que con barra.",
+      "fase_ascendente": "Empuja las mancuernas hacia arriba en línea recta, juntándolas ligeramente arriba sin hacerlas chocar.",
+      "errores_frecuentes": "Bajar demasiado y forzar el hombro, codos completamente extendidos (bloqueo), perder simetría entre lados."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch05_d84.html"
+  },
+  {
+    "id": "nsca-incline-dumbbell-bench-press",
+    "englishName": "Incline Dumbbell Bench Press",
+    "name": "Press de Banca Inclinado (Mancuernas)",
+    "chapter": "Pectoral (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca inclinada (30-45°), mancuernas a los costados a la altura del hombro / clavícula, omóplatos retraídos, pies firmes.",
+      "fase_descendente": "Baja las mancuernas controlando el estiramiento del pecho superior. Codos a 45-60° del torso.",
+      "fase_ascendente": "Empuja en línea recta vertical hacia los hombros, sin chocar las mancuernas arriba.",
+      "errores_frecuentes": "Banca demasiado vertical, perder retracción escapular, rebotar en el rango bajo."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch05_d84.html"
+  },
+  {
+    "id": "nsca-vertical-chest-press-machine",
+    "englishName": "Vertical Chest Press (Machine)",
+    "name": "Press de Pecho Vertical (Máquina)",
+    "chapter": "Pectoral (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas",
+      "Sogas de Batalla (Battle Ropes)"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con espalda apoyada, manijas a la altura del pecho medio. Pies firmes en el piso.",
+      "movimiento": "Empuja las manijas hacia adelante extendiendo los codos sin bloquear. Vuelve controlado hasta sentir estiramiento moderado del pecho.",
+      "errores_frecuentes": "Levantar las caderas del asiento, encoger los hombros, rango incompleto en la fase excéntrica."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch05_d84.html"
+  },
+  {
+    "id": "nsca-pec-deck-machine",
+    "englishName": "Pec Deck (Machine)",
+    "name": "Pec Deck (Máquina)",
+    "chapter": "Pectoral (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con espalda apoyada, antebrazos en las almohadillas, codos a 90° y a la altura del hombro.",
+      "movimiento": "Junta los codos al frente contrayendo el pecho hasta casi tocarlos. Vuelve controlado abriendo los brazos hasta estiramiento moderado.",
+      "errores_frecuentes": "Encoger los hombros, abrir excesivamente atrás (estrés en el hombro anterior), rango parcial."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch06_d85.html"
+  },
+  {
+    "id": "nsca-flat-dumbbell-fly",
+    "englishName": "Flat Dumbbell Fly",
+    "name": "Aperturas con Mancuernas",
+    "chapter": "Pectoral (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca plana, mancuernas extendidas sobre el pecho con palmas enfrentadas y codos ligeramente flexionados.",
+      "fase_descendente": "Abre los brazos en arco lateral manteniendo la flexión de codo constante, hasta sentir estiramiento del pectoral.",
+      "fase_ascendente": "Junta las mancuernas describiendo el mismo arco, contrayendo el pecho. No las hagas chocar arriba.",
+      "errores_frecuentes": "Doblar más los codos al subir (convierte en press), bajar demasiado y forzar el hombro, no mantener el arco constante."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch06_d85.html"
+  },
+  {
+    "id": "nsca-cable-crossover-machine",
+    "englishName": "Cable Crossover (Machine)",
+    "name": "Cruce de Poleas",
+    "chapter": "Pectoral (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie en el centro de dos poleas altas, un paso hacia adelante con un pie. Toma los manubrios con palmas hacia abajo, brazos ligeramente flexionados.",
+      "movimiento": "Lleva las manos al frente y al centro describiendo un arco descendente, contrayendo el pecho. Vuelve controlado hasta sentir estiramiento.",
+      "errores_frecuentes": "Doblar excesivamente los codos, perder la posición estable de los pies, encogerse al iniciar el movimiento."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch06_d85.html"
+  },
+  {
+    "id": "nsca-lat-pulldown-machine",
+    "englishName": "Lat Pulldown (Machine)",
+    "name": "Jalón al Pecho",
+    "chapter": "Espalda (Multiarticular)",
+    "category": "pull",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Máquinas Selectorizadas",
+      "Neumático (Tire)"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con muslos asegurados bajo las almohadillas. Agarre pronado ancho en la barra superior. Brazos extendidos arriba.",
+      "movimiento": "Tira la barra hacia el pecho superior llevando los codos abajo y atrás. Pausa con la barra cerca de las clavículas. Vuelve controlado hasta extensión completa de brazos.",
+      "errores_frecuentes": "Llevar la barra detrás de la nuca (alto riesgo en hombros), inclinar el torso atrás para usar inercia, no completar el estiramiento arriba."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch07_d86.html"
+  },
+  {
+    "id": "nsca-bent-over-row",
+    "englishName": "Bent-Over Row",
+    "name": "Remo Inclinado",
+    "chapter": "Espalda (Multiarticular)",
+    "category": "pull",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra al frente, agarre pronado al ancho de hombros. Bisagra de cadera bajando el torso a casi paralelo al piso, rodillas semi-flexionadas, espalda neutra, brazos extendidos.",
+      "movimiento": "Tira la barra hacia el abdomen bajo con los codos cercanos al cuerpo. Pausa cuando la barra toca el abdomen y vuelve controlado.",
+      "errores_frecuentes": "Levantar el torso para asistir, redondear la espalda, llevar la barra demasiado alto (convierte en remo al pecho), encoger los hombros."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch07_d86.html"
+  },
+  {
+    "id": "nsca-one-arm-dumbbell-row",
+    "englishName": "One-Arm Dumbbell Row",
+    "name": "Remo Unilateral con Mancuerna",
+    "chapter": "Espalda (Multiarticular)",
+    "category": "pull",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Una mano y rodilla apoyadas en banca plana, la pierna contraria firme en el piso. Espalda paralela al piso, mancuerna en la mano libre con brazo extendido.",
+      "movimiento": "Tira la mancuerna hacia la cadera del mismo lado llevando el codo arriba y atrás. Mantén la cadera estable sin rotación del torso. Vuelve controlado.",
+      "errores_frecuentes": "Rotar el torso para asistir, tirar hacia el pecho en lugar de la cadera, encoger el hombro."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch07_d86.html"
+  },
+  {
+    "id": "nsca-low-pulley-seated-row-machine",
+    "englishName": "Low-Pulley Seated Row (Machine)",
+    "name": "Remo Sentado",
+    "chapter": "Espalda (Multiarticular)",
+    "category": "pull",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado frente a la polea baja, pies apoyados en la plataforma, rodillas semi-flexionadas. Agarre con barra estrecha en forma de V, brazos extendidos, torso erguido.",
+      "movimiento": "Tira el manubrio hacia el abdomen retrayendo los omóplatos. Pausa en contracción, vuelve controlado hasta sentir estiramiento sin redondear la espalda.",
+      "errores_frecuentes": "Usar la lumbar para tirar (inclinarse atrás), encogerse al final, rango incompleto."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch07_d86.html"
+  },
+  {
+    "id": "nsca-seated-row-machine",
+    "englishName": "Seated Row (Machine)",
+    "name": "Remo Sentado",
+    "chapter": "Espalda (Multiarticular)",
+    "category": "pull",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con pecho apoyado en el almohadón frontal, agarre en las manijas a la altura del pecho.",
+      "movimiento": "Tira las manijas hacia atrás retrayendo los omóplatos con codos cercanos al cuerpo. Pausa en contracción y vuelve controlado.",
+      "errores_frecuentes": "Separarse del almohadón frontal, encoger los hombros, no completar la retracción escapular."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch07_d86.html"
+  },
+  {
+    "id": "nsca-face-pull-machine",
+    "englishName": "Face Pull (Machine)",
+    "name": "Face Pull (Machine)",
+    "chapter": "Espalda (Multiarticular)",
+    "category": "pull",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Máquinas Selectorizadas",
+      "Sogas de Batalla (Battle Ropes)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie frente a la polea alta con cuerda doble. Toma cada extremo con palmas hacia abajo. Brazos extendidos al frente a la altura de los ojos, pies firmes.",
+      "movimiento": "Tira la cuerda hacia la cara separando las manos al final, codos altos a la altura de hombros. Foco en deltoides posteriores y rotadores externos. Vuelve controlado.",
+      "errores_frecuentes": "Sobrecargar (es un ejercicio correctivo), tirar con la lumbar, codos por debajo del hombro."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch07_d86.html"
+  },
+  {
+    "id": "nsca-shoulder-press-machine",
+    "englishName": "Shoulder Press (Machine)",
+    "name": "Press Militar / Press de Hombro",
+    "chapter": "Hombro (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "chest",
+      "triceps",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con espalda apoyada, manijas a la altura de los hombros, pies firmes.",
+      "movimiento": "Empuja las manijas hacia arriba extendiendo los codos sin bloquear. Vuelve controlado hasta sentir estiramiento moderado.",
+      "errores_frecuentes": "Hiperextender la lumbar, encoger los hombros al empujar, rango incompleto."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch08_d87.html"
+  },
+  {
+    "id": "nsca-seated-barbell-shoulder-press",
+    "englishName": "Seated Barbell Shoulder Press",
+    "name": "Press Militar / Press de Hombro",
+    "chapter": "Hombro (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "chest",
+      "triceps"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en banca con respaldo casi vertical, pies firmes. Barra sobre los deltoides anteriores, agarre pronado un poco más ancho que los hombros, codos al frente.",
+      "movimiento": "Empuja la barra hacia arriba en línea vertical sobre la cabeza, terminando con brazos extendidos. Vuelve controlado a los hombros.",
+      "errores_frecuentes": "Inclinarse hacia atrás (convierte en press inclinado), hiperextender lumbar, codos demasiado abiertos en el descenso."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch08_d87.html"
+  },
+  {
+    "id": "nsca-seated-dumbbell-shoulder-press",
+    "englishName": "Seated Dumbbell Shoulder Press",
+    "name": "Press Militar / Press de Hombro",
+    "chapter": "Hombro (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "chest",
+      "triceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en banca con respaldo casi vertical, mancuernas a la altura del hombro, palmas hacia adelante, codos al frente.",
+      "movimiento": "Empuja las mancuernas hacia arriba juntándolas ligeramente al final. Vuelve controlado a la posición inicial.",
+      "errores_frecuentes": "Chocar las mancuernas, no controlar la fase excéntrica, perder la estabilidad escapular."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch08_d87.html"
+  },
+  {
+    "id": "nsca-upright-row",
+    "englishName": "Upright Row",
+    "name": "Remo al Mentón",
+    "chapter": "Hombro (Multiarticular)",
+    "category": "press",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra o mancuernas al frente, agarre pronado más estrecho que los hombros (para barra). Brazos extendidos.",
+      "movimiento": "Eleva la barra hacia el mentón llevando los codos altos y al lado. Pausa cuando la barra está a la altura de las clavículas. Vuelve controlado.",
+      "errores_frecuentes": "Agarre demasiado estrecho (estrés en muñecas y hombros), elevar más allá de las clavículas (impingement), balancearse."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch08_d87.html"
+  },
+  {
+    "id": "nsca-lateral-shoulder-raise",
+    "englishName": "Lateral Shoulder Raise",
+    "name": "Lateral Shoulder Raise",
+    "chapter": "Hombro (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "back",
+      "biceps",
+      "calves"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con mancuernas a los costados, palmas hacia el cuerpo, brazos extendidos con leve flexión de codo.",
+      "movimiento": "Eleva los brazos lateralmente hasta la altura del hombro manteniendo la flexión de codo. Pausa breve y baja controlado.",
+      "errores_frecuentes": "Elevar más allá de los 90° (encoge el trapecio), usar balanceo del torso, bloquear los codos completamente."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch09_d88.html"
+  },
+  {
+    "id": "nsca-bent-over-lateral-raise",
+    "englishName": "Bent-Over Lateral Raise",
+    "name": "Elevación Lateral",
+    "chapter": "Hombro (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "back",
+      "biceps",
+      "calves"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con bisagra de cadera, torso casi paralelo al piso, rodillas semi-flexionadas. Mancuernas colgando bajo el pecho con palmas enfrentadas.",
+      "movimiento": "Eleva las mancuernas lateralmente con leve flexión de codo, contrayendo deltoides posteriores. Pausa arriba y baja controlado.",
+      "errores_frecuentes": "Levantar el torso para asistir, doblar excesivamente los codos, perder la retracción escapular."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch09_d88.html"
+  },
+  {
+    "id": "nsca-barbell-biceps-curl",
+    "englishName": "Barbell Biceps Curl",
+    "name": "Curl de Bíceps",
+    "chapter": "Bíceps (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "biceps",
+    "muscleGroups": [
+      "biceps"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra al frente, agarre supinado al ancho de hombros, codos pegados al torso, brazos extendidos.",
+      "movimiento": "Flexiona los codos elevando la barra hacia los hombros sin mover los codos del torso. Pausa en contracción y baja controlado hasta extensión completa.",
+      "errores_frecuentes": "Adelantar los codos (usa hombros), balancear el torso, no completar la fase excéntrica."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch10_d89.html"
+  },
+  {
+    "id": "nsca-hammer-curl",
+    "englishName": "Hammer Curl",
+    "name": "Curl Martillo",
+    "chapter": "Bíceps (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "biceps",
+    "muscleGroups": [
+      "biceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con mancuernas a los costados, palmas enfrentadas (agarre neutro), codos pegados al torso.",
+      "movimiento": "Flexiona los codos elevando las mancuernas sin rotar la muñeca. Pausa en contracción y baja controlado.",
+      "errores_frecuentes": "Adelantar los codos, balancearse, perder la verticalidad de las muñecas."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch10_d89.html"
+  },
+  {
+    "id": "nsca-lying-barbell-triceps-extension",
+    "englishName": "Lying Barbell Triceps Extension",
+    "name": "Extensión de Tríceps",
+    "chapter": "Tríceps (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "triceps",
+    "muscleGroups": [
+      "triceps"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca plana, barra Z o EZ sobre el pecho con agarre pronado estrecho, brazos extendidos perpendiculares al piso.",
+      "fase_descendente": "Flexiona los codos bajando la barra hacia la frente o detrás de la cabeza, manteniendo los codos apuntando al techo (no abrir).",
+      "fase_ascendente": "Extiende los codos volviendo a la posición inicial sin mover los hombros.",
+      "errores_frecuentes": "Abrir los codos (transfiere a hombros), mover los brazos durante el movimiento, golpear la frente con la barra."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch11_d90.html"
+  },
+  {
+    "id": "nsca-triceps-pushdown-machine",
+    "englishName": "Triceps Pushdown (Machine)",
+    "name": "Triceps Pushdown (Machine)",
+    "chapter": "Tríceps (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "triceps",
+    "muscleGroups": [
+      "triceps",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie frente a la polea alta con barra o cuerda. Codos pegados al torso, antebrazos elevados, agarre pronado.",
+      "movimiento": "Extiende los codos empujando la barra hacia abajo hasta extensión completa. Pausa y vuelve controlado.",
+      "errores_frecuentes": "Mover los codos hacia atrás (usa dorsal), inclinarse adelante para asistir, no controlar la fase excéntrica."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch11_d90.html"
+  },
+  {
+    "id": "nsca-wrist-curl",
+    "englishName": "Wrist Curl",
+    "name": "Curl de Muñeca",
+    "chapter": "Antebrazo (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "forearm",
+    "muscleGroups": [
+      "forearm",
+      "biceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado con antebrazos apoyados en los muslos o banca, palmas hacia arriba, manos colgando por el borde con barra o mancuerna.",
+      "movimiento": "Flexiona las muñecas elevando el peso hacia arriba. Pausa y baja controlado hasta estiramiento completo.",
+      "errores_frecuentes": "Mover los antebrazos del apoyo, rango parcial, sobrecargar (ejercicio de alta repetición)."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch12_d91.html"
+  },
+  {
+    "id": "nsca-wrist-extension",
+    "englishName": "Wrist Extension",
+    "name": "Wrist Extension",
+    "chapter": "Antebrazo (Monoarticular)",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "forearm",
+    "muscleGroups": [
+      "forearm",
+      "triceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Igual al wrist curl pero con palmas hacia abajo.",
+      "movimiento": "Extiende las muñecas elevando el peso hacia arriba. Pausa breve y baja controlado.",
+      "errores_frecuentes": "Mover los antebrazos del apoyo, rango parcial, cargas excesivas (riesgo en epicondilitis lateral)."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch12_d91.html"
+  },
+  {
+    "id": "nsca-bent-knee-sit-up",
+    "englishName": "Bent-Knee Sit-Up",
+    "name": "Abdominal Completo (Sit-Up)",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado boca arriba, rodillas flexionadas, pies firmes en el piso, manos sobre el pecho o cruzadas detrás de la cabeza sin tirar.",
+      "movimiento": "Eleva el torso flexionando el abdomen hasta que la columna se desenrolle del piso hasta los hombros. Baja controlado vertebra a vertebra.",
+      "errores_frecuentes": "Tirar de la cabeza con las manos, usar inercia, rango incompleto, mantener tensión en el cuello."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-abdominal-crunch",
+    "englishName": "Abdominal Crunch",
+    "name": "Crunch Abdominal",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado boca arriba con rodillas flexionadas, pies firmes, manos sobre el pecho o detrás de la cabeza sin tirar.",
+      "movimiento": "Eleva solo los hombros y omóplatos del piso flexionando el abdomen. La zona lumbar permanece en contacto con el piso. Vuelve controlado.",
+      "errores_frecuentes": "Levantar la lumbar (convierte en sit-up), tirar de la cabeza, rango excesivo."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-front-plank",
+    "englishName": "Front Plank",
+    "name": "Plancha Abdominal",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Apoyado en antebrazos y puntas de pie. Codos bajo los hombros, cuerpo recto desde cabeza a talones, glúteos y core activados.",
+      "movimiento": "Mantén la posición isométrica respirando normalmente. Tiempo objetivo según nivel (30-90 segundos).",
+      "errores_frecuentes": "Hundir la cadera, elevar excesivamente los glúteos, contener la respiración, perder la línea cuerpo-talones."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-side-plank",
+    "englishName": "Side Plank",
+    "name": "Plancha Abdominal",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De costado apoyado en un antebrazo (codo bajo el hombro) y el borde externo del pie. Cuerpo recto, cadera elevada, oblícuos activos.",
+      "movimiento": "Mantén la posición isométrica respirando normalmente. Realiza en ambos lados.",
+      "errores_frecuentes": "Dejar caer la cadera, rotar el torso, encoger el hombro de apoyo."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-stability-ball-rollout",
+    "englishName": "Stability Ball Rollout",
+    "name": "Stability Ball Rollout",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Arrodillado frente a un fitball con antebrazos apoyados sobre él, cuerpo recto desde rodillas a hombros.",
+      "fase_descendente": "Rueda el fitball hacia adelante extendiendo el cuerpo, manteniendo la lumbar neutra. Llega al máximo rango cómodo.",
+      "fase_ascendente": "Vuelve a la posición inicial contrayendo el core, sin hundir la cadera.",
+      "errores_frecuentes": "Hundir la cadera, hiperextender la lumbar al final, descender demasiado rápido."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-stability-ball-pike",
+    "englishName": "Stability Ball Pike",
+    "name": "Stability Ball Pike",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Posición de plancha alta con las espinillas apoyadas sobre un fitball.",
+      "movimiento": "Lleva las caderas hacia arriba rodando el fitball hacia las manos, formando una V invertida. Vuelve controlado a la plancha.",
+      "errores_frecuentes": "Doblar las rodillas (convierte en jackknife), hundir los hombros, perder estabilidad escapular."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-stability-ball-jackknife",
+    "englishName": "Stability Ball Jackknife",
+    "name": "Stability Ball Jackknife",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Posición de plancha alta con las espinillas sobre el fitball.",
+      "movimiento": "Lleva las rodillas hacia el pecho rodando el fitball, manteniendo el torso casi paralelo al piso. Vuelve controlado.",
+      "errores_frecuentes": "Hundir la cadera, elevar la cadera (transforma en pike), perder la línea de torso."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-abdominal-crunch-machine",
+    "englishName": "Abdominal Crunch (Machine)",
+    "name": "Crunch Abdominal",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con espalda apoyada, asas sobre los hombros y pies asegurados.",
+      "movimiento": "Flexiona el torso hacia adelante contrayendo el abdomen. Pausa en contracción y vuelve controlado.",
+      "errores_frecuentes": "Usar los brazos para tirar, rango incompleto, descender rápido sin control."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-stability-ball-abdominal-crunch",
+    "englishName": "Stability Ball Abdominal Crunch",
+    "name": "Crunch Abdominal",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en fitball, camina los pies adelante hasta que la zona lumbar descanse en el balón. Manos sobre el pecho o detrás de la cabeza.",
+      "movimiento": "Flexiona el abdomen elevando hombros y omóplatos. Vuelve controlado sintiendo estiramiento abdominal sobre el balón.",
+      "errores_frecuentes": "Tirar de la cabeza, perder la posición sobre el balón, rango parcial."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-stability-ball-reverse-back-extension",
+    "englishName": "Stability Ball Reverse Back Extension",
+    "name": "Stability Ball Reverse Back Extension",
+    "chapter": "Core",
+    "category": "core",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core",
+      "triceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Boca abajo sobre el fitball con caderas apoyadas, manos en el piso para equilibrio, piernas extendidas atrás.",
+      "movimiento": "Eleva las piernas extendidas contrayendo glúteos y zona lumbar hasta línea horizontal. Vuelve controlado.",
+      "errores_frecuentes": "Hiperextender la lumbar al subir, balancearse, perder el equilibrio sobre el fitball."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch13_d93.html"
+  },
+  {
+    "id": "nsca-two-arm-kettlebell-swing",
+    "englishName": "Two-Arm Kettlebell Swing",
+    "name": "Two-Arm Kettlebell Swing",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con pies más anchos que los hombros, kettlebell en el piso entre las piernas y un paso adelante. Bisagra de cadera y agarre con ambas manos.",
+      "movimiento": "Lleva la kettlebell entre las piernas con una bisagra explosiva, luego extiende cadera con fuerza para proyectarla al frente a la altura del pecho. Las manos solo guían, la potencia viene de la cadera.",
+      "errores_frecuentes": "Usar los brazos para levantar (sentadilla en lugar de bisagra), hiperextender la lumbar arriba, no completar la extensión de cadera."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-single-leg-squat",
+    "englishName": "Single-Leg Squat",
+    "name": "Single-Leg Squat",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Cajón Pliométrico"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie sobre una pierna con la otra extendida adelante. Brazos al frente para equilibrio.",
+      "movimiento": "Desciende flexionando la pierna de apoyo manteniendo el torso erguido y la pierna libre paralela al piso. Llega al rango cómodo y vuelve.",
+      "errores_frecuentes": "Valgo de rodilla, inclinar excesivamente el torso, perder equilibrio, talón que se levanta."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-single-leg-kettlebell-romanian-deadlift",
+    "englishName": "Single-Leg Kettlebell Romanian Deadlift",
+    "name": "Peso Muerto Rumano",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie sobre una pierna con kettlebell en la mano del lado contrario. Pierna libre ligeramente atrás.",
+      "movimiento": "Bisagra de cadera bajando el peso mientras la pierna libre se eleva en línea con el torso, formando una \"T\". Vuelve contrayendo glúteo.",
+      "errores_frecuentes": "Rotación de cadera, doblar excesivamente la rodilla de apoyo, redondear la espalda."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-turkish-get-up",
+    "englishName": "Turkish Get-Up",
+    "name": "Turkish Get-Up",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody"
+    ],
+    "equipment": [
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado boca arriba con kettlebell sostenida con brazo extendido hacia el techo, pierna del mismo lado flexionada con pie en el piso.",
+      "movimiento": "Secuencia: codo del brazo libre → mano → puente de cadera → pasar la pierna libre por debajo a media estocada → de pie. Invierte cada paso para bajar. El brazo con kettlebell permanece vertical todo el tiempo.",
+      "errores_frecuentes": "Perder verticalidad del kettlebell, acelerar las transiciones, no fijar el omóplato, levantar la mirada del peso al inicio."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-one-arm-kettlebell-clean",
+    "englishName": "One-Arm Kettlebell Clean",
+    "name": "One-Arm Kettlebell Clean",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "hamstrings",
+      "glutes",
+      "back"
+    ],
+    "equipment": [
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con kettlebell entre los pies, agarre con una mano. Bisagra de cadera, espalda neutra.",
+      "movimiento": "Tirón explosivo elevando la kettlebell pegada al cuerpo. En la cima, gira la mano alrededor del kettlebell para recibirlo en posición de rack frontal (kettlebell apoyado en antebrazo y hombro).",
+      "errores_frecuentes": "Que la kettlebell golpee el antebrazo al recibir (señal de mala técnica), alejarla del cuerpo, no completar la extensión de cadera."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-one-arm-kettlebell-press",
+    "englishName": "One-Arm Kettlebell Press",
+    "name": "One-Arm Kettlebell Press",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "equipment": [
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con kettlebell en posición de rack (apoyado en antebrazo y hombro), codo al frente, palma hacia el cuerpo.",
+      "movimiento": "Empuja la kettlebell hacia arriba mientras la muñeca gira para terminar con palma adelante y brazo bloqueado. Baja invirtiendo.",
+      "errores_frecuentes": "Inclinarse lateralmente para asistir, codo abierto, no fijar el core, falta de rotación de muñeca."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-kettlebell-front-squat",
+    "englishName": "Kettlebell Front Squat",
+    "name": "Sentadilla Frontal",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie sosteniendo dos kettlebells en posición de rack frontal (una a cada lado), o una en el centro tipo goblet. Pies al ancho de hombros.",
+      "movimiento": "Sentadilla profunda manteniendo el torso erguido y los codos al frente. Empuja el piso para volver.",
+      "errores_frecuentes": "Codos caídos (perder front rack), inclinarse adelante, valgo de rodillas, profundidad incompleta."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-stability-ball-bridge-to-curl",
+    "englishName": "Stability Ball Bridge to Curl",
+    "name": "Stability Ball Bridge to Curl",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "biceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado boca arriba con talones apoyados en un fitball, brazos a los costados.",
+      "movimiento": "Eleva la cadera al puente (línea hombros-cadera-rodillas), luego flexiona las rodillas llevando el fitball hacia los glúteos. Extiende las rodillas y baja la cadera.",
+      "errores_frecuentes": "Dejar caer la cadera al flexionar rodillas, perder estabilidad sobre el balón, rango parcial."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "nsca-dumbbell-renegade-row",
+    "englishName": "Dumbbell Renegade Row",
+    "name": "Dumbbell Renegade Row",
+    "chapter": "Métodos Alternativos",
+    "category": "alternative",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Posición de plancha alta con manos sobre dos mancuernas hexagonales, pies separados al ancho de hombros para mayor estabilidad.",
+      "movimiento": "Sin rotar la cadera, tira una mancuerna hacia la cadera del mismo lado. Bájala controladamente y alterna el lado.",
+      "errores_frecuentes": "Rotar la cadera al tirar, separar los pies demasiado o demasiado poco, perder la línea de plancha."
+    },
+    "source": "Descripción técnica original MankindFactory (basada en biomecánica estándar)",
+    "sourceFile": "E6493ch14_d95.html"
+  },
+  {
+    "id": "sup-bulgarian-split-squat",
+    "englishName": "Bulgarian Split Squat",
+    "name": "Sentadilla Búlgara",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie a un metro de la banca, eleva el empeine del pie posterior sobre la banca. Toma una mancuerna en cada mano.",
+      "fase_descendente": "Desciende controlando la rodilla delantera (no debe sobrepasar los dedos). Mantén el torso erguido.",
+      "fase_ascendente": "Empuja desde el talón delantero para volver a la posición inicial.",
+      "errores_frecuentes": "Inclinar el torso, dejar caer el peso en la rodilla posterior, separar el pie delantero del piso."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-walking-lunge",
+    "englishName": "Walking Lunge",
+    "name": "Zancadas Caminando",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "quads",
+      "glutes",
+      "hamstrings",
+      "core"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con mancuernas a los lados, postura erguida.",
+      "movimiento": "Da un paso largo hacia adelante y desciende hasta que la rodilla trasera casi toque el suelo. Empuja con el talón delantero para impulsar el siguiente paso.",
+      "errores_frecuentes": "Pasos demasiado cortos, perder el equilibrio lateral, encorvar la espalda."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-cable-row-low",
+    "englishName": "Low Cable Row",
+    "name": "Remo Bajo en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado frente al sistema de poleas con pies apoyados, agarra el manubrio con brazos extendidos.",
+      "movimiento": "Tira el manubrio al abdomen retrayendo los omóplatos. Vuelve controladamente.",
+      "errores_frecuentes": "Usar la lumbar para impulsar, encogerse al final del movimiento."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-face-pull",
+    "englishName": "Face Pull",
+    "name": "Face Pull en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "back"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "Polea alta con cuerda doble. Brazos estirados hacia adelante a la altura de la cara.",
+      "movimiento": "Tira hacia tu cara separando las manos al final, codos a la altura de hombros. Foco en deltoide posterior y rotadores externos.",
+      "errores_frecuentes": "Sobrecargar y arrastrar con la espalda, codos por debajo del hombro."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-reverse-hyper",
+    "englishName": "Reverse Hyper",
+    "name": "Reverse Hyper",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "glutes",
+    "muscleGroups": [
+      "glutes",
+      "hamstrings",
+      "back"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado boca abajo en máquina específica, piernas colgando.",
+      "movimiento": "Eleva las piernas extendidas hasta la línea horizontal contrayendo glúteos.",
+      "errores_frecuentes": "Hiperextender la lumbar al subir, balancearse usando inercia."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-nordic-curl",
+    "englishName": "Nordic Hamstring Curl",
+    "name": "Nordic Curl (Curl Nórdico)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "hamstrings",
+    "muscleGroups": [
+      "hamstrings"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Arrodillado con tobillos sujetados (compañero o accesorio). Cuerpo recto desde rodillas a hombros.",
+      "movimiento": "Desciende lentamente controlando con isquiotibiales, frena con manos solo si es necesario.",
+      "errores_frecuentes": "Doblar la cadera para hacer trampa, soltarse demasiado rápido."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-hip-thrust-bb",
+    "englishName": "Barbell Hip Thrust",
+    "name": "Hip Thrust con Barra",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "glutes",
+    "muscleGroups": [
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Banca Plana",
+      "Discos Olímpicos"
+    ],
+    "technique": {
+      "posicion_inicial": "Hombros apoyados en banca, barra sobre cadera (con almohadilla). Pies plantados, rodillas a 90°.",
+      "movimiento": "Empuja la cadera hacia arriba contrayendo glúteos hasta línea horizontal hombro-cadera-rodilla. Pausa breve y baja controlado.",
+      "errores_frecuentes": "Hiperextender la lumbar, usar empuje de cuádriceps, no contraer glúteos al final."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-push-up",
+    "englishName": "Push-Up",
+    "name": "Flexiones de Pecho (Push-Up)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders",
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Apoyado en manos y pies, cuerpo recto. Manos ancho hombros.",
+      "movimiento": "Baja el pecho hasta cerca del piso flexionando codos. Empuja para volver a posición inicial sin flexionar la cadera.",
+      "errores_frecuentes": "Hundir la cadera, sacar codos demasiado abiertos (>60° del torso), no completar el rango."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-pike-push-up",
+    "englishName": "Pike Push-Up",
+    "name": "Pike Push-Up",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "triceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "En forma de \"V\" invertida, caderas elevadas, manos al ancho de hombros, pies cerca de las manos.",
+      "movimiento": "Flexiona codos bajando la coronilla hacia el suelo. Empuja para volver. Imita un press de hombros.",
+      "errores_frecuentes": "No mantener el pico de cadera elevado, abrir codos demasiado."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-handstand-push-up",
+    "englishName": "Handstand Push-Up",
+    "name": "Handstand Push-Up (HSPU)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "triceps"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Vertical invertida apoyado en pared con manos al ancho de hombros.",
+      "movimiento": "Flexiona codos hasta que la coronilla toque el suelo, luego empuja explosivamente.",
+      "errores_frecuentes": "Romper la línea recta del cuerpo, escapular floja, codos abiertos."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-muscle-up",
+    "englishName": "Muscle-Up",
+    "name": "Muscle-Up",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "chest",
+      "biceps",
+      "triceps"
+    ],
+    "equipment": [
+      "Barra de Dominadas",
+      "Anillas de Gimnasia"
+    ],
+    "technique": {
+      "posicion_inicial": "Suspendido en barra/anillas con agarre falso (anillas) o pronado (barra).",
+      "movimiento": "Tirón explosivo elevando el pecho a la altura de las manos, transición rápida a fondo y empuje completo.",
+      "errores_frecuentes": "Falta de fuerza en transición, mal agarre falso, balanceo descontrolado."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-dragon-flag",
+    "englishName": "Dragon Flag",
+    "name": "Dragon Flag",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Banca Plana",
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca sujetando los soportes detrás de la cabeza.",
+      "movimiento": "Eleva el cuerpo recto desde los hombros hasta vertical, baja controlado sin tocar la banca.",
+      "errores_frecuentes": "Doblar la cadera, perder rectitud del cuerpo, descender demasiado rápido."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-pallof-press",
+    "englishName": "Pallof Press",
+    "name": "Pallof Press",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Bandas de Resistencia"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie perpendicular a la polea, manos al pecho sosteniendo el manubrio.",
+      "movimiento": "Extiende los brazos hacia adelante resistiendo la rotación. Mantén core activo. Vuelve controlado.",
+      "errores_frecuentes": "Permitir rotación del torso, encogerse de hombros, perder neutralidad espinal."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-ab-wheel",
+    "englishName": "Ab Wheel Rollout",
+    "name": "Rueda Abdominal (Ab Wheel)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "Arrodillado sosteniendo la rueda con ambas manos.",
+      "movimiento": "Rueda hacia adelante extendiendo el cuerpo manteniéndolo recto. Vuelve contrayendo el core.",
+      "errores_frecuentes": "Hundir la cadera, hiperextender la lumbar al rodar, no completar el rango."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-zercher-squat",
+    "englishName": "Zercher Squat",
+    "name": "Sentadilla Zercher",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "quads",
+      "glutes",
+      "core",
+      "back"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Power Rack / Jaula"
+    ],
+    "technique": {
+      "posicion_inicial": "Barra apoyada en el pliegue de los codos, brazos cruzados al pecho.",
+      "movimiento": "Sentadilla profunda manteniendo torso erguido. La barra exige mucho del core y la espalda alta.",
+      "errores_frecuentes": "Inclinarse hacia adelante, no usar almohadilla en codos en cargas altas."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-jefferson-curl",
+    "englishName": "Jefferson Curl",
+    "name": "Jefferson Curl",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "hamstrings"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie sobre cajón con mancuerna ligera, piernas rectas.",
+      "movimiento": "Flexiona la columna vértebra a vértebra hasta el máximo rango. Vuelve también vértebra a vértebra. Cargas SIEMPRE bajas (<10kg).",
+      "errores_frecuentes": "Cargar demasiado peso, descender rápido, no controlar la subida."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-rdl-single-leg",
+    "englishName": "Single-Leg Romanian Deadlift",
+    "name": "RDL Unilateral",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "hamstrings",
+    "muscleGroups": [
+      "hamstrings",
+      "glutes",
+      "core"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "Apoyado en una pierna, mancuerna en la mano contraria.",
+      "movimiento": "Bisagra de cadera bajando el peso mientras la pierna trasera se eleva en línea con el torso. Vuelve contrayendo glúteo.",
+      "errores_frecuentes": "Rotación de cadera, doblar excesivamente la rodilla de apoyo, redondear la espalda."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-pendlay-row",
+    "englishName": "Pendlay Row",
+    "name": "Remo Pendlay",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "Barra en el suelo, torso paralelo al piso, brazos extendidos.",
+      "movimiento": "Tira la barra explosivamente al esternón. Devuelve completamente al piso entre repeticiones.",
+      "errores_frecuentes": "Usar piernas para impulsar, no devolver al piso, no mantener torso paralelo."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-meadows-row",
+    "englishName": "Meadows Row",
+    "name": "Remo Meadows",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "Una punta de la barra fija (landmine), pararse perpendicular tomando el extremo libre con una mano.",
+      "movimiento": "Rema unilateralmente llevando el codo arriba y atrás. Énfasis en dorsal.",
+      "errores_frecuentes": "Rotación excesiva, usar peso desproporcionado."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-incline-curl",
+    "englishName": "Incline Dumbbell Curl",
+    "name": "Curl Inclinado en Banca",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "biceps",
+    "muscleGroups": [
+      "biceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Banca Inclinable"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en banca a 45°, mancuernas colgando completamente con brazos atrás del torso.",
+      "movimiento": "Curl manteniendo codos fijos. Estiramiento máximo abajo, contracción arriba.",
+      "errores_frecuentes": "Adelantar codos, mover el torso, no completar la fase excéntrica."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-spider-curl",
+    "englishName": "Spider Curl",
+    "name": "Spider Curl",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "biceps",
+    "muscleGroups": [
+      "biceps"
+    ],
+    "equipment": [
+      "Banca Inclinable",
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Boca abajo sobre banca inclinada, brazos perpendiculares al suelo.",
+      "movimiento": "Curl con codos fijos. Tensión constante en el bíceps.",
+      "errores_frecuentes": "Mover los codos, balancearse."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-skull-crusher",
+    "englishName": "Skull Crusher",
+    "name": "Press Francés (Skull Crusher)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "triceps",
+    "muscleGroups": [
+      "triceps"
+    ],
+    "equipment": [
+      "Banca Plana",
+      "Barra Z / EZ"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca con barra Z, brazos extendidos sobre el pecho.",
+      "movimiento": "Flexiona los codos bajando la barra hacia la frente sin mover los brazos. Extiende para volver.",
+      "errores_frecuentes": "Mover los hombros (convertir en press), abrir los codos demasiado."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-overhead-tricep-ext",
+    "englishName": "Overhead Triceps Extension",
+    "name": "Extensión Tríceps Sobre Cabeza",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "triceps",
+    "muscleGroups": [
+      "triceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie o sentado, mancuerna sostenida con ambas manos sobre la cabeza.",
+      "movimiento": "Flexiona los codos bajando el peso detrás de la cabeza. Extiende para volver. Cabezas larga del tríceps recibe más estímulo.",
+      "errores_frecuentes": "Codos hacia afuera, no controlar la fase excéntrica, perder estabilidad escapular."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-rope-pushdown",
+    "englishName": "Rope Pushdown",
+    "name": "Pushdown con Cuerda",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "triceps",
+    "muscleGroups": [
+      "triceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "Polea alta con cuerda doble. Codos fijos al torso.",
+      "movimiento": "Extiende los codos separando los extremos de la cuerda al final del movimiento.",
+      "errores_frecuentes": "Mover los codos hacia atrás, usar el torso para impulsar."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-cable-lateral",
+    "englishName": "Cable Lateral Raise",
+    "name": "Elevación Lateral en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie de costado a la polea baja, mango en la mano externa.",
+      "movimiento": "Eleva el brazo lateralmente hasta la altura del hombro manteniendo ligero codo flexionado.",
+      "errores_frecuentes": "Subir más allá de los 90°, encogerse de hombros, balancear el cuerpo."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-front-plate-raise",
+    "englishName": "Front Plate Raise",
+    "name": "Elevación Frontal con Disco",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders"
+    ],
+    "equipment": [
+      "Discos Olímpicos"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con disco sostenido a la altura de la cadera con ambas manos.",
+      "movimiento": "Eleva el disco al frente hasta la altura de los ojos. Vuelve controlado.",
+      "errores_frecuentes": "Balanceo, subir más alto que los hombros con sobrecarga lumbar."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-shrug-bb",
+    "englishName": "Barbell Shrug",
+    "name": "Encogimientos con Barra",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "shoulders"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con barra en agarre pronado al ancho de hombros.",
+      "movimiento": "Eleva los hombros hacia las orejas contrayendo el trapecio superior. Pausa breve y baja controlado.",
+      "errores_frecuentes": "Rotar los hombros, usar bíceps, rango incompleto."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-jump-rope",
+    "englishName": "Jump Rope",
+    "name": "Saltar la Cuerda",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "calves",
+      "shoulders",
+      "core"
+    ],
+    "equipment": [
+      "Cuerda para Saltar"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con cuerda detrás de los talones.",
+      "movimiento": "Salta usando solo el rebote de tobillos. Muñecas hacen el giro. Mantén postura erguida.",
+      "errores_frecuentes": "Saltar demasiado alto, usar todo el brazo en lugar de la muñeca."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-burpee",
+    "englishName": "Burpee",
+    "name": "Burpee",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "fullbody",
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie.",
+      "movimiento": "Cae a posición de plancha, push-up (opcional), pies adelante a sentadilla, salto vertical con manos arriba. Repetir.",
+      "errores_frecuentes": "Encorvarse, no completar el push-up, no saltar al final."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-thruster",
+    "englishName": "Thruster",
+    "name": "Thruster",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "quads",
+      "glutes",
+      "shoulders"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Front squat con barra sobre clavículas.",
+      "movimiento": "Sentadilla profunda y, en la subida, transferir el impulso a press de hombros para enviar la barra sobre la cabeza.",
+      "errores_frecuentes": "Separar los movimientos (no aprovechar el impulso), bloquear codos prematuramente."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-turkish-get-up",
+    "englishName": "Turkish Get-Up",
+    "name": "Turkish Get-Up",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "core",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "shoulders",
+      "core",
+      "fullbody"
+    ],
+    "equipment": [
+      "Kettlebells",
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado boca arriba con kettlebell en una mano, brazo extendido hacia el techo.",
+      "movimiento": "Secuencia de transiciones: codo → mano → puente de cadera → enhebrar pierna → estocada → de pie. Bajar invirtiendo cada paso.",
+      "errores_frecuentes": "Perder la verticalidad del kettlebell, secuencia rápida, no fijar el omóplato."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-windmill",
+    "englishName": "Kettlebell Windmill",
+    "name": "Molino con Kettlebell",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core",
+      "shoulders"
+    ],
+    "equipment": [
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con kettlebell elevado en una mano sobre la cabeza, pies en posición ligeramente abierta.",
+      "movimiento": "Bisagra lateral de cadera bajando hasta tocar el pie opuesto, manteniendo el kettlebell estable arriba. Vuelve controlado.",
+      "errores_frecuentes": "Doblar el codo del brazo elevado, perder verticalidad del kettlebell."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-floor-press",
+    "englishName": "Floor Press",
+    "name": "Floor Press (Press desde el Piso)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en el piso con barra sobre el pecho, codos doblados a 90°.",
+      "movimiento": "Empuja hasta extender los codos. Baja hasta que los tríceps toquen el piso, pausa y empuja. El piso limita el rango y reduce estrés en hombros.",
+      "errores_frecuentes": "Rebotar los codos en el piso, perder retracción escapular."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-trap-bar-deadlift",
+    "englishName": "Trap Bar Deadlift",
+    "name": "Peso Muerto con Barra Hexagonal",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "hamstrings",
+      "glutes",
+      "quads",
+      "back"
+    ],
+    "equipment": [
+      "Barra Hexagonal (Trap Bar)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie dentro de la barra hexagonal, agarra los mangos a los lados.",
+      "movimiento": "Levanta extendiendo cadera y rodillas simultáneamente, manteniendo la espalda neutra. Baja invirtiendo el movimiento.",
+      "errores_frecuentes": "Redondear la espalda, separar las rodillas hacia adentro al subir."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-belt-squat",
+    "englishName": "Belt Squat",
+    "name": "Belt Squat (Sentadilla con Cinturón)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "quads",
+      "glutes"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie en plataforma con cinturón conectado a la carga colgando entre las piernas.",
+      "movimiento": "Sentadilla profunda controlada. La carga viaja vertical sin comprimir la columna.",
+      "errores_frecuentes": "Inclinar excesivamente el torso adelante, perder el balance lateral."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-cossack-squat",
+    "englishName": "Cossack Squat",
+    "name": "Sentadilla Cossack",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "legs",
+    "muscleGroups": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)",
+      "Kettlebells"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con piernas muy abiertas (más allá de los hombros).",
+      "movimiento": "Desplaza el peso a un lado descendiendo en sentadilla profunda con esa pierna mientras la otra se extiende. Vuelve y alterna.",
+      "errores_frecuentes": "Levantar el talón de la pierna activa, no rotar el pie de la pierna extendida."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-good-girl-bad-girl",
+    "englishName": "Hip Abduction/Adduction Machine",
+    "name": "Abductores / Aductores en Máquina",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "mixed",
+    "primaryMuscle": "glutes",
+    "muscleGroups": [
+      "glutes",
+      "legs"
+    ],
+    "equipment": [
+      "Máquinas Selectorizadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en la máquina con piernas a 90° apoyadas en almohadillas.",
+      "movimiento": "Abre o cierra las piernas según el ejercicio. Movimiento controlado, evitar inercia.",
+      "errores_frecuentes": "Usar el torso para impulsar, rango incompleto."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-cable-pull-through",
+    "englishName": "Cable Pull-Through",
+    "name": "Pull-Through en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "glutes",
+    "muscleGroups": [
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "Espaldas a la polea baja, cuerda doble entre las piernas, agarre con ambas manos.",
+      "movimiento": "Bisagra de cadera atrás bajando el peso entre las piernas. Empuja la cadera adelante para volver, contrayendo glúteos.",
+      "errores_frecuentes": "Usar los brazos para tirar, redondear la espalda al inicio."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-cable-fly-low",
+    "englishName": "Low Cable Fly",
+    "name": "Aperturas Bajas en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest",
+      "shoulders"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie entre dos poleas bajas, manubrios con palma hacia adelante.",
+      "movimiento": "Brazos ligeramente flexionados, lleva las manos hacia el centro y arriba (movimiento ascendente). Foco en pecho superior.",
+      "errores_frecuentes": "Doblar excesivamente codos, perder el arco de hombros."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-incline-cable-fly",
+    "englishName": "Incline Cable Fly",
+    "name": "Aperturas Inclinadas en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "chest",
+    "muscleGroups": [
+      "chest"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables",
+      "Banca Inclinable"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca inclinada entre dos poleas bajas.",
+      "movimiento": "Brazos extendidos a los lados, abre y cierra describiendo un arco. Mantén ligera flexión de codo.",
+      "errores_frecuentes": "Convertir en press cerrando codos, no controlar la fase excéntrica."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-lat-pullover",
+    "englishName": "Cable Lat Pullover",
+    "name": "Pullover en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "chest"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie de cara a la polea alta con barra recta. Brazos extendidos hacia adelante.",
+      "movimiento": "Tira la barra hacia abajo en arco con brazos rectos hasta los muslos. Foco en dorsal ancho.",
+      "errores_frecuentes": "Doblar los codos (convierte en pulldown), usar el torso para impulsar."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-incline-pull-up",
+    "englishName": "Neutral Grip Pull-Up",
+    "name": "Pull-Up con Agarre Neutro Estrecho",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Barra de Dominadas"
+    ],
+    "technique": {
+      "posicion_inicial": "Suspendido en barra con manijas paralelas (palmas enfrentadas), agarre estrecho.",
+      "movimiento": "Tira hasta que el mentón pase la barra. Énfasis en dorsal y braquial.",
+      "errores_frecuentes": "No completar el rango, balanceo, hombros sin retraer."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-z-press",
+    "englishName": "Seated Z-Press",
+    "name": "Z-Press (Press sentado en piso)",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "triceps",
+      "core"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en el piso con piernas extendidas y abiertas en V, barra sobre clavículas.",
+      "movimiento": "Press vertical estricto sin ningún impulso de piernas. Demanda enorme estabilidad de core.",
+      "errores_frecuentes": "Inclinar el torso atrás, doblar las rodillas, perder neutralidad lumbar."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-landmine-press",
+    "englishName": "Landmine Press",
+    "name": "Landmine Press",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "chest",
+      "triceps"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "Una punta de la barra fija (landmine), otra a la altura del hombro.",
+      "movimiento": "Press unilateral hacia adelante y arriba en línea diagonal. Fácil para hombros y trasferencia funcional.",
+      "errores_frecuentes": "Rotación excesiva del torso, separar el codo del cuerpo demasiado."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-landmine-row",
+    "englishName": "Landmine T-Bar Row",
+    "name": "Remo Landmine en T",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": [
+      "back",
+      "biceps"
+    ],
+    "equipment": [
+      "Barra Olímpica"
+    ],
+    "technique": {
+      "posicion_inicial": "Inclinado sobre la barra fija en landmine, agarre en V.",
+      "movimiento": "Tira el extremo libre hacia el pecho con codos cerca del cuerpo. Vuelve controlado.",
+      "errores_frecuentes": "Levantar el torso para asistir, rango incompleto."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-cable-curl",
+    "englishName": "Cable Curl",
+    "name": "Curl en Polea Baja",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "biceps",
+    "muscleGroups": [
+      "biceps"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie de cara a la polea baja, barra recta o cuerda.",
+      "movimiento": "Curl manteniendo codos fijos al torso. Tensión constante.",
+      "errores_frecuentes": "Adelantar codos, balancearse, rango incompleto."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-zottman-curl",
+    "englishName": "Zottman Curl",
+    "name": "Curl Zottman",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "biceps",
+    "muscleGroups": [
+      "biceps",
+      "forearm"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie con mancuernas a los costados, palma adelante.",
+      "movimiento": "Curl supinado hasta arriba, gira a posición pronada y baja como curl inverso.",
+      "errores_frecuentes": "Movimiento demasiado rápido, no completar el giro de muñeca."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-jm-press",
+    "englishName": "JM Press",
+    "name": "JM Press",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "triceps",
+    "muscleGroups": [
+      "triceps",
+      "chest"
+    ],
+    "equipment": [
+      "Barra Olímpica",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado en banca con barra cerca del cuello, agarre estrecho, codos altos.",
+      "movimiento": "Híbrido entre press y skull crusher: baja la barra hacia el cuello y empuja con codos hacia adentro.",
+      "errores_frecuentes": "Codos demasiado abiertos, peso excesivo (alto riesgo de lesión)."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-tate-press",
+    "englishName": "Tate Press",
+    "name": "Tate Press",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "triceps",
+    "muscleGroups": [
+      "triceps"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "Acostado con mancuernas extendidas, palmas enfrentadas.",
+      "movimiento": "Baja describiendo un arco hacia el pecho con los codos hacia afuera, vuelve a extender.",
+      "errores_frecuentes": "Convertir en press de pecho, perder tensión."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-rear-delt-fly-cable",
+    "englishName": "Reverse Cable Fly",
+    "name": "Pájaro / Reverse Fly en Polea",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "pull",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders",
+      "back"
+    ],
+    "equipment": [
+      "Sistema de Poleas y Cables"
+    ],
+    "technique": {
+      "posicion_inicial": "De pie entre dos poleas altas, manos cruzadas en el centro.",
+      "movimiento": "Abre los brazos hacia los lados con ligera flexión de codo, énfasis en deltoide posterior.",
+      "errores_frecuentes": "Encoger hombros, hiperextender la espalda."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-arnold-press-db",
+    "englishName": "Arnold Press",
+    "name": "Press Arnold con Mancuernas",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "push",
+    "primaryMuscle": "shoulders",
+    "muscleGroups": [
+      "shoulders"
+    ],
+    "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Banca Plana"
+    ],
+    "technique": {
+      "posicion_inicial": "Sentado en banca, mancuernas frente al pecho, palmas hacia el cuerpo.",
+      "movimiento": "Mientras subes, gira las palmas hacia adelante. Press completo. Invierte para bajar.",
+      "errores_frecuentes": "No completar la rotación, hiperextender la lumbar."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-side-plank",
+    "englishName": "Side Plank",
+    "name": "Plancha Lateral",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "core",
+    "primaryMuscle": "core",
+    "muscleGroups": [
+      "core"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "De costado apoyado en antebrazo y borde externo del pie, cuerpo recto.",
+      "movimiento": "Mantén la posición isométrica con cadera elevada. Trabaja oblicuos y estabilidad lateral.",
+      "errores_frecuentes": "Dejar caer la cadera, rotar el torso."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  },
+  {
+    "id": "sup-bear-crawl",
+    "englishName": "Bear Crawl",
+    "name": "Bear Crawl",
+    "chapter": "Biblioteca MankindFactory",
+    "category": "isolation",
+    "pushPull": "core",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": [
+      "core",
+      "shoulders",
+      "fullbody"
+    ],
+    "equipment": [
+      "Peso Corporal (Calistenia)"
+    ],
+    "technique": {
+      "posicion_inicial": "En cuatro puntos con rodillas elevadas a 5cm del piso.",
+      "movimiento": "Avanza moviendo brazo y pierna opuesta sin que las rodillas toquen el piso. Anti-rotación intensa del core.",
+      "errores_frecuentes": "Cadera muy alta, perder coordinación contralateral."
+    },
+    "source": "MankindFactory Library",
+    "sourceFile": "manual"
+  }
+]

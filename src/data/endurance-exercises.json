@@ -1,0 +1,500 @@
+[
+  {
+    "id": "end-zone2-run",
+    "englishName": "Zone 2 Continuous Run",
+    "name": "Carrera continua en Zona 2",
+    "chapter": "Entrenamiento de base aeróbica",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["legs", "core", "fullbody"],
+    "equipment": ["Cinta de Correr", "Peso Corporal (Calistenia)"],
+    "technique": {
+      "intensidad": "60-70% de la FC máxima (Zona 2). Conversación posible pero con esfuerzo. RPE 4-6 / 10.",
+      "ejecucion": "Ritmo continuo y constante 30-90 minutos. Cadencia objetivo 170-180 ppm. Aterrizaje bajo el centro de masa, contacto medio-pie.",
+      "respiracion": "Nasal cuando sea posible. Si se rompe el patrón nasal, bajar el ritmo: indicador de que se está saliendo de Zona 2.",
+      "objetivo_fisiologico": "Aumenta densidad mitocondrial, mejora oxidación de grasas, capilarización muscular. Base de toda planificación de resistencia.",
+      "errores_frecuentes": "Correr demasiado rápido (Zona 3 disfrazada de Zona 2). Cadencia muy baja (<160). Sobre-extender el paso (overstriding)."
+    },
+    "source": "NSCA Essentials of Strength Training & Conditioning, Cap. 21 — Aerobic Endurance Program Design",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-tempo-run",
+    "englishName": "Tempo Run",
+    "name": "Carrera tempo (umbral de lactato)",
+    "chapter": "Entrenamiento de umbral",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "core"],
+    "equipment": ["Cinta de Correr", "Peso Corporal (Calistenia)"],
+    "technique": {
+      "intensidad": "80-87% FC máx (Zona 3-4). 'Cómodamente incómodo'. RPE 7-8 / 10.",
+      "ejecucion": "20-40 minutos al ritmo de umbral (aprox. ritmo que podrías sostener 1 hora máximo). Tras 10 min de calentamiento Z2.",
+      "duracion_progresiva": "Principiantes: 2 bloques de 8 min con 3 min Z2 entre medio. Avanzados: 30-40 min continuos.",
+      "objetivo_fisiologico": "Aumenta umbral de lactato. Mejora la velocidad sostenible sin fatiga acumulada.",
+      "errores_frecuentes": "Empezar muy rápido (la segunda mitad debe ser igual o más rápida que la primera). Hacer tempo todos los días."
+    },
+    "source": "NSCA ESSC Cap. 21 + ACSM Guidelines",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-vo2-intervals",
+    "englishName": "VO2 Max Intervals",
+    "name": "Intervalos VO2 máx (3-5 min)",
+    "chapter": "Intervalos de alta intensidad",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["legs", "core", "fullbody"],
+    "equipment": ["Cinta de Correr", "AirBike / Assault Bike", "Remo Ergómetro (Concept2)"],
+    "technique": {
+      "intensidad": "90-95% FC máx. RPE 9 / 10. Esfuerzo muy duro.",
+      "estructura": "4-6 repeticiones de 3-5 minutos al 95% FC máx, con 2-3 min de recuperación activa (Z1-Z2) entre ellos.",
+      "calentamiento": "10-15 min Z2 + 4-6 progresiones cortas (10-20s) antes del primer intervalo.",
+      "objetivo_fisiologico": "Aumenta VO2 máx (capacidad máxima de consumo de oxígeno). Sesión clave para mejorar techo aeróbico.",
+      "frecuencia": "Máximo 1-2 veces por semana. Requiere 48h de recuperación.",
+      "errores_frecuentes": "Hacerlo más de 2x/semana. Comenzar sin base aeróbica sólida (mínimo 8 semanas de Z2 previas)."
+    },
+    "source": "NSCA ESSC Cap. 21 + Billat protocol",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-fartlek",
+    "englishName": "Fartlek (Speed Play)",
+    "name": "Fartlek (juego de velocidad)",
+    "chapter": "Entrenamiento variable",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "core"],
+    "equipment": ["Cinta de Correr", "Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura": "Alternar libremente bloques rápidos y lentos durante 30-45 min. Ej: 'rápido hasta el próximo árbol, suave hasta el siguiente'.",
+      "intensidad": "Variable: bloques rápidos en Z3-Z4 (RPE 7-9), recuperación en Z1-Z2.",
+      "duracion_bloques": "Bloques rápidos: 30s a 3 min. Recuperación: igual o el doble.",
+      "objetivo_fisiologico": "Mejora capacidad de cambio de ritmo, tolerancia al lactato. Mentalmente más entretenido que intervalos estructurados.",
+      "errores_frecuentes": "Hacer todos los bloques al mismo ritmo (deja de ser fartlek). No recuperar lo suficiente entre esfuerzos."
+    },
+    "source": "Origen sueco (Gösse Holmér) · ACSM Guidelines",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-long-run",
+    "englishName": "Long Slow Distance (LSD)",
+    "name": "Tirada larga (LSD)",
+    "chapter": "Volumen aeróbico",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["legs", "core", "fullbody"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "intensidad": "Z2 estricta. Conversación cómoda. RPE 4-5 / 10.",
+      "duracion": "60-180 minutos según fase del plan. Aumentar 10% semanal máximo.",
+      "objetivo_fisiologico": "Adaptaciones cardiovasculares profundas, eficiencia energética, fortalecimiento de tendones, adaptación mental al volumen.",
+      "nutricion_intra": "Si supera 60-75 min: hidratar + 30-60g de carbohidratos/hora. Probar siempre antes en entrenamiento, nunca en carrera.",
+      "errores_frecuentes": "Acelerar al final (rompe la adaptación buscada). Saltarse la nutrición intra-larga. Aumentar el volumen >10% semanal."
+    },
+    "source": "NSCA ESSC Cap. 21 — Long Slow Distance training",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-hill-repeats",
+    "englishName": "Hill Repeats",
+    "name": "Repeticiones en cuesta",
+    "chapter": "Fuerza-resistencia específica",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "glutes", "calves"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura": "6-10 repeticiones de 60-90 segundos en pendiente del 4-8%, al 90% del esfuerzo. Bajar trotando suave como recuperación.",
+      "tecnica": "Cadencia alta. Brazos activos. Mirada al frente, no al suelo. Acortar el paso al subir.",
+      "objetivo_fisiologico": "Combina fuerza-resistencia de tren inferior con estímulo cardiovascular. Mejora economía de carrera.",
+      "frecuencia": "1 vez por semana en fase de construcción.",
+      "errores_frecuentes": "Pendiente demasiado pronunciada (>10% deja de ser específica). Bajar muy rápido (riesgo de lesión)."
+    },
+    "source": "NSCA ESSC + Lydiard method",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-run-strides",
+    "englishName": "Strides / Accelerations",
+    "name": "Progresiones de velocidad (strides)",
+    "chapter": "Velocidad y técnica de carrera",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "core"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura": "6-8 repeticiones de 20-30 segundos acelerando progresivamente hasta el 90-95% del sprint. Recuperación completa de 60-90s entre repeticiones.",
+      "tecnica": "Foco en cadencia, postura erguida, brazos relajados. NO es esprintar al máximo: es velocidad controlada técnica.",
+      "objetivo_fisiologico": "Mejora reclutamiento neuromuscular, economía de carrera, técnica a alta velocidad sin acumular fatiga.",
+      "cuando_hacerlas": "Después de calentamiento y antes de sesiones de calidad. O al final de un Z2 fácil.",
+      "errores_frecuentes": "Hacerlas al 100% (deja de ser stride, se convierte en sprint con riesgo de lesión)."
+    },
+    "source": "NSCA ESSC Cap. 21 + Daniels Running Formula",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-running-drills-a-skip",
+    "englishName": "A-Skip Drill",
+    "name": "Drill A-Skip (técnica de carrera)",
+    "chapter": "Drills técnicos de carrera",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "core"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "ejecucion": "Elevar la rodilla hasta 90° de flexión de cadera coordinando con el brazo opuesto (codos a 90°). Aterrizar con el medio-pie bajo el centro de masa, despegar inmediatamente. Avanzar lento.",
+      "objetivo": "Reforzar el patrón motor de carrera correcta: elevación de rodilla, postura erguida, contacto activo del pie, coordinación brazo-pierna cruzada.",
+      "estructura": "2-3 series de 15-20 metros. Recuperación caminando.",
+      "cuando_hacerlo": "Como parte del calentamiento dinámico antes de sesiones de calidad.",
+      "errores_frecuentes": "Inclinar el torso hacia atrás. Llevar la rodilla muy baja (<90°). Pasos largos en vez de cortos y altos."
+    },
+    "source": "NSCA Track & Field coaching manual",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-running-drills-b-skip",
+    "englishName": "B-Skip Drill",
+    "name": "Drill B-Skip (extensión activa)",
+    "chapter": "Drills técnicos de carrera",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "hamstrings"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "ejecucion": "Como el A-Skip pero al elevar la rodilla, extender activamente la pierna hacia adelante y luego 'rasgar' el suelo hacia atrás con un movimiento de gancho. Aterrizar bajo el centro de masa.",
+      "objetivo": "Activar la cadena posterior (isquios + glúteos) y reforzar el patrón de 'tiro' del suelo durante la carrera.",
+      "estructura": "2-3 series de 15-20 metros lento.",
+      "errores_frecuentes": "Hacerlo demasiado rápido. Aterrizar con el talón delante del centro de masa."
+    },
+    "source": "NSCA Track & Field coaching manual",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-cycling-z2",
+    "englishName": "Z2 Endurance Ride",
+    "name": "Salida ciclismo Zona 2",
+    "chapter": "Base aeróbica en ciclismo",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["quads", "glutes", "hamstrings", "calves"],
+    "equipment": ["Bicicleta Estática"],
+    "technique": {
+      "intensidad": "60-75% FC máx o 55-75% FTP. Cadencia 85-95 RPM.",
+      "duracion": "60-180 min para construcción de base. Mínimo 2 sesiones/semana en plan de fondo.",
+      "tecnica": "Cadencia alta y constante. Torso quieto, hombros relajados. Rodillas alineadas con los pies (sin valgo).",
+      "objetivo_fisiologico": "Mismo que en carrera Z2: capilarización, mitocondrias, oxidación de grasas. Bajo impacto articular, ideal para volumen alto.",
+      "errores_frecuentes": "Cadencia muy baja (<80 RPM) bajo carga = sobrecarga de cuádriceps. Cambiar de ritmo sin necesidad."
+    },
+    "source": "NSCA ESSC + USA Cycling Coaching Manual",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-cycling-ftp-test",
+    "englishName": "FTP Test (20-min)",
+    "name": "Test FTP de 20 minutos",
+    "chapter": "Evaluación de potencia",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["quads", "glutes"],
+    "equipment": ["Bicicleta Estática"],
+    "technique": {
+      "calentamiento": "20 min progresivos: 10 Z2 + 5 con 3 aceleraciones de 30s + 5 Z2 suave.",
+      "test": "20 minutos al máximo esfuerzo sostenible. Mantener potencia/ritmo constante (no empezar muy fuerte).",
+      "calculo_ftp": "FTP estimado = potencia promedio de los 20 min × 0.95.",
+      "uso": "El FTP es la base para definir zonas de entrenamiento personalizadas. Repetir cada 6-8 semanas.",
+      "errores_frecuentes": "Empezar al 105% y derrumbarse en el minuto 10. Hacerlo sin descanso previo (1-2 días de baja carga antes)."
+    },
+    "source": "Hunter Allen & Andy Coggan — Training and Racing with a Power Meter",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-cycling-sweet-spot",
+    "englishName": "Sweet Spot Intervals",
+    "name": "Intervalos Sweet Spot",
+    "chapter": "Umbral aeróbico",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["quads", "glutes", "hamstrings"],
+    "equipment": ["Bicicleta Estática"],
+    "technique": {
+      "intensidad": "88-94% FTP. Sweet spot = punto óptimo entre carga de entrenamiento e impacto fisiológico.",
+      "estructura": "3-4 bloques de 10-20 min al 90% FTP con 5 min Z2 de recuperación entre cada uno.",
+      "objetivo_fisiologico": "Maximiza adaptaciones de umbral con relativamente menor estrés que VO2 max. Excelente para construir resistencia muscular específica.",
+      "frecuencia": "1-2 veces por semana.",
+      "errores_frecuentes": "Subir al 100% FTP (se convierte en threshold, mucho más estresante)."
+    },
+    "source": "Frank Overton — Sweet Spot Training methodology",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-cycling-vo2-30-30",
+    "englishName": "VO2 30/30 Intervals",
+    "name": "Intervalos 30/30 ciclismo",
+    "chapter": "VO2 ciclismo",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["quads", "glutes", "fullbody"],
+    "equipment": ["Bicicleta Estática", "AirBike / Assault Bike"],
+    "technique": {
+      "estructura": "10-20 repeticiones de 30 segundos al 120-130% FTP, 30 segundos de recuperación activa al 50% FTP.",
+      "intensidad": "RPE 9-10 en los segmentos rápidos.",
+      "objetivo_fisiologico": "Sesión intensa para mejorar VO2 máx específico del ciclista. Acumula mucho tiempo cerca del VO2 máx con relativamente poca fatiga muscular.",
+      "calentamiento": "20 min Z2 + 4 aceleraciones de 1 min.",
+      "errores_frecuentes": "Hacerlo sin base aeróbica previa. Recuperaciones demasiado intensas (debe ser fácil)."
+    },
+    "source": "Veronique Billat (originalmente para running) — adaptado a ciclismo",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-swim-technique-drills",
+    "englishName": "Swim Technique Drills",
+    "name": "Drills técnicos de natación (catch-up, finger drag)",
+    "chapter": "Técnica de crol",
+    "category": "endurance",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": ["back", "shoulders", "core"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "catch_up": "Un brazo se queda extendido al frente mientras el otro completa el ciclo. Cuando el segundo brazo llega al frente y se 'toca' con el primero, comienza el siguiente ciclo. Mejora la posición horizontal.",
+      "finger_drag": "Durante la fase aérea del brazo, arrastrar los dedos por la superficie del agua. Refuerza la elevación del codo (high elbow) y técnica de recobro.",
+      "estructura": "4-6 series de 50m drill + 50m crol completo. 2-3 sesiones técnicas por semana.",
+      "objetivo_fisiologico": "Mejora economía de nado (más distancia por brazada = menos gasto energético).",
+      "errores_frecuentes": "Hacerlos demasiado rápido. Romper la postura corporal en la pausa del catch-up."
+    },
+    "source": "USA Triathlon Coaching Manual",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-swim-continuous",
+    "englishName": "Continuous Swim",
+    "name": "Natación continua aeróbica",
+    "chapter": "Base aeróbica en agua",
+    "category": "endurance",
+    "pushPull": "pull",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["back", "shoulders", "core", "fullbody"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura": "20-60 min de nado continuo a ritmo controlado. RPE 5-7.",
+      "ritmo": "Conversación posible cada 100-200m (al hacer un descanso de 10s). Brazada larga y eficiente.",
+      "objetivo_fisiologico": "Base aeróbica específica de natación. La capacidad cardiovascular se transfiere parcialmente desde otros deportes pero la técnica acuática NO.",
+      "frecuencia_minima": "Para triatlón principiante: 2 sesiones por semana son el mínimo para mantener adaptaciones técnicas.",
+      "errores_frecuentes": "Empezar muy rápido y derrumbarse. No respirar bilateralmente (cada 3 brazadas)."
+    },
+    "source": "USA Triathlon + USA Swimming coaching",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-swim-intervals",
+    "englishName": "Swim Intervals",
+    "name": "Series cortas en piscina",
+    "chapter": "Velocidad en natación",
+    "category": "endurance",
+    "pushPull": "pull",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["back", "shoulders", "core"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura_basica": "10×100m con 20-30s de descanso al ritmo objetivo de carrera.",
+      "estructura_avanzada": "Pirámide: 50-100-150-200-150-100-50 al 90% del esfuerzo con 15s descanso entre cada bloque.",
+      "objetivo_fisiologico": "Tolerancia al lactato específica del nado. Capacidad de sostener brazada técnica bajo fatiga.",
+      "respiracion": "Mantener respiración bilateral incluso bajo fatiga.",
+      "errores_frecuentes": "Bajar técnica al fatigarse (mejor parar y descansar más que nadar mal). Saltarse el calentamiento de 400m suave."
+    },
+    "source": "USA Triathlon Coaching Manual",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-rower-2k-test",
+    "englishName": "2K Rowing Test",
+    "name": "Test 2.000m en remo ergómetro",
+    "chapter": "Evaluación funcional",
+    "category": "endurance",
+    "pushPull": "pull",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["back", "legs", "core", "fullbody"],
+    "equipment": ["Remo Ergómetro (Concept2)"],
+    "technique": {
+      "calentamiento": "10 min suave + 3-4 series de 30s a ritmo objetivo con descanso de 30s.",
+      "test": "2000 metros a máximo esfuerzo. Distribuir bien el ritmo: primer 500 controlado, segundo y tercer 500 estables, último 500 progresivo.",
+      "tecnica_remo": "Secuencia: piernas → caderas → brazos en la fase de tracción. Brazos → caderas → piernas en el retorno. Cadencia 24-28 spm en test.",
+      "interpretacion": "Tiempos referenciales (hombre adulto recreacional): <8:00 muy bueno, 8:00-8:30 bueno, >8:30 a trabajar.",
+      "errores_frecuentes": "Empezar a 1:40/500m y no poder mantenerlo (output rápido al inicio). Tirar primero con brazos en vez de empujar con piernas."
+    },
+    "source": "Concept2 — Indoor Rowing standards + UK Rowing Performance",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-airbike-tabata",
+    "englishName": "AirBike Tabata",
+    "name": "Tabata AirBike (20/10 × 8)",
+    "chapter": "HIIT máximo",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["legs", "fullbody", "core"],
+    "equipment": ["AirBike / Assault Bike"],
+    "technique": {
+      "estructura": "8 rondas de 20 segundos al máximo esfuerzo + 10 segundos de pedaleo suave. Total: 4 minutos.",
+      "intensidad": "Sprint máximo en los 20s. RPE 10.",
+      "calentamiento": "10 min Z2 + 3 sprints de 10s.",
+      "objetivo_fisiologico": "Protocolo Tabata original (Izumi Tabata 1996): mejora VO2 máx y capacidad anaeróbica simultáneamente. Una de las sesiones más eficientes en relación tiempo/adaptación.",
+      "frecuencia": "Máximo 1 vez por semana. Muy estresante para el sistema nervioso.",
+      "errores_frecuentes": "Pacing inteligente en vez de máximo (no es Tabata si no es 'all out'). Hacerlo 3-4 veces por semana (sobreentrenamiento garantizado)."
+    },
+    "source": "Tabata I. et al. (1996) Medicine & Science in Sports & Exercise",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-ski-erg-intervals",
+    "englishName": "SkiErg Intervals",
+    "name": "Intervalos en SkiErg",
+    "chapter": "Tren superior aeróbico",
+    "category": "endurance",
+    "pushPull": "pull",
+    "primaryMuscle": "back",
+    "muscleGroups": ["back", "core", "fullbody"],
+    "equipment": ["SkiErg"],
+    "technique": {
+      "estructura": "8-10 repeticiones de 250-500m con 1:1 ratio de descanso.",
+      "tecnica": "Iniciar con brazos altos, doblar caderas (bisagra), tirar usando dorsal + tríceps + core. Volver con la cadera primero.",
+      "objetivo_fisiologico": "Acondicionamiento aeróbico con énfasis en tren superior. Buena alternativa cuando hay lesión de tren inferior.",
+      "errores_frecuentes": "Tirar solo con brazos (debe ser fullbody). Doblar la espalda en vez de hacer bisagra de cadera."
+    },
+    "source": "Concept2 SkiErg training manual",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-brick-workout",
+    "englishName": "Brick Workout (Bike-to-Run)",
+    "name": "Brick (transición bici-carrera)",
+    "chapter": "Específico de triatlón",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "fullbody", "core"],
+    "equipment": ["Bicicleta Estática", "Cinta de Correr"],
+    "technique": {
+      "estructura_basica": "45 min bici Z2 → transición rápida (2-3 min) → 15-30 min carrera empezando suave y progresando.",
+      "estructura_avanzada": "90 min bici con últimos 10 min Z3-Z4 → 30 min carrera al ritmo objetivo de carrera media.",
+      "objetivo_fisiologico": "Adaptación neuromuscular al cambio de patrón motor (las piernas se sienten 'pesadas' al inicio de la carrera). Específico de triatlón.",
+      "frecuencia": "1 sesión por semana en plan triatlón. No reemplaza sesiones individuales largas.",
+      "errores_frecuentes": "Salir corriendo muy rápido (las piernas no responden todavía). Saltarse la fase de transición."
+    },
+    "source": "USA Triathlon Coaching Manual",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-circuit-metcon",
+    "englishName": "Metabolic Conditioning Circuit",
+    "name": "Circuito metabólico (MetCon)",
+    "chapter": "Cross-training conditioning",
+    "category": "endurance",
+    "pushPull": "mixed",
+    "primaryMuscle": "fullbody",
+    "muscleGroups": ["fullbody", "legs", "core"],
+    "equipment": ["Mancuernas Libres (Dumbbells)", "Kettlebells", "Cuerda para Saltar", "Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura_amrap": "AMRAP 15 min: 10 swings de kettlebell + 10 burpees + 100m carrera. Tantas rondas como sea posible.",
+      "estructura_emom": "EMOM 12 min: 8 thrusters + 50 saltos cuerda en el minuto, descansar lo que sobre.",
+      "intensidad": "RPE 8-9. Movimientos seguros con técnica conservada.",
+      "objetivo_fisiologico": "Mejora capacidad de trabajo (work capacity), tolerancia al lactato, eficiencia metabólica en esfuerzos mixtos.",
+      "frecuencia": "1-2 veces por semana como complemento, no reemplaza sesiones específicas de cada deporte.",
+      "errores_frecuentes": "Sacrificar técnica por velocidad (especialmente en swings y thrusters). No hacerlo después de una sesión de calidad específica."
+    },
+    "source": "NSCA ESSC + CrossFit methodology",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-jump-rope",
+    "englishName": "Jump Rope Intervals",
+    "name": "Cuerda para saltar (intervalos)",
+    "chapter": "Cross-training accesorio",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "calves",
+    "muscleGroups": ["calves", "fullbody", "core"],
+    "equipment": ["Cuerda para Saltar"],
+    "technique": {
+      "estructura": "10 rondas de 60s saltando + 30s descanso. Variar técnica: simple, doble salto, alternar pies, cruces.",
+      "tecnica": "Muñecas hacen el movimiento principal (no los brazos). Saltos bajos (1-2 cm del suelo). Aterrizar suave en el medio-pie.",
+      "objetivo_fisiologico": "Acondicionamiento cardiovascular + reactividad de pantorrilla + coordinación. Excelente herramienta de calentamiento y como activo de recuperación.",
+      "errores_frecuentes": "Saltar muy alto (gasta energía innecesaria). Mover los brazos en lugar de las muñecas."
+    },
+    "source": "NSCA Plyometric & Sport Conditioning",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-stairs",
+    "englishName": "Stair Intervals",
+    "name": "Intervalos de escaleras",
+    "chapter": "Fuerza-resistencia",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["quads", "glutes", "calves"],
+    "equipment": ["Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura": "8-12 repeticiones de subir un tramo de 30-50 escalones al máximo esfuerzo, bajar trotando suave como recuperación.",
+      "tecnica": "Apoyar la planta completa del pie (no solo punta). Brazos activos. Mirada al frente.",
+      "objetivo_fisiologico": "Fuerza-resistencia de tren inferior con estímulo cardiovascular alto. Bajo impacto comparado con sprints en plano.",
+      "errores_frecuentes": "Saltar de 2 en 2 escalones desde el inicio (sobrecarga de tendones). Bajar muy rápido (riesgo de caída)."
+    },
+    "source": "NSCA ESSC + ACSM exercise prescription",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-stride-cadence-work",
+    "englishName": "Cadence Drill (180 spm)",
+    "name": "Trabajo de cadencia (180 ppm)",
+    "chapter": "Técnica de carrera",
+    "category": "endurance",
+    "pushPull": "core",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["legs", "core"],
+    "equipment": ["Cinta de Correr", "Peso Corporal (Calistenia)"],
+    "technique": {
+      "estructura": "4 bloques de 5 minutos forzando cadencia de 175-180 ppm (con metrónomo o app). Recuperación 2 min entre bloques.",
+      "tecnica": "Pasos más cortos y rápidos, no más largos. Aterrizar bajo el centro de masa. La velocidad se mantiene = ritmo igual pero pasos más eficientes.",
+      "objetivo_fisiologico": "Reducir tiempo de contacto con el suelo, disminuir impacto, mejorar economía de carrera. Estudios sugieren que aumentar cadencia 5-10% reduce lesiones lumbares y de rodilla.",
+      "frecuencia": "2 veces por semana hasta naturalizar la cadencia alta.",
+      "errores_frecuentes": "Forzar la cadencia sin reducir longitud de paso (acelera todo el sistema, no mejora eficiencia)."
+    },
+    "source": "Heiderscheit et al. (2011) Medicine & Science in Sports & Exercise",
+    "sourceFile": "endurance"
+  },
+  {
+    "id": "end-strength-runner",
+    "englishName": "Runner-Specific Strength Circuit",
+    "name": "Fuerza específica para corredor",
+    "chapter": "Prevención de lesiones del corredor",
+    "category": "endurance",
+    "pushPull": "mixed",
+    "primaryMuscle": "legs",
+    "muscleGroups": ["glutes", "hamstrings", "core", "calves"],
+    "equipment": ["Peso Corporal (Calistenia)", "Mancuernas Libres (Dumbbells)", "Bandas de Resistencia"],
+    "technique": {
+      "estructura_circuito": "3 vueltas: 12 sentadillas búlgaras x lado, 10 puentes de glúteo a 1 pierna x lado, 15 elevaciones de talón en escalón, 30s plancha lateral x lado, 12 step-ups altos.",
+      "objetivo_fisiologico": "Fuerza específica de cadena posterior, glúteo medio y core. Previene lesiones más comunes del corredor: rodilla, banda iliotibial, fascitis plantar.",
+      "frecuencia": "2 sesiones por semana en días de carrera fácil o descanso. NO antes de sesiones de calidad.",
+      "errores_frecuentes": "Hacerlo el día antes de una tirada larga (piernas pesadas). Reemplazar sentadillas búlgaras por bilateral (la unilateral es la específica del gesto de carrera)."
+    },
+    "source": "Brad Hudson & Matt Fitzgerald — Run Faster + Jay Dicharry — Running Rewired",
+    "sourceFile": "endurance"
+  }
+]
