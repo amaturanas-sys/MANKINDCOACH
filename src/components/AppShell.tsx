@@ -191,6 +191,11 @@ export default function AppShell({
               >
                 <Menu size={16} aria-hidden="true" />
               </button>
+              <img
+                src="/brand/mankind-logo.png"
+                alt="MankindFactory"
+                className="h-9 w-9 rounded-lg object-cover ring-1 ring-surface-strong shrink-0"
+              />
               <div className="min-w-0">
                 {subtitle && (
                   <p className="font-mono text-[9px] tracking-widest uppercase text-faint-fg truncate">{subtitle}</p>
