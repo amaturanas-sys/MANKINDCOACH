@@ -124,7 +124,10 @@ export default function CalendarTab({
   const [filterCategory, setFilterCategory] = useState<WorkoutCategory | 'all'>('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [draggedRoutineId, setDraggedRoutineId] = useState<string | null>(null);
+  /** Fuente del arrastre: 'new' = pauta desde la paleta; 'move' = carga ya agendada. */
+  const [dragItem, setDragItem] = useState<
+    { kind: 'new'; routineId: string } | { kind: 'move'; scheduledId: string } | null
+  >(null);
   const [dragOverDay, setDragOverDay] = useState<number | null>(null);
 
   const [isEditorOpen, setIsEditorOpen] = useState(false);
@@ -286,17 +289,32 @@ export default function CalendarTab({
     showToast('Pauta eliminada');
   };
 
-  const handleDragStart = (id: string) => setDraggedRoutineId(id);
+  const handleDragStart = (routineId: string) => setDragItem({ kind: 'new', routineId });
+  const handleDragStartMove = (scheduledId: string) => setDragItem({ kind: 'move', scheduledId });
+  const handleDragEndReset = () => { setDragItem(null); setDragOverDay(null); };
   const handleDragOver = (e: React.DragEvent, isPadding: boolean) => { if (!isPadding) e.preventDefault(); };
   const handleDragEnter = (dayOfMonth: number, isPadding: boolean) => { if (!isPadding) setDragOverDay(dayOfMonth); };
   const handleDragLeave = () => setDragOverDay(null);
 
   const handleDrop = (dayOfMonth: number) => {
-    if (!draggedRoutineId) return;
-    onUpdateScheduledRoutines([...scheduledRoutines, newScheduledFor(draggedRoutineId, dayOfMonth, 's')]);
-    setDraggedRoutineId(null);
+    if (!dragItem) return;
+    if (dragItem.kind === 'new') {
+      onUpdateScheduledRoutines([...scheduledRoutines, newScheduledFor(dragItem.routineId, dayOfMonth, 's')]);
+      showToast('Carga asignada');
+    } else {
+      /* Mover una carga ya agendada a otro día del mes en curso. */
+      const current = scheduledRoutines.find(s => s.id === dragItem.scheduledId);
+      if (current && current.dayOfMonth !== dayOfMonth) {
+        onUpdateScheduledRoutines(scheduledRoutines.map(s =>
+          s.id === dragItem.scheduledId
+            ? { ...s, dayOfMonth, year: viewedMonth.year, monthIndex: viewedMonth.monthIndex }
+            : s
+        ));
+        showToast(`Movida al día ${dayOfMonth}`);
+      }
+    }
+    setDragItem(null);
     setDragOverDay(null);
-    showToast('Carga asignada');
   };
 
   const handleAssignClick = (routineId: string, dayOfMonth: number) => {
@@ -421,6 +439,7 @@ export default function CalendarTab({
                     layout
                     draggable
                     onDragStart={() => handleDragStart(r.id)}
+                    onDragEnd={handleDragEndReset}
                     aria-label={`Pauta arrastrable ${r.title}`}
                     className="p-3 bg-zinc-950/70 hover:bg-zinc-900/80 border border-zinc-800/80 rounded-xl cursor-grab active:cursor-grabbing hover:border-zinc-700 transition duration-150 group"
                   >
@@ -687,7 +706,14 @@ export default function CalendarTab({
                                 if (!parent) return null;
                                 const config = CATEGORY_CONFIG[parent.category];
                                 return (
-                                  <div key={sch.id} className={`p-1.5 bg-zinc-900 border rounded-lg group relative ${config.border} shadow-sm`}>
+                                  <div
+                                    key={sch.id}
+                                    draggable
+                                    onDragStart={() => handleDragStartMove(sch.id)}
+                                    onDragEnd={handleDragEndReset}
+                                    aria-label={`Carga ${parent.title} — arrastrar para mover de día`}
+                                    className={`p-1.5 bg-zinc-900 border rounded-lg group relative cursor-grab active:cursor-grabbing ${config.border} shadow-sm ${dragItem?.kind === 'move' && dragItem.scheduledId === sch.id ? 'opacity-40' : ''}`}
+                                  >
                                     <div className="pr-3 text-left">
                                       <span className={`inline-block px-1 py-0.5 text-[6px] font-mono font-bold rounded uppercase ${config.bg} ${config.color}`}>
                                         {parent.category.substring(0, 3)}
