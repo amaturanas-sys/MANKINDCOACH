@@ -125,6 +125,11 @@ body::before {
   body::before { display: none !important; }
 }
 
+/* Motivo de marca: hexágono (flat-top), como el del logotipo. */
+.mf-hex {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
 /* Utilidades semánticas pequeñas (úsalas con Tailwind como bg-surface-card o ad-hoc) */
 .bg-surface-base { background-color: var(--surface-base); }
 .bg-surface-sub { background-color: var(--surface-sub); }

@@ -726,8 +726,10 @@ export default function PublicLandingPage() {
 
 function SectionLabel({ label, icon: Icon, center = false }: { label: string; icon: React.ComponentType<{ size?: number; className?: string }>; center?: boolean }) {
   return (
-    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#5D36FF]/10 border border-[#5D36FF]/30 ${center ? 'mx-auto' : ''}`}>
-      <Icon size={11} className="text-[#5D36FF]" aria-hidden="true" />
+    <div className={`inline-flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-[#5D36FF]/10 border border-[#5D36FF]/30 ${center ? 'mx-auto' : ''}`}>
+      <span className="mf-hex inline-flex items-center justify-center w-[18px] h-[18px] bg-[#5D36FF] shrink-0">
+        <Icon size={10} className="text-white" aria-hidden="true" />
+      </span>
       <span className="font-mono text-[10px] uppercase tracking-wider text-[#5D36FF] font-bold">{label}</span>
     </div>
   );
