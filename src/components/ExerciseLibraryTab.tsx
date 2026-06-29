@@ -21,6 +21,7 @@ import {
 } from '../types';
 import { MovementPattern, MovementIcon, PATTERN_LABELS, patternForExercise } from '../lib/movementIcons';
 import { NSCA_EXERCISES, MUSCLE_GROUP_LABELS, MuscleGroup, NscaExercise, isEnduranceExercise } from '../lib/nsca';
+import AnatomyReferencePanel from './AnatomyReferencePanel';
 import {
   MEDICAL_CONDITIONS, SEVERITY_META, CUSTOM_EXERCISE_CATEGORIES, EQUIPMENT_OPTIONS
 } from '../constants';
@@ -239,6 +240,11 @@ export default function ExerciseLibraryTab({
           <Plus size={14} aria-hidden="true" /> Nuevo ejercicio
         </button>
       </section>
+
+      {/* REFERENCIA ANATÓMICA (enlace externo + atribución; no se empaqueta) */}
+      <AnatomyReferencePanel
+        muscleHint={filterMuscle !== 'all' ? MUSCLE_GROUP_LABELS[filterMuscle as MuscleGroup] : undefined}
+      />
 
       {/* FILTROS + SEARCH */}
       <div className="bg-[#121214] border border-zinc-800 rounded-xl p-4 space-y-3">
