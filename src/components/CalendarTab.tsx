@@ -26,6 +26,11 @@ import {
 import { MicrocycleTemplate, MonthRef, ScheduledRoutine, WorkoutRoutine, WorkoutCategory, Exercise } from '../types';
 import { DAY_NAMES, monthLabel, sameMonth, shiftMonth } from '../constants';
 import { motion, AnimatePresence } from 'motion/react';
+import {
+  DndContext, DragOverlay, MouseSensor, TouchSensor, KeyboardSensor,
+  useSensor, useSensors, useDraggable, useDroppable, pointerWithin,
+  type DragStartEvent, type DragEndEvent
+} from '@dnd-kit/core';
 import TemplatesPanel from './TemplatesPanel';
 import NscaPicker from './NscaPicker';
 import EnduranceFields from './EnduranceFields';
@@ -108,6 +113,52 @@ function buildCalendarWeeks(month: MonthRef): CalendarWeek[] {
   return weeks;
 }
 
+/* ----------------------------------------------------------------------- *
+ * Drag & drop (dnd-kit): basado en punteros → funciona con ratón, dedo
+ * (Android/tablet) y teclado. Reemplaza el DnD HTML5 (que no era táctil).
+ * ----------------------------------------------------------------------- */
+type CalendarDragData =
+  | { kind: 'new'; routineId: string; label: string }
+  | { kind: 'move'; scheduledId: string; label: string };
+
+/** Zona arrastrable (tarjeta de paleta o carga agendada). */
+function DragArea({ id, data, className, children }: {
+  id: string;
+  data: CalendarDragData;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const { setNodeRef, listeners, attributes, isDragging } = useDraggable({ id, data });
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className={`${className ?? ''} cursor-grab active:cursor-grabbing ${isDragging ? 'opacity-40' : ''}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** Celda de día como zona soltable; resalta cuando hay algo encima. */
+function DroppableDay({ dayOfMonth, disabled, baseClassName, children }: {
+  dayOfMonth: number;
+  disabled: boolean;
+  baseClassName: string;
+  children: React.ReactNode;
+}) {
+  const { setNodeRef, isOver } = useDroppable({ id: String(dayOfMonth), disabled });
+  return (
+    <div
+      ref={setNodeRef}
+      className={`${baseClassName} ${isOver && !disabled ? 'border-[#5D36FF] border-dashed bg-[#5D36FF]/10 scale-[1.02]' : ''}`}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function CalendarTab({
   routines,
   onUpdateRoutines,
@@ -124,11 +175,15 @@ export default function CalendarTab({
   const [filterCategory, setFilterCategory] = useState<WorkoutCategory | 'all'>('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  /** Fuente del arrastre: 'new' = pauta desde la paleta; 'move' = carga ya agendada. */
-  const [dragItem, setDragItem] = useState<
-    { kind: 'new'; routineId: string } | { kind: 'move'; scheduledId: string } | null
-  >(null);
-  const [dragOverDay, setDragOverDay] = useState<number | null>(null);
+  /** Etiqueta del elemento que se está arrastrando (para el DragOverlay). */
+  const [activeDragLabel, setActiveDragLabel] = useState<string | null>(null);
+  const dndSensors = useSensors(
+    /* Ratón: arranca tras 8px de movimiento (un clic no inicia arrastre). */
+    useSensor(MouseSensor, { activationConstraint: { distance: 8 } }),
+    /* Táctil: long-press de 180ms → permite seguir haciendo scroll con el dedo. */
+    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 8 } }),
+    useSensor(KeyboardSensor)
+  );
 
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingRoutine, setEditingRoutine] = useState<WorkoutRoutine | null>(null);
@@ -289,32 +344,34 @@ export default function CalendarTab({
     showToast('Pauta eliminada');
   };
 
-  const handleDragStart = (routineId: string) => setDragItem({ kind: 'new', routineId });
-  const handleDragStartMove = (scheduledId: string) => setDragItem({ kind: 'move', scheduledId });
-  const handleDragEndReset = () => { setDragItem(null); setDragOverDay(null); };
-  const handleDragOver = (e: React.DragEvent, isPadding: boolean) => { if (!isPadding) e.preventDefault(); };
-  const handleDragEnter = (dayOfMonth: number, isPadding: boolean) => { if (!isPadding) setDragOverDay(dayOfMonth); };
-  const handleDragLeave = () => setDragOverDay(null);
+  const handleDndStart = (e: DragStartEvent) => {
+    const data = e.active.data.current as CalendarDragData | undefined;
+    setActiveDragLabel(data?.label ?? null);
+  };
 
-  const handleDrop = (dayOfMonth: number) => {
-    if (!dragItem) return;
-    if (dragItem.kind === 'new') {
-      onUpdateScheduledRoutines([...scheduledRoutines, newScheduledFor(dragItem.routineId, dayOfMonth, 's')]);
+  const handleDndEnd = (e: DragEndEvent) => {
+    setActiveDragLabel(null);
+    const data = e.active.data.current as CalendarDragData | undefined;
+    const overId = e.over?.id;
+    if (!data || overId == null) return;
+    const dayOfMonth = Number(overId);
+    if (!Number.isFinite(dayOfMonth) || dayOfMonth <= 0) return;
+
+    if (data.kind === 'new') {
+      onUpdateScheduledRoutines([...scheduledRoutines, newScheduledFor(data.routineId, dayOfMonth, 's')]);
       showToast('Carga asignada');
     } else {
       /* Mover una carga ya agendada a otro día del mes en curso. */
-      const current = scheduledRoutines.find(s => s.id === dragItem.scheduledId);
+      const current = scheduledRoutines.find(s => s.id === data.scheduledId);
       if (current && current.dayOfMonth !== dayOfMonth) {
         onUpdateScheduledRoutines(scheduledRoutines.map(s =>
-          s.id === dragItem.scheduledId
+          s.id === data.scheduledId
             ? { ...s, dayOfMonth, year: viewedMonth.year, monthIndex: viewedMonth.monthIndex }
             : s
         ));
         showToast(`Movida al día ${dayOfMonth}`);
       }
     }
-    setDragItem(null);
-    setDragOverDay(null);
   };
 
   const handleAssignClick = (routineId: string, dayOfMonth: number) => {
@@ -365,6 +422,13 @@ export default function CalendarTab({
   const isViewingCurrentMonth = sameMonth(viewedMonth, { year: today.getFullYear(), monthIndex: today.getMonth() });
 
   return (
+    <DndContext
+      sensors={dndSensors}
+      collisionDetection={pointerWithin}
+      onDragStart={handleDndStart}
+      onDragEnd={handleDndEnd}
+      onDragCancel={() => setActiveDragLabel(null)}
+    >
     <div id="calendar_tab_container" className="grid grid-cols-1 xl:grid-cols-3 gap-6">
       <div id="blueprint_column" className="xl:col-span-1 space-y-6">
         <div className="bg-[#121214] border border-zinc-800 rounded-xl p-5 shadow-lg space-y-5">
@@ -437,12 +501,9 @@ export default function CalendarTab({
                   <motion.div
                     key={r.id}
                     layout
-                    draggable
-                    onDragStart={() => handleDragStart(r.id)}
-                    onDragEnd={handleDragEndReset}
-                    aria-label={`Pauta arrastrable ${r.title}`}
-                    className="p-3 bg-zinc-950/70 hover:bg-zinc-900/80 border border-zinc-800/80 rounded-xl cursor-grab active:cursor-grabbing hover:border-zinc-700 transition duration-150 group"
+                    className="bg-zinc-950/70 hover:bg-zinc-900/80 border border-zinc-800/80 rounded-xl hover:border-zinc-700 transition duration-150 group"
                   >
+                   <DragArea id={`new-${r.id}`} data={{ kind: 'new', routineId: r.id, label: r.title }} className="p-3">
                     <div className="flex items-start justify-between gap-1">
                       <span className={`inline-block px-1.5 py-0.5 rounded font-mono text-[7px] uppercase tracking-wider font-extrabold ${config.bg} ${config.color} ${config.border} border`}>
                         {config.label}
@@ -532,6 +593,7 @@ export default function CalendarTab({
                         )}
                       </div>
                     </div>
+                   </DragArea>
                   </motion.div>
                 );
               })}
@@ -668,23 +730,18 @@ export default function CalendarTab({
                     <div className="grid grid-cols-1 md:grid-cols-7 gap-3">
                       {week.days.map(day => {
                         const list = day.isPadding ? [] : (schedulesByDay.get(day.dayOfMonth) ?? []);
-                        const isOver = dragOverDay === day.dayOfMonth;
                         const isDayOpen = dayAddMenuOpen === day.dayOfMonth;
                         return (
-                          <div
+                          <DroppableDay
                             key={`${week.weekNumber}-${day.dayIndex}`}
-                            onDragOver={(e) => handleDragOver(e, day.isPadding)}
-                            onDragEnter={() => handleDragEnter(day.dayOfMonth, day.isPadding)}
-                            onDragLeave={handleDragLeave}
-                            onDrop={() => handleDrop(day.dayOfMonth)}
-                            className={`flex flex-col bg-zinc-950/80 border p-2.5 rounded-xl min-h-[160px] relative transition-all duration-200 ${
+                            dayOfMonth={day.dayOfMonth}
+                            disabled={day.isPadding}
+                            baseClassName={`flex flex-col bg-zinc-950/80 border p-2.5 rounded-xl min-h-[160px] relative transition-all duration-200 ${
                               day.isPadding
                                 ? 'opacity-20 bg-zinc-900/20 border-zinc-950 select-none'
                                 : day.isToday
                                   ? 'border-[#5D36FF] ring-1 ring-[#5D36FF]/25 shadow-lg shadow-[#5D36FF]/5 bg-[#5D36FF]/5'
-                                  : isOver
-                                    ? 'border-[#5D36FF] border-dashed bg-[#5D36FF]/10 scale-[1.02]'
-                                    : 'border-zinc-800 hover:border-zinc-700'
+                                  : 'border-zinc-800 hover:border-zinc-700'
                             }`}
                           >
                             <div className="flex justify-between items-start mb-2 pb-1 border-b border-zinc-900/80">
@@ -706,13 +763,11 @@ export default function CalendarTab({
                                 if (!parent) return null;
                                 const config = CATEGORY_CONFIG[parent.category];
                                 return (
-                                  <div
+                                  <DragArea
                                     key={sch.id}
-                                    draggable
-                                    onDragStart={() => handleDragStartMove(sch.id)}
-                                    onDragEnd={handleDragEndReset}
-                                    aria-label={`Carga ${parent.title} — arrastrar para mover de día`}
-                                    className={`p-1.5 bg-zinc-900 border rounded-lg group relative cursor-grab active:cursor-grabbing ${config.border} shadow-sm ${dragItem?.kind === 'move' && dragItem.scheduledId === sch.id ? 'opacity-40' : ''}`}
+                                    id={`move-${sch.id}`}
+                                    data={{ kind: 'move', scheduledId: sch.id, label: parent.title }}
+                                    className={`p-1.5 bg-zinc-900 border rounded-lg group relative ${config.border} shadow-sm`}
                                   >
                                     <div className="pr-3 text-left">
                                       <span className={`inline-block px-1 py-0.5 text-[6px] font-mono font-bold rounded uppercase ${config.bg} ${config.color}`}>
@@ -737,7 +792,7 @@ export default function CalendarTab({
                                         <Edit3 size={8} aria-hidden="true" />
                                       </button>
                                     </div>
-                                  </div>
+                                  </DragArea>
                                 );
                               })}
 
@@ -789,7 +844,7 @@ export default function CalendarTab({
                                 )}
                               </div>
                             )}
-                          </div>
+                          </DroppableDay>
                         );
                       })}
                     </div>
@@ -819,6 +874,15 @@ export default function CalendarTab({
         </div>
       )}
     </div>
+
+      <DragOverlay dropAnimation={null}>
+        {activeDragLabel ? (
+          <div className="px-3 py-2 rounded-lg bg-[#5D36FF] text-white font-bold text-[11px] shadow-2xl max-w-[200px] truncate pointer-events-none">
+            {activeDragLabel}
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 }
 
