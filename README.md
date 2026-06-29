@@ -9,38 +9,49 @@ profesional dispone de toda la profundidad de datos (curvas, tendencias, proyecc
 patrones en el tiempo); el paciente recibe instrucciones claras, visuales y concisas de qué
 hacer y cómo.
 
-Este repositorio contiene, como punto de partida, el **prototipo funcional estable**
-(`index.html`) más la documentación de visión, arquitectura y hoja de ruta hacia las versiones
-nativas para **Android** y **Windows**, con acceso desde cualquier lugar.
+Este repositorio contiene el **código fuente editable** (Vite + React + TypeScript) de la app
+del coach y de la landing pública, más la documentación de visión, arquitectura y hoja de ruta
+hacia las versiones nativas para **Android** y **Windows**.
+
+Stack: **Vite 6 · React 19 · TypeScript · Tailwind CSS v4 · motion · lucide-react · zod ·
+Vitest**. La app del coach es **100 % cliente** (datos en `localStorage`, sin backend) y
+funciona offline.
 
 ---
 
-## 🚀 Cómo ejecutar el prototipo
+## 🚀 Cómo ejecutar
 
-El prototipo es una aplicación **100 % cliente** (React compilado a un único HTML, sin
-backend). Todos los datos se guardan en `localStorage` del navegador y funciona offline.
-
-**Opción rápida — abrir el archivo:**
+Requiere **Node.js 20+**. Instala dependencias una vez:
 
 ```bash
-# Abre index.html en tu navegador (Chrome/Edge recomendado)
+npm install --legacy-peer-deps
 ```
 
-**Opción recomendada — servir como PWA (permite "Instalar como app"):**
+| Comando | Qué hace | Puerto / salida |
+|---|---|---|
+| `npm run dev` | App del coach en modo desarrollo (HMR) | http://localhost:5247 |
+| `npm run build` | Typecheck + build de producción de la app del coach | `dist/` |
+| `npm run build:admin-only` | Snapshot **standalone** (un único HTML inlineado, abre con doble clic, offline) | `dist-admin-only/index.html` |
+| `npm run dev:landing` | Landing pública en desarrollo | http://localhost:5248 |
+| `npm run build:landing` | Build de la landing pública (Vercel) | `dist-landing/` |
+| `npm test` | Tests (Vitest) | — |
+| `npm run typecheck` | Verificación de tipos (`tsc`) | — |
 
-```bash
-# Desde la raíz del repositorio
-npx serve .
-# o
-python3 -m http.server 8080
-```
-
-Luego abre `http://localhost:8080`. En Chrome/Edge aparecerá el botón **Instalar**
-(gracias a `manifest.webmanifest` + íconos), lo que da una experiencia nativa en
-**Windows** y **Android** sin tienda de aplicaciones.
+> **PWA / instalación nativa:** la app sirve `manifest.json`, íconos y un service worker
+> (`public/sw.js`), por lo que Chrome/Edge ofrecen **Instalar como app** en Windows y Android.
 
 > Nota: las fuentes (Google Fonts) se cargan desde CDN cuando hay conexión; sin conexión la
 > app sigue funcionando con tipografías del sistema.
+
+### Tres "salidas" del mismo código
+
+1. **App del coach (dev/local):** `index.html` → `src/main.tsx`. Workspace clínico completo.
+2. **Snapshot admin-only:** `indexadminonly.html` → `src/main-admin-only.tsx`. Se compila a un
+   único HTML autocontenido (equivale al histórico `MankindFactory_Admin_Estable.html`, hoy en
+   `snapshots/`). Es el "siempre funciona" de respaldo, offline, portable en USB.
+3. **Landing pública:** `index-landing.html` → `src/main-landing.tsx`. Sitio promocional
+   independiente que se despliega en Vercel (ver `docs/` y `vercel.json`). No contiene datos
+   clínicos.
 
 ---
 
@@ -104,11 +115,32 @@ Detalle técnico en [`docs/PROTOTYPE.md`](docs/PROTOTYPE.md).
 
 ```
 .
-├── index.html              # Prototipo estable (React compilado, app entry / PWA)
-├── manifest.webmanifest    # Manifiesto PWA → instalación nativa Android/Windows
-├── icons/                  # Íconos de la app (192/512 + apple-touch)
+├── index.html                  # Entry app del coach (dev) → src/main.tsx
+├── indexadminonly.html         # Entry snapshot admin-only → src/main-admin-only.tsx
+├── index-landing.html          # Entry landing pública → src/main-landing.tsx
+├── package.json
+├── vite.config.ts              # Config app del coach (puerto 5247)
+├── vite.config.admin-only.ts   # Build single-file standalone (dist-admin-only/)
+├── vite.config.landing.ts      # Build landing (dist-landing/, puerto dev 5248)
+├── vitest.config.ts            # Config de tests
+├── tsconfig*.json              # TypeScript (app + node)
+├── vercel.json                 # Deploy de la landing en Vercel
+├── public/                     # Assets servidos en "/": manifest.json, sw.js, icons/
+├── src/
+│   ├── App.tsx                 # Componente raíz (navegación de 3 niveles)
+│   ├── main.tsx                # Entry app del coach
+│   ├── main-admin-only.tsx     # Entry admin-only
+│   ├── main-landing.tsx        # Entry landing
+│   ├── types.ts                # Modelo de datos (dominio)
+│   ├── constants.ts            # Datos semilla + cálculos médicos
+│   ├── index.css               # Tailwind v4 + tokens de tema
+│   ├── components/             # 32 componentes de UI
+│   ├── lib/                    # storage, exporters, nsca, schemas, pwa, etc.
+│   └── data/                   # nsca-exercises.json, endurance-exercises.json
+├── snapshots/
+│   └── MankindFactory_Admin_Estable.html   # Snapshot histórico compilado (referencia)
 ├── docs/
-│   └── PROTOTYPE.md         # Análisis técnico del prototipo y notas de arquitectura
+│   └── PROTOTYPE.md            # Análisis técnico y notas de arquitectura
 ├── .gitignore
 └── README.md
 ```
@@ -117,9 +149,13 @@ Detalle técnico en [`docs/PROTOTYPE.md`](docs/PROTOTYPE.md).
 
 ## ⚠️ Notas
 
-- `index.html` es un **artefacto compilado** (bundle de producción Vite/React minificado): es
-  funcional pero **no es código fuente editable**. La Fase 1 de la hoja de ruta aborda
-  recuperar/reconstruir la fuente.
-- Build identificado como *admin-only* (workspace clínico privado, sin landing pública).
-- Los datos viven en el navegador (`localStorage`); usa **Exportar todo (.json)** para
-  respaldar antes de limpiar el almacenamiento.
+- La app del coach es **local-only**: los datos viven en el navegador (`localStorage`). Usa
+  **Datos & Respaldos → Descargar respaldo (.json)** para respaldar antes de limpiar el
+  almacenamiento o cambiar de equipo (no hay sincronización automática entre dispositivos).
+- La **landing pública** es un proyecto desacoplado (Vercel) y **no contiene datos clínicos**.
+- `snapshots/MankindFactory_Admin_Estable.html` es un **artefacto compilado** histórico que se
+  conserva como referencia/respaldo; el snapshot reproducible se regenera con
+  `npm run build:admin-only`.
+- La configuración de build (`package.json`, `vite.config.*`, `tsconfig*`, `public/`) fue
+  **reconstruida** a partir del código fuente y validada (typecheck + 47 tests + los 3 builds).
+  Si tienes los archivos originales, pueden reemplazarse para conservar versiones exactas.

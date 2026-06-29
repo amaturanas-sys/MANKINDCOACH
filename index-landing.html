@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="MankindFactory — Entrenamiento de fuerza y acondicionamiento basado en evidencia. Práctica de Alberto Maturana S." />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="Alberto Maturana S." />
+
+    <meta name="theme-color" content="#09090b" />
+
+    <meta property="og:title" content="MankindFactory · Entrenamiento basado en evidencia" />
+    <meta property="og:description" content="Servicios de prescripción de cargas, seguimiento y planificación deportiva." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <title>MankindFactory · Entrenamiento basado en evidencia</title>
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('mankind_theme');
+          var preferLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+          var theme = stored === 'light' || stored === 'dark'
+            ? stored
+            : (preferLight ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+          var bg = theme === 'light' ? '#f6f5fb' : '#09090b';
+          document.documentElement.style.backgroundColor = bg;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', bg);
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main-landing.tsx"></script>
+  </body>
+</html>

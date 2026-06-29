@@ -5,6 +5,8 @@ node_modules/
 
 # Build output
 dist/
+dist-admin-only/
+dist-landing/
 build/
 out/
 
@@ -42,3 +44,6 @@ coverage/
 
 # Claude Code local session state
 .claude/
+
+# TypeScript incremental build cache
+*.tsbuildinfo

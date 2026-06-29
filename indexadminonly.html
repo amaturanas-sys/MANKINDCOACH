@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="MankindFactory · Workspace clínico privado de Alberto Maturana S. (build admin-only sin landing pública)" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="Alberto Maturana S." />
+
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+
+    <meta name="theme-color" content="#09090b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MankindFactory Admin" />
+
+    <title>MankindFactory · Admin Estable</title>
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('mankind_theme');
+          var preferLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+          var theme = stored === 'light' || stored === 'dark'
+            ? stored
+            : (preferLight ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+          var bg = theme === 'light' ? '#f6f5fb' : '#09090b';
+          document.documentElement.style.backgroundColor = bg;
+          document.body && (document.body.style.backgroundColor = bg);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', bg);
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main-admin-only.tsx"></script>
+  </body>
+</html>
