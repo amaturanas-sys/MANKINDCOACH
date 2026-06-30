@@ -2,7 +2,7 @@
   {
     "id": "nsca-power-snatch",
     "englishName": "Power Snatch",
-    "name": "Arranque (Snatch)",
+    "name": "Arranque de potencia (Power Snatch)",
     "chapter": "Potencia y Ejercicios Explosivos",
     "category": "power",
     "pushPull": "power",
@@ -32,7 +32,7 @@
   {
     "id": "nsca-hang-power-snatch",
     "englishName": "Hang Power Snatch",
-    "name": "Arranque (Snatch)",
+    "name": "Arranque de potencia colgado (Hang Power Snatch)",
     "chapter": "Potencia y Ejercicios Explosivos",
     "category": "power",
     "pushPull": "power",
@@ -59,7 +59,7 @@
   {
     "id": "nsca-one-arm-dumbbell-snatch",
     "englishName": "One-Arm Dumbbell Snatch",
-    "name": "Arranque (Snatch)",
+    "name": "Arranque a una mano con mancuerna",
     "chapter": "Potencia y Ejercicios Explosivos",
     "category": "power",
     "pushPull": "power",
@@ -87,7 +87,7 @@
   {
     "id": "nsca-muscle-snatch",
     "englishName": "Muscle Snatch",
-    "name": "Arranque (Snatch)",
+    "name": "Arranque de fuerza (Muscle Snatch)",
     "chapter": "Potencia y Ejercicios Explosivos",
     "category": "power",
     "pushPull": "power",
@@ -115,7 +115,7 @@
   {
     "id": "nsca-power-clean",
     "englishName": "Power Clean",
-    "name": "Cargada de Potencia (Power Clean)",
+    "name": "Cargada de potencia (Power Clean)",
     "chapter": "Potencia y Ejercicios Explosivos",
     "category": "power",
     "pushPull": "power",
@@ -143,7 +143,7 @@
   {
     "id": "nsca-hang-power-clean",
     "englishName": "Hang Power Clean",
-    "name": "Cargada de Potencia (Power Clean)",
+    "name": "Cargada de potencia colgada (Hang Power Clean)",
     "chapter": "Potencia y Ejercicios Explosivos",
     "category": "power",
     "pushPull": "power",
@@ -169,7 +169,7 @@
   {
     "id": "nsca-dumbbell-hang-power-clean",
     "englishName": "Dumbbell Hang Power Clean",
-    "name": "Cargada de Potencia (Power Clean)",
+    "name": "Cargada colgada con mancuernas",
     "chapter": "Potencia y Ejercicios Explosivos",
     "category": "power",
     "pushPull": "power",
@@ -274,7 +274,7 @@
   {
     "id": "nsca-front-squat",
     "englishName": "Front Squat",
-    "name": "Sentadilla Frontal",
+    "name": "Sentadilla frontal (barra)",
     "chapter": "Cadera y Muslo (Multiarticular)",
     "category": "squat",
     "pushPull": "push",
@@ -324,7 +324,7 @@
   {
     "id": "nsca-romanian-deadlift-rdl",
     "englishName": "Romanian Deadlift (RDL)",
-    "name": "Peso Muerto Rumano",
+    "name": "Peso muerto rumano (RDL)",
     "chapter": "Cadera y Muslo (Multiarticular)",
     "category": "squat",
     "pushPull": "push",
@@ -943,7 +943,7 @@
   {
     "id": "nsca-low-pulley-seated-row-machine",
     "englishName": "Low-Pulley Seated Row (Machine)",
-    "name": "Remo Sentado",
+    "name": "Remo sentado en polea baja",
     "chapter": "Espalda (Multiarticular)",
     "category": "pull",
     "pushPull": "pull",
@@ -967,7 +967,7 @@
   {
     "id": "nsca-seated-row-machine",
     "englishName": "Seated Row (Machine)",
-    "name": "Remo Sentado",
+    "name": "Remo sentado en máquina",
     "chapter": "Espalda (Multiarticular)",
     "category": "pull",
     "pushPull": "pull",
@@ -1015,7 +1015,7 @@
   {
     "id": "nsca-shoulder-press-machine",
     "englishName": "Shoulder Press (Machine)",
-    "name": "Press Militar / Press de Hombro",
+    "name": "Press de hombro en máquina",
     "chapter": "Hombro (Multiarticular)",
     "category": "press",
     "pushPull": "push",
@@ -1041,7 +1041,7 @@
   {
     "id": "nsca-seated-barbell-shoulder-press",
     "englishName": "Seated Barbell Shoulder Press",
-    "name": "Press Militar / Press de Hombro",
+    "name": "Press militar sentado con barra",
     "chapter": "Hombro (Multiarticular)",
     "category": "press",
     "pushPull": "push",
@@ -1065,7 +1065,7 @@
   {
     "id": "nsca-seated-dumbbell-shoulder-press",
     "englishName": "Seated Dumbbell Shoulder Press",
-    "name": "Press Militar / Press de Hombro",
+    "name": "Press de hombro sentado con mancuernas",
     "chapter": "Hombro (Multiarticular)",
     "category": "press",
     "pushPull": "push",
@@ -1323,7 +1323,7 @@
   {
     "id": "nsca-abdominal-crunch",
     "englishName": "Abdominal Crunch",
-    "name": "Crunch Abdominal",
+    "name": "Crunch abdominal",
     "chapter": "Core",
     "category": "core",
     "pushPull": "core",
@@ -1345,7 +1345,7 @@
   {
     "id": "nsca-front-plank",
     "englishName": "Front Plank",
-    "name": "Plancha Abdominal",
+    "name": "Plancha frontal",
     "chapter": "Core",
     "category": "core",
     "pushPull": "core",
@@ -1367,7 +1367,7 @@
   {
     "id": "nsca-side-plank",
     "englishName": "Side Plank",
-    "name": "Plancha Abdominal",
+    "name": "Plancha lateral",
     "chapter": "Core",
     "category": "core",
     "pushPull": "core",
@@ -1456,7 +1456,7 @@
   {
     "id": "nsca-abdominal-crunch-machine",
     "englishName": "Abdominal Crunch (Machine)",
-    "name": "Crunch Abdominal",
+    "name": "Crunch abdominal en máquina",
     "chapter": "Core",
     "category": "core",
     "pushPull": "core",
@@ -1480,7 +1480,7 @@
   {
     "id": "nsca-stability-ball-abdominal-crunch",
     "englishName": "Stability Ball Abdominal Crunch",
-    "name": "Crunch Abdominal",
+    "name": "Crunch abdominal en fitball",
     "chapter": "Core",
     "category": "core",
     "pushPull": "core",
@@ -1574,7 +1574,7 @@
   {
     "id": "nsca-single-leg-kettlebell-romanian-deadlift",
     "englishName": "Single-Leg Kettlebell Romanian Deadlift",
-    "name": "Peso Muerto Rumano",
+    "name": "Peso muerto rumano a una pierna (kettlebell)",
     "chapter": "Métodos Alternativos",
     "category": "alternative",
     "pushPull": "mixed",
@@ -1671,7 +1671,7 @@
   {
     "id": "nsca-kettlebell-front-squat",
     "englishName": "Kettlebell Front Squat",
-    "name": "Sentadilla Frontal",
+    "name": "Sentadilla frontal con kettlebell",
     "chapter": "Métodos Alternativos",
     "category": "alternative",
     "pushPull": "mixed",
@@ -2446,31 +2446,6 @@
     "sourceFile": "manual"
   },
   {
-    "id": "sup-turkish-get-up",
-    "englishName": "Turkish Get-Up",
-    "name": "Turkish Get-Up",
-    "chapter": "Biblioteca MankindFactory",
-    "category": "isolation",
-    "pushPull": "core",
-    "primaryMuscle": "fullbody",
-    "muscleGroups": [
-      "shoulders",
-      "core",
-      "fullbody"
-    ],
-    "equipment": [
-      "Kettlebells",
-      "Mancuernas Libres (Dumbbells)"
-    ],
-    "technique": {
-      "posicion_inicial": "Acostado boca arriba con kettlebell en una mano, brazo extendido hacia el techo.",
-      "movimiento": "Secuencia de transiciones: codo → mano → puente de cadera → enhebrar pierna → estocada → de pie. Bajar invirtiendo cada paso.",
-      "errores_frecuentes": "Perder la verticalidad del kettlebell, secuencia rápida, no fijar el omóplato."
-    },
-    "source": "MankindFactory Library",
-    "sourceFile": "manual"
-  },
-  {
     "id": "sup-windmill",
     "englishName": "Kettlebell Windmill",
     "name": "Molino con Kettlebell",
@@ -2934,28 +2909,6 @@
       "posicion_inicial": "Sentado en banca, mancuernas frente al pecho, palmas hacia el cuerpo.",
       "movimiento": "Mientras subes, gira las palmas hacia adelante. Press completo. Invierte para bajar.",
       "errores_frecuentes": "No completar la rotación, hiperextender la lumbar."
-    },
-    "source": "MankindFactory Library",
-    "sourceFile": "manual"
-  },
-  {
-    "id": "sup-side-plank",
-    "englishName": "Side Plank",
-    "name": "Plancha Lateral",
-    "chapter": "Biblioteca MankindFactory",
-    "category": "isolation",
-    "pushPull": "core",
-    "primaryMuscle": "core",
-    "muscleGroups": [
-      "core"
-    ],
-    "equipment": [
-      "Peso Corporal (Calistenia)"
-    ],
-    "technique": {
-      "posicion_inicial": "De costado apoyado en antebrazo y borde externo del pie, cuerpo recto.",
-      "movimiento": "Mantén la posición isométrica con cadera elevada. Trabaja oblicuos y estabilidad lateral.",
-      "errores_frecuentes": "Dejar caer la cadera, rotar el torso."
     },
     "source": "MankindFactory Library",
     "sourceFile": "manual"

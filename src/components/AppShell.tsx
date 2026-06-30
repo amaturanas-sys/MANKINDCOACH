@@ -299,9 +299,11 @@ function SidebarContents({
           className="w-full flex items-center gap-3 group"
           title="Volver al inicio"
         >
-          <div className="p-2 bg-brand text-white rounded-lg shadow-lg group-hover:opacity-90 transition">
-            <Dumbbell size={18} className="rotate-[-12deg]" aria-hidden="true" />
-          </div>
+          <img
+            src="/brand/mankind-logo.png"
+            alt="MankindFactory"
+            className="h-9 w-9 rounded-lg object-cover ring-1 ring-surface-strong shadow-lg group-hover:opacity-90 transition shrink-0"
+          />
           <div className="text-left min-w-0">
             <span className="block font-sans font-black text-sm tracking-tight leading-none text-brand">
               MANKIND<span className="text-primary-fg">FACTORY</span>

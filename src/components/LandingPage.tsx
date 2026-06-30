@@ -72,9 +72,11 @@ export default function LandingPage({
       {/* HEADER mínimo */}
       <header className="px-4 md:px-8 py-3 flex items-center justify-between border-b border-surface-soft shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 bg-brand text-white rounded-lg shadow-lg">
-            <Dumbbell size={18} className="rotate-[-12deg]" aria-hidden="true" />
-          </div>
+          <img
+            src="/brand/mankind-logo.png"
+            alt="MankindFactory"
+            className="h-9 w-9 rounded-lg object-cover ring-1 ring-surface-strong shadow-lg shrink-0"
+          />
           <div>
             <span className="font-sans font-black text-base tracking-tight leading-none text-brand">
               MANKIND<span className="text-primary-fg">FACTORY</span>
