@@ -240,6 +240,11 @@ export interface ScheduledRoutine {
   year: number;
   monthIndex: number;
   dayOfMonth: number;
+  /**
+   * Franja del día en el Planificador. Opcional para retrocompatibilidad:
+   * las cargas antiguas sin slot se tratan como 'am'.
+   */
+  slot?: 'am' | 'pm';
 }
 
 export interface MonthRef {
