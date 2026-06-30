@@ -310,6 +310,215 @@
    ],
    "z": 1,
    "mirror": true
+  },
+  {
+   "id": "d_neck",
+   "kind": "disc",
+   "cx": 725,
+   "cy": 402,
+   "r": 38,
+   "parent": "chest",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_shoulderR",
+   "kind": "disc",
+   "cx": 957,
+   "cy": 411,
+   "r": 54,
+   "parent": "chest",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_shoulderL",
+   "kind": "disc",
+   "cx": 493,
+   "cy": 411,
+   "r": 54,
+   "parent": "chest",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_elbowR",
+   "kind": "disc",
+   "cx": 1046,
+   "cy": 720,
+   "r": 46,
+   "parent": "upperArmR",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_elbowL",
+   "kind": "disc",
+   "cx": 404,
+   "cy": 720,
+   "r": 46,
+   "parent": "upperArmL",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_wristR",
+   "kind": "disc",
+   "cx": 1063,
+   "cy": 964,
+   "r": 34,
+   "parent": "forearmR",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_wristL",
+   "kind": "disc",
+   "cx": 387,
+   "cy": 964,
+   "r": 34,
+   "parent": "forearmL",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_hipR",
+   "kind": "disc",
+   "cx": 826,
+   "cy": 963,
+   "r": 50,
+   "parent": "pelvis",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_hipL",
+   "kind": "disc",
+   "cx": 623,
+   "cy": 963,
+   "r": 50,
+   "parent": "pelvis",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_ankleR",
+   "kind": "disc",
+   "cx": 842,
+   "cy": 1774,
+   "r": 34,
+   "parent": "shinR",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_ankleL",
+   "kind": "disc",
+   "cx": 607,
+   "cy": 1774,
+   "r": 34,
+   "parent": "shinL",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
   }
  ]
 }
