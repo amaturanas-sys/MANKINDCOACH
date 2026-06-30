@@ -1,0 +1,315 @@
+{
+ "canvas": [
+  1512,
+  2016
+ ],
+ "midline": 725,
+ "parts": [
+  {
+   "id": "pelvis",
+   "src": "frontal/pelvis.png",
+   "rect": [
+    550,
+    857,
+    350,
+    227
+   ],
+   "parent": null,
+   "pivot": [
+    725,
+    960
+   ],
+   "z": 3,
+   "mirror": false
+  },
+  {
+   "id": "abdomen",
+   "src": "frontal/abdomen.png",
+   "rect": [
+    568,
+    676,
+    313,
+    191
+   ],
+   "parent": "pelvis",
+   "pivot": [
+    725,
+    862
+   ],
+   "z": 3,
+   "mirror": false
+  },
+  {
+   "id": "chest",
+   "src": "frontal/chest.png",
+   "rect": [
+    539,
+    323,
+    372,
+    379
+   ],
+   "parent": "abdomen",
+   "pivot": [
+    725,
+    690
+   ],
+   "z": 4,
+   "mirror": false
+  },
+  {
+   "id": "head",
+   "src": "frontal/head.png",
+   "rect": [
+    616,
+    14,
+    217,
+    307
+   ],
+   "parent": "chest",
+   "pivot": [
+    725,
+    330
+   ],
+   "z": 5,
+   "mirror": false
+  },
+  {
+   "id": "upperArmR",
+   "src": "frontal/upperArm.png",
+   "rect": [
+    942,
+    387,
+    198,
+    369
+   ],
+   "parent": "chest",
+   "pivot": [
+    980,
+    405
+   ],
+   "z": 4,
+   "mirror": false
+  },
+  {
+   "id": "forearmR",
+   "src": "frontal/forearm.png",
+   "rect": [
+    1059,
+    738,
+    126,
+    270
+   ],
+   "parent": "upperArmR",
+   "pivot": [
+    1108,
+    748
+   ],
+   "z": 5,
+   "mirror": false
+  },
+  {
+   "id": "handR",
+   "src": "frontal/hand.png",
+   "rect": [
+    1083,
+    1010,
+    108,
+    204
+   ],
+   "parent": "forearmR",
+   "pivot": [
+    1132,
+    1018
+   ],
+   "z": 6,
+   "mirror": false
+  },
+  {
+   "id": "upperArmL",
+   "src": "frontal/upperArm.png",
+   "rect": [
+    310,
+    387,
+    198,
+    369
+   ],
+   "parent": "chest",
+   "pivot": [
+    470,
+    405
+   ],
+   "z": 4,
+   "mirror": true
+  },
+  {
+   "id": "forearmL",
+   "src": "frontal/forearm.png",
+   "rect": [
+    265,
+    738,
+    126,
+    270
+   ],
+   "parent": "upperArmL",
+   "pivot": [
+    342,
+    748
+   ],
+   "z": 5,
+   "mirror": true
+  },
+  {
+   "id": "handL",
+   "src": "frontal/hand.png",
+   "rect": [
+    259,
+    1010,
+    108,
+    204
+   ],
+   "parent": "forearmL",
+   "pivot": [
+    318,
+    1018
+   ],
+   "z": 6,
+   "mirror": true
+  },
+  {
+   "id": "thighR",
+   "src": "frontal/thigh.png",
+   "rect": [
+    731,
+    972,
+    191,
+    414
+   ],
+   "parent": "pelvis",
+   "pivot": [
+    792,
+    985
+   ],
+   "z": 3,
+   "mirror": false
+  },
+  {
+   "id": "kneeR",
+   "src": "frontal/knee.png",
+   "rect": [
+    783,
+    1374,
+    101,
+    109
+   ],
+   "parent": "thighR",
+   "pivot": [
+    832,
+    1430
+   ],
+   "z": 4,
+   "mirror": false
+  },
+  {
+   "id": "shinR",
+   "src": "frontal/shin.png",
+   "rect": [
+    775,
+    1465,
+    135,
+    374
+   ],
+   "parent": "thighR",
+   "pivot": [
+    832,
+    1430
+   ],
+   "z": 2,
+   "mirror": false
+  },
+  {
+   "id": "footR",
+   "src": "frontal/foot.png",
+   "rect": [
+    786,
+    1845,
+    157,
+    150
+   ],
+   "parent": "shinR",
+   "pivot": [
+    846,
+    1852
+   ],
+   "z": 3,
+   "mirror": false
+  },
+  {
+   "id": "thighL",
+   "src": "frontal/thigh.png",
+   "rect": [
+    528,
+    972,
+    191,
+    414
+   ],
+   "parent": "pelvis",
+   "pivot": [
+    658,
+    985
+   ],
+   "z": 3,
+   "mirror": true
+  },
+  {
+   "id": "kneeL",
+   "src": "frontal/knee.png",
+   "rect": [
+    566,
+    1374,
+    101,
+    109
+   ],
+   "parent": "thighL",
+   "pivot": [
+    618,
+    1430
+   ],
+   "z": 4,
+   "mirror": true
+  },
+  {
+   "id": "shinL",
+   "src": "frontal/shin.png",
+   "rect": [
+    540,
+    1465,
+    135,
+    374
+   ],
+   "parent": "thighL",
+   "pivot": [
+    618,
+    1430
+   ],
+   "z": 2,
+   "mirror": true
+  },
+  {
+   "id": "footL",
+   "src": "frontal/foot.png",
+   "rect": [
+    507,
+    1845,
+    157,
+    150
+   ],
+   "parent": "shinL",
+   "pivot": [
+    604,
+    1852
+   ],
+   "z": 3,
+   "mirror": true
+  }
+ ]
+}
