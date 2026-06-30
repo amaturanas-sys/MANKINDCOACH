@@ -43,7 +43,7 @@ import DebtsPanel from './DebtsPanel';
 import ContentCreatorPanel from './ContentCreatorPanel';
 import { financialCsv, financialReportHtml, controlsCalendarIcs, downloadBlob } from '../lib/exporters';
 
-export type PracticeSubTab = 'resumen' | 'deudas' | 'metricas' | 'catalogo' | 'fidelizacion' | 'plantillas' | 'contenido' | 'calculadoras';
+export type PracticeSubTab = 'resumen' | 'deudas' | 'metricas' | 'catalogo' | 'fidelizacion' | 'plantillas' | 'contenido' | 'calculadoras' | 'comercial';
 
 interface CoachDashboardTabProps {
   clients: ClientProfile[];
@@ -290,7 +290,27 @@ export default function CoachDashboardTab({
     );
   }
 
-  /* subTab === 'resumen' (default) */
+  if (subTab === 'comercial') {
+    return (
+      <div className="space-y-6">
+        <Header
+          coachName={coachName}
+          activeClient={activeClient}
+          samplesCount={metricSamples.filter(s => s.clientId === activeClient.id).length}
+          label="Comercial"
+          desc="Métricas de la práctica + deudas y cobros, en un solo lugar: ingresos, retención, churn y cuentas por cobrar."
+        />
+        <PracticeMetricsPanel clients={clients} payments={payments} scheduledRoutines={scheduledRoutines} />
+        <DebtsPanel
+          clients={clients}
+          onMarkPaid={handleMarkPaid}
+          onEnterPatient={onEnterPatient}
+        />
+      </div>
+    );
+  }
+
+  /* subTab === 'resumen' (default, ya no aparece en la navegación) */
   return (
     <div className="space-y-8">
       <Header

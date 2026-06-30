@@ -21,7 +21,6 @@ import {
 } from '../types';
 import { MovementPattern, MovementIcon, PATTERN_LABELS, patternForExercise } from '../lib/movementIcons';
 import { NSCA_EXERCISES, MUSCLE_GROUP_LABELS, MuscleGroup, NscaExercise, isEnduranceExercise } from '../lib/nsca';
-import AnatomyReferencePanel from './AnatomyReferencePanel';
 import AnatomyImageBank, { AnatomyImageStrip, imagesForMuscles } from './AnatomyImageBank';
 import {
   MEDICAL_CONDITIONS, SEVERITY_META, CUSTOM_EXERCISE_CATEGORIES, EQUIPMENT_OPTIONS
@@ -262,11 +261,6 @@ export default function ExerciseLibraryTab({
         images={anatomyImages}
         onAdd={onAddAnatomyImage}
         onRemove={onRemoveAnatomyImage}
-      />
-
-      {/* REFERENCIA ANATÓMICA (enlace externo + atribución; no se empaqueta) */}
-      <AnatomyReferencePanel
-        muscleHint={filterMuscle !== 'all' ? MUSCLE_GROUP_LABELS[filterMuscle as MuscleGroup] : undefined}
       />
 
       {/* FILTROS + SEARCH */}

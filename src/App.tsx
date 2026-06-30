@@ -60,7 +60,7 @@ const ExerciseLibraryTab = lazy(() => import('./components/ExerciseLibraryTab'))
 type ViewMode = 'landing' | 'shell' | 'patient';
 const SHELL_SECTIONS: ShellSection[] = ['inicio', 'practica', 'pacientes', 'biblioteca', 'offline'];
 const PATIENT_SECTIONS: PatientSection[] = ['ficha', 'planificador', 'evolucion', 'exportar'];
-const PRACTICE_SUB_TABS: PracticeSubTab[] = ['resumen', 'deudas', 'metricas', 'catalogo', 'fidelizacion', 'plantillas', 'contenido', 'calculadoras'];
+const PRACTICE_SUB_TABS: PracticeSubTab[] = ['plantillas', 'calculadoras', 'fidelizacion', 'catalogo', 'comercial'];
 
 const COACH_NAME = 'Alberto Maturana S.';
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -91,7 +91,7 @@ function getInitialNav(): InitialNav {
   const shellSection = SHELL_SECTIONS.includes(rawSection as ShellSection) ? (rawSection as ShellSection) : 'inicio';
   const rawTab = params.get('tab');
   const patientSection = PATIENT_SECTIONS.includes(rawTab as PatientSection) ? (rawTab as PatientSection) : 'ficha';
-  const practiceSubTab = PRACTICE_SUB_TABS.includes(rawTab as PracticeSubTab) ? (rawTab as PracticeSubTab) : 'resumen';
+  const practiceSubTab = PRACTICE_SUB_TABS.includes(rawTab as PracticeSubTab) ? (rawTab as PracticeSubTab) : 'comercial';
   const pendingClientId = params.get('clientId');
   return { view, shellSection, patientSection, practiceSubTab, pendingClientId };
 }
@@ -561,14 +561,11 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     onSelectInnerTab = (id) => setPatientSection(id as PatientSection);
   } else if (shellSection === 'practica') {
     innerTabs = [
-      { id: 'resumen', label: 'Resumen' },
-      { id: 'deudas', label: 'Deudas' },
-      { id: 'metricas', label: 'Métricas' },
-      { id: 'catalogo', label: 'Catálogo' },
-      { id: 'fidelizacion', label: 'Fidelización' },
       { id: 'plantillas', label: 'Plantillas' },
-      { id: 'contenido', label: 'Contenido' },
-      { id: 'calculadoras', label: 'Calculadoras' }
+      { id: 'calculadoras', label: 'Calculadoras' },
+      { id: 'fidelizacion', label: 'Fidelización' },
+      { id: 'catalogo', label: 'Catálogo' },
+      { id: 'comercial', label: 'Comercial' }
     ];
     innerTab = practiceSubTab;
     onSelectInnerTab = (id) => setPracticeSubTab(id as PracticeSubTab);
