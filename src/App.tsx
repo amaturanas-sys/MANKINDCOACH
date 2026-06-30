@@ -247,6 +247,27 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     setViewMode('patient');
   }, []);
 
+  /**
+   * Crea un paciente SIN navegar a su ficha y devuelve su id. Se usa en el flujo
+   * "Nuevo paciente → enlace de invitación": el coach lo crea y comparte el link
+   * de inmediato, sin abandonar la lista de pacientes.
+   */
+  const handleCreatePatientForInvite = useCallback((name: string): string => {
+    track('client_created');
+    const id = `client-${Date.now()}`;
+    const newClient: ClientProfile = {
+      ...INITIAL_PROFILE,
+      id,
+      name: name.trim() || 'Nuevo Atleta',
+      metrics: {},
+      clinical: {},
+      goals: { performance: '', aesthetic: '', health: '' },
+      practice: {}
+    };
+    setClients(prev => [...prev, newClient]);
+    return id;
+  }, []);
+
   const handleRenameClient = useCallback((id: string, name: string) => {
     setClients(prev => prev.map(c => c.id === id ? { ...c, name: name.trim() || c.name } : c));
   }, []);
@@ -653,6 +674,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
                   scheduledRoutines={scheduledRoutines}
                   onEnterPatient={enterPatient}
                   onCreateClient={handleCreateClient}
+                  onCreatePatientForInvite={handleCreatePatientForInvite}
                   onUpdateClient={updateActiveClient}
                 />
               )}

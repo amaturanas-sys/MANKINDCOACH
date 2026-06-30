@@ -32,6 +32,7 @@ import {
 } from '../types';
 import { SCHEMA_VERSION } from '../constants';
 import { parseBackup } from '../lib/storage';
+import { buildPatientInviteLink } from '../lib/invite';
 import { useAuthState, signOut } from '../lib/auth';
 import { clearEvents, eventsToCsv, getEvents, isEnabled as telemetryEnabled, setEnabled as setTelemetryEnabled, summarize, track } from '../lib/telemetry';
 import {
@@ -291,7 +292,7 @@ export default function OfflineTab(props: OfflineTabProps) {
     <div className="space-y-8">
 
       {/* SESIÓN / CUENTA (solo con backend configurado) */}
-      <AccountCard />
+      <AccountCard clients={clients} />
 
       {/* ALERTA DE BACKUP VENCIDO */}
       {backupOverdue && (
@@ -860,28 +861,16 @@ function PwaInstallFallback({ browser }: { browser: 'chrome' | 'edge' | 'safari'
  * y una sesión activa. Muestra el email y permite cerrar sesión. En modo local
  * (sin backend) no renderiza nada.
  */
-function AccountCard() {
+function AccountCard({ clients }: { clients: ClientProfile[] }) {
   const { configured, session, user } = useAuthState();
   const [busy, setBusy] = useState(false);
-  const [copied, setCopied] = useState(false);
   if (!configured || !session) return null;
+
+  const coachId = user?.id ?? '';
 
   const handleSignOut = async () => {
     setBusy(true);
     try { await signOut(); } finally { setBusy(false); }
-  };
-
-  /* Enlace de invitación para que los pacientes suban sus formularios. */
-  const inviteLink = user
-    ? `${window.location.origin}/?portal=paciente&c=${user.id}`
-    : '';
-
-  const copyInvite = async () => {
-    try {
-      await navigator.clipboard.writeText(inviteLink);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch { /* ignore */ }
   };
 
   return (
@@ -906,31 +895,56 @@ function AccountCard() {
         </button>
       </div>
 
-      {/* Enlace de invitación al portal del paciente */}
-      <div className="pt-3 border-t border-zinc-800">
-        <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-400 mb-1.5">
-          Enlace de invitación · portal del paciente
+      {/* Enlaces de invitación por paciente */}
+      <div className="pt-3 border-t border-zinc-800 space-y-2">
+        <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
+          Enlaces de invitación · uno por paciente
         </p>
-        <div className="flex items-center gap-2">
-          <input
-            readOnly
-            value={inviteLink}
-            onFocus={e => e.currentTarget.select()}
-            className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-300 text-[11px] font-mono truncate focus:outline-none focus:border-[#5D36FF]/50"
-          />
-          <button
-            type="button"
-            onClick={copyInvite}
-            className="px-3 py-2 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition flex items-center gap-2 shrink-0"
-          >
-            {copied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
-            {copied ? 'Copiado' : 'Copiar'}
-          </button>
-        </div>
-        <p className="text-[10px] font-mono text-zinc-600 mt-1.5 leading-relaxed">
-          Compártelo con tus pacientes: se registran y suben sus JSON de ingreso y seguimiento. Tú no subes nada.
+        <p className="text-[10px] font-mono text-zinc-600 leading-relaxed">
+          Cada paciente abre su enlace, crea su acceso (9 dígitos) y completa su ingreso. La identidad mostrada es el nombre con el que lo registraste; se actualiza si el paciente se nombra distinto al ingresar.
         </p>
+        {clients.length === 0 ? (
+          <p className="text-[11px] font-mono text-zinc-600 italic py-2">
+            Aún no hay pacientes. Crea uno en «Pacientes» para generar su enlace.
+          </p>
+        ) : (
+          <ul className="space-y-1.5 max-h-[280px] overflow-y-auto scrollbar-thin pr-1">
+            {clients.map(c => (
+              <PatientInviteRow key={c.id} coachId={coachId} clientId={c.id} name={c.name} />
+            ))}
+          </ul>
+        )}
       </div>
     </div>
+  );
+}
+
+function PatientInviteRow({ coachId, clientId, name }: { coachId: string; clientId: string; name: string }) {
+  const [copied, setCopied] = useState(false);
+  const link = buildPatientInviteLink(coachId, clientId, name);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch { /* ignore */ }
+  };
+
+  return (
+    <li className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2">
+      <div className="min-w-0 flex-1">
+        <p className="text-white text-xs font-semibold truncate">{name}</p>
+        <p className="font-mono text-[9px] text-zinc-500 truncate" title={link}>{link}</p>
+      </div>
+      <button
+        type="button"
+        onClick={copy}
+        className="px-2.5 py-1.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded font-mono text-[9px] uppercase tracking-wider font-bold transition flex items-center gap-1.5 shrink-0"
+      >
+        {copied ? <Check size={11} aria-hidden="true" /> : <Copy size={11} aria-hidden="true" />}
+        {copied ? 'Copiado' : 'Copiar'}
+      </button>
+    </li>
   );
 }

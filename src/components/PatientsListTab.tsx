@@ -32,7 +32,11 @@ import {
   Check,
   Pause,
   XCircle,
-  Star
+  Star,
+  Copy,
+  Link as LinkIcon,
+  AlertTriangle,
+  ArrowRight as ArrowRightIcon
 } from 'lucide-react';
 import {
   ClientProfile,
@@ -42,6 +46,8 @@ import {
   ScheduledRoutine
 } from '../types';
 import { Avatar } from './Avatar';
+import { useAuthState } from '../lib/auth';
+import { buildPatientInviteLink } from '../lib/invite';
 
 interface PatientsListTabProps {
   clients: ClientProfile[];
@@ -49,6 +55,8 @@ interface PatientsListTabProps {
   scheduledRoutines: ScheduledRoutine[];
   onEnterPatient: (clientId: string, tab?: 'ficha' | 'planificador' | 'evolucion' | 'exportar') => void;
   onCreateClient: (name: string) => void;
+  /** Crea el paciente sin navegar y devuelve su id (para generar el enlace). */
+  onCreatePatientForInvite: (name: string) => string;
   onUpdateClient: (client: ClientProfile) => void;
 }
 
@@ -177,14 +185,18 @@ export default function PatientsListTab({
   scheduledRoutines,
   onEnterPatient,
   onCreateClient,
+  onCreatePatientForInvite,
   onUpdateClient
 }: PatientsListTabProps) {
+  const { user } = useAuthState();
+  const coachId = user?.id ?? '';
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'urgent' | 'overdue' | 'with_tasks'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | PatientStatus>('all');
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [invite, setInvite] = useState<{ id: string; name: string; link: string } | null>(null);
 
   const rows = useMemo<PatientRow[]>(() => {
     const today = new Date();
@@ -239,7 +251,9 @@ export default function PatientsListTab({
   const submitNew = () => {
     const name = newName.trim();
     if (!name) return;
-    onCreateClient(name);
+    const id = onCreatePatientForInvite(name);
+    const link = buildPatientInviteLink(coachId, id, name);
+    setInvite({ id, name, link });
     setNewName('');
     setCreating(false);
   };
@@ -359,6 +373,16 @@ export default function PatientsListTab({
           </button>
         )}
       </div>
+
+      {/* ENLACE DE INVITACIÓN RECIÉN GENERADO */}
+      {invite && (
+        <InvitePanel
+          invite={invite}
+          coachId={coachId}
+          onClose={() => setInvite(null)}
+          onEnter={() => { const id = invite.id; setInvite(null); onEnterPatient(id, 'ficha'); }}
+        />
+      )}
 
       {/* TABLA */}
       <div className="bg-[#121214] border border-zinc-800 rounded-xl overflow-hidden shadow-lg">
@@ -493,6 +517,110 @@ export default function PatientsListTab({
 
       <p className="text-center text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
         Tip: la chevron izquierda expande la fila para editar notas internas, tags, estado y mini-todos sin salir de la tabla.
+      </p>
+    </div>
+  );
+}
+
+/* ----------------------------------------------------------------------- *
+ * Panel de invitación: enlace recién generado para el paciente nuevo
+ * ----------------------------------------------------------------------- */
+
+function InvitePanel({
+  invite, coachId, onClose, onEnter
+}: {
+  invite: { id: string; name: string; link: string };
+  coachId: string;
+  onClose: () => void;
+  onEnter: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(invite.link);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch { /* ignore */ }
+  };
+
+  const share = async () => {
+    const nav = navigator as Navigator & { share?: (data: { title?: string; text?: string; url?: string }) => Promise<void> };
+    if (nav.share) {
+      try {
+        await nav.share({
+          title: 'MankindFactory · Invitación',
+          text: `Hola ${invite.name}, completa tu ingreso en MankindFactory:`,
+          url: invite.link
+        });
+      } catch { /* cancelado */ }
+    } else {
+      copy();
+    }
+  };
+
+  return (
+    <div className="bg-[#121214] border-2 border-[#5D36FF]/40 rounded-xl p-5 shadow-xl space-y-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="p-2.5 bg-[#5D36FF] text-white rounded-lg shrink-0">
+            <LinkIcon size={18} aria-hidden="true" />
+          </div>
+          <div className="min-w-0">
+            <h3 className="font-sans font-bold text-sm text-white">
+              Paciente «{invite.name}» creado
+            </h3>
+            <p className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider mt-0.5">
+              Comparte este enlace para que complete su ingreso
+            </p>
+          </div>
+        </div>
+        <button type="button" onClick={onClose} className="text-zinc-500 hover:text-white text-lg leading-none px-1" aria-label="Cerrar">×</button>
+      </div>
+
+      {!coachId && (
+        <div className="flex items-start gap-2 text-[11px] text-[#FFB020] font-mono bg-[#FFB020]/10 border border-[#FFB020]/30 rounded-lg p-3">
+          <AlertTriangle size={14} className="mt-0.5 shrink-0" aria-hidden="true" />
+          Inicia sesión en la nube (Datos &amp; Respaldo) para que el enlace incluya tu código de coach. Sin él, los envíos del paciente no llegarán a tu cuenta.
+        </div>
+      )}
+
+      <div className="flex items-center gap-2">
+        <input
+          readOnly
+          value={invite.link}
+          onFocus={e => e.currentTarget.select()}
+          className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-300 text-[11px] font-mono truncate focus:outline-none focus:border-[#5D36FF]/50"
+        />
+        <button
+          type="button"
+          onClick={copy}
+          className="px-3 py-2 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition flex items-center gap-2 shrink-0"
+        >
+          {copied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
+          {copied ? 'Copiado' : 'Copiar'}
+        </button>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={share}
+          className="px-3 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#5D36FF]/50 hover:text-white text-zinc-300 rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition"
+        >
+          Compartir
+        </button>
+        <button
+          type="button"
+          onClick={onEnter}
+          className="px-3 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#5D36FF]/50 hover:text-white text-zinc-300 rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition flex items-center gap-1.5"
+        >
+          Abrir ficha <ArrowRightIcon size={11} aria-hidden="true" />
+        </button>
+      </div>
+
+      <p className="text-[10px] font-mono text-zinc-600 leading-relaxed">
+        El paciente crea su acceso (contraseña de 9 dígitos) y completa su formulario de ingreso. Cuando lo envíe, su ficha clínica te llegará para revisión.
       </p>
     </div>
   );

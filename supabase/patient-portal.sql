@@ -10,6 +10,7 @@ create table if not exists public.patient_submissions (
   id            uuid primary key default gen_random_uuid(),
   coach_id      uuid not null,                       -- coach destinatario (su user id)
   patient_id    uuid not null references auth.users (id) on delete cascade,
+  patient_token text,                                -- id del paciente en la ficha del coach
   patient_email text,
   patient_name  text,
   kind          text not null check (kind in ('intake', 'progress')),
@@ -18,6 +19,9 @@ create table if not exists public.patient_submissions (
                   check (status in ('pending', 'imported', 'archived')),
   created_at    timestamptz not null default now()
 );
+
+-- Si la tabla ya existía sin patient_token, añadirlo (idempotente):
+alter table public.patient_submissions add column if not exists patient_token text;
 
 create index if not exists idx_patient_submissions_coach
   on public.patient_submissions (coach_id, status, created_at desc);

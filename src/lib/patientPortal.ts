@@ -21,8 +21,16 @@ export interface PatientSubmission {
   created_at: string;
 }
 
+/** La plataforma exige contraseña de exactamente 9 dígitos (0-9). */
+export function isValidPatientPassword(pw: string): boolean {
+  return /^\d{9}$/.test(pw);
+}
+
 export async function patientSignUp(email: string, password: string, name: string): Promise<{ needsConfirmation: boolean }> {
   if (!supabase) throw new Error('Portal no disponible (backend no configurado).');
+  if (!isValidPatientPassword(password)) {
+    throw new Error('La contraseña debe ser de 9 dígitos numéricos (0-9).');
+  }
   const { data, error } = await supabase.auth.signUp({
     email: email.trim(),
     password,
@@ -51,6 +59,7 @@ export function detectKind(json: any): SubmissionKind | null {
 /** Inserta un envío del paciente dirigido a su coach. */
 export async function submitToCoach(params: {
   coachId: string;
+  patientToken: string | null;
   kind: SubmissionKind;
   data: unknown;
   patientEmail: string | null;
@@ -64,6 +73,7 @@ export async function submitToCoach(params: {
   const { error } = await supabase.from('patient_submissions').insert({
     coach_id: params.coachId,
     patient_id: patientId,
+    patient_token: params.patientToken,
     patient_email: params.patientEmail,
     patient_name: params.patientName,
     kind: params.kind,
@@ -71,6 +81,17 @@ export async function submitToCoach(params: {
     status: 'pending'
   });
   if (error) throw error;
+}
+
+/** ¿El paciente ya envió su ficha de ingreso? */
+export async function hasSubmittedIntake(): Promise<boolean> {
+  if (!supabase) return false;
+  const { data } = await supabase
+    .from('patient_submissions')
+    .select('id')
+    .eq('kind', 'intake')
+    .limit(1);
+  return (data?.length ?? 0) > 0;
 }
 
 /** Lista los envíos del propio paciente (más recientes primero). */
