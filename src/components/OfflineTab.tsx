@@ -28,7 +28,7 @@ import {
   ClientProfile, MetricSample, MicrocycleTemplate, ScheduledRoutine, WorkoutRoutine,
   BackupPayload, LoyaltyCampaign, MessageTemplate, PaymentRecord, ServiceCatalogItem,
   SessionNote, CommunicationLog, GlobalReminder,
-  CustomExercise, ExerciseWarning, UserImage, AnatomyImage
+  CustomExercise, ExerciseWarning, ExerciseOverride, UserImage, AnatomyImage
 } from '../types';
 import { SCHEMA_VERSION } from '../constants';
 import { parseBackup } from '../lib/storage';
@@ -60,6 +60,7 @@ interface OfflineTabProps {
   /* v12-v14 — opcionales para retrocompat */
   customExercises?: CustomExercise[];
   exerciseWarnings?: Record<string, ExerciseWarning[]>;
+  exerciseOverrides?: Record<string, ExerciseOverride>;
   userImages?: UserImage[];
   anatomyImages?: AnatomyImage[];
   /** Restaura el workspace completo desde un backup ya validado. */
@@ -75,7 +76,7 @@ export default function OfflineTab(props: OfflineTabProps) {
     clients, activeClientId, routines, scheduledRoutines, metricSamples, templates,
     payments = [], services = [], loyaltyCampaigns = [], messageTemplates = [],
     sessionNotes = [], communicationLogs = [], globalReminders = [],
-    customExercises = [], exerciseWarnings = {}, userImages = [], anatomyImages = [],
+    customExercises = [], exerciseWarnings = {}, exerciseOverrides = {}, userImages = [], anatomyImages = [],
     onImportBackup, onClearDatabase
   } = props;
   const profile = clients.find(c => c.id === activeClientId) ?? clients[0];
@@ -163,7 +164,7 @@ export default function OfflineTab(props: OfflineTabProps) {
         clients, activeClientId, routines, scheduledRoutines, metricSamples, templates,
         payments, services, loyaltyCampaigns, messageTemplates,
         sessionNotes, communicationLogs, globalReminders,
-        customExercises, exerciseWarnings, userImages, anatomyImages
+        customExercises, exerciseWarnings, exerciseOverrides, userImages, anatomyImages
       }
     };
     const stamp = new Date().toISOString().slice(0, 10);

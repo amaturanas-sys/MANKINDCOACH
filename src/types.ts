@@ -420,6 +420,25 @@ export interface CustomExercise {
   createdAt: number;
 }
 
+/**
+ * Corrección/edición que el coach aplica sobre un ejercicio NSCA (read-only).
+ * Se guarda por id de ejercicio; cualquier campo presente sobreescribe al de la
+ * biblioteca base. Permite arreglar catalogaciones erróneas (equipamiento,
+ * patrón, músculo, categoría) sin tocar el manual NSCA empaquetado.
+ */
+export interface ExerciseOverride {
+  name?: string;
+  englishName?: string;
+  pattern?: import('./lib/movementIcons').MovementPattern;
+  primaryMuscle?: string;
+  muscleGroups?: string[];
+  equipment?: string[];
+  category?: string;
+  /** Reemplaza la técnica mostrada (texto libre). */
+  technique?: string;
+  notes?: string;
+}
+
 /* Plantillas de mensajes reusables (WhatsApp/email/etc.) */
 export type MessageChannel = 'whatsapp' | 'email' | 'sms' | 'instagram' | 'generico';
 
@@ -476,6 +495,8 @@ export interface BackupPayload {
     customExercises?: CustomExercise[];
     /** Warnings que el usuario agregó a ejercicios NSCA (clave = nscaId). */
     exerciseWarnings?: Record<string, ExerciseWarning[]>;
+    /** v15: correcciones del coach sobre ejercicios NSCA (clave = nscaId). */
+    exerciseOverrides?: Record<string, ExerciseOverride>;
     /** v13: banco personal de imágenes (subidas por el usuario, comprimidas a base64). */
     userImages?: UserImage[];
     /** v14: banco de ilustraciones anatómicas con licencia (CC), etiquetadas por músculo. */

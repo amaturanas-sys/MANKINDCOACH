@@ -11,6 +11,7 @@ import {
   CommunicationLog,
   CustomExercise,
   ExerciseWarning,
+  ExerciseOverride,
   GlobalReminder,
   LoyaltyCampaign,
   MessageTemplate,
@@ -142,6 +143,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
   const [globalReminders, setGlobalReminders] = useState<GlobalReminder[]>(initialState.globalReminders);
   const [customExercises, setCustomExercises] = useState<CustomExercise[]>(initialState.customExercises);
   const [exerciseWarnings, setExerciseWarnings] = useState<Record<string, ExerciseWarning[]>>(initialState.exerciseWarnings);
+  const [exerciseOverrides, setExerciseOverrides] = useState<Record<string, ExerciseOverride>>(initialState.exerciseOverrides);
   const [userImages, setUserImages] = useState<UserImage[]>(initialState.userImages);
   const [anatomyImages, setAnatomyImages] = useState<AnatomyImage[]>(initialState.anatomyImages);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -160,8 +162,8 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     clients, activeClientId, routines, scheduledRoutines,
     metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates,
     sessionNotes, communicationLogs, globalReminders,
-    customExercises, exerciseWarnings, userImages, anatomyImages
-  }), [clients, activeClientId, routines, scheduledRoutines, metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates, sessionNotes, communicationLogs, globalReminders, customExercises, exerciseWarnings, userImages, anatomyImages]);
+    customExercises, exerciseWarnings, exerciseOverrides, userImages, anatomyImages
+  }), [clients, activeClientId, routines, scheduledRoutines, metricSamples, templates, payments, services, loyaltyCampaigns, messageTemplates, sessionNotes, communicationLogs, globalReminders, customExercises, exerciseWarnings, exerciseOverrides, userImages, anatomyImages]);
 
   const persistTimer = useRef<number | null>(null);
   useEffect(() => {
@@ -307,6 +309,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     globalReminders?: GlobalReminder[];
     customExercises?: CustomExercise[];
     exerciseWarnings?: Record<string, ExerciseWarning[]>;
+    exerciseOverrides?: Record<string, ExerciseOverride>;
     userImages?: UserImage[];
     anatomyImages?: AnatomyImage[];
   }) => {
@@ -325,6 +328,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     setGlobalReminders(imported.globalReminders ?? []);
     setCustomExercises(imported.customExercises ?? []);
     setExerciseWarnings(imported.exerciseWarnings ?? {});
+    setExerciseOverrides(imported.exerciseOverrides ?? {});
     setUserImages(imported.userImages ?? []);
     setAnatomyImages(imported.anatomyImages ?? []);
     if (imported.scheduledRoutines.length > 0) {
@@ -349,6 +353,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     setGlobalReminders([]);
     setCustomExercises([]);
     setExerciseWarnings({});
+    setExerciseOverrides({});
     setUserImages([]);
     setAnatomyImages([]);
   }, []);
@@ -709,8 +714,10 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
                 <ExerciseLibraryTab
                   customExercises={customExercises}
                   exerciseWarnings={exerciseWarnings}
+                  exerciseOverrides={exerciseOverrides}
                   onUpdateCustom={setCustomExercises}
                   onUpdateWarnings={setExerciseWarnings}
+                  onUpdateOverrides={setExerciseOverrides}
                   anatomyImages={anatomyImages}
                   onAddAnatomyImage={onAddAnatomyImage}
                   onRemoveAnatomyImage={onRemoveAnatomyImage}
@@ -734,6 +741,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
                   globalReminders={globalReminders}
                   customExercises={customExercises}
                   exerciseWarnings={exerciseWarnings}
+                  exerciseOverrides={exerciseOverrides}
                   userImages={userImages}
                   anatomyImages={anatomyImages}
                   onImportBackup={(data) => handleImportBackup(data)}

@@ -285,7 +285,8 @@
       "glutes"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Olímpica",
+      "Rack de Sentadillas (Squat Rack)"
     ],
     "technique": {
       "posicion_inicial": "Barra apoyada sobre los deltoides anteriores en front rack, codos altos y al frente. Pies al ancho de hombros, dedos ligeramente abiertos, espalda neutra.",
@@ -310,7 +311,8 @@
       "glutes"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Olímpica",
+      "Rack de Sentadillas (Squat Rack)"
     ],
     "technique": {
       "posicion_inicial": "Barra apoyada sobre el trapecio medio (alto o bajo según preferencia), agarre pronado más ancho que los hombros. Pies al ancho de hombros, dedos ligeramente abiertos.",
@@ -336,7 +338,7 @@
       "back"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Olímpica"
     ],
     "technique": {
       "posicion_inicial": "De pie con barra al frente, agarre pronado al ancho de hombros, brazos colgando. Rodillas ligeramente flexionadas (fijas durante todo el ejercicio).",
@@ -362,7 +364,8 @@
       "back"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Olímpica",
+      "Plataforma de Levantamiento"
     ],
     "technique": {
       "posicion_inicial": "Pies al ancho de caderas, barra sobre el mediopié casi tocando las espinillas. Agarre pronado o mixto justo fuera de las rodillas. Caderas más altas que rodillas, hombros ligeramente por delante de la barra, espalda neutra, mirada al frente.",
@@ -468,6 +471,8 @@
       "glutes"
     ],
     "equipment": [
+      "Mancuernas Libres (Dumbbells)",
+      "Barra Olímpica",
       "Peso Corporal (Calistenia)"
     ],
     "technique": {
@@ -518,7 +523,7 @@
       "back"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Olímpica"
     ],
     "technique": {
       "posicion_inicial": "De pie con barra al frente, pies al ancho de caderas, rodillas ligeramente flexionadas pero rígidas durante todo el movimiento.",
@@ -907,7 +912,7 @@
       "biceps"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Olímpica"
     ],
     "technique": {
       "posicion_inicial": "De pie con barra al frente, agarre pronado al ancho de hombros. Bisagra de cadera bajando el torso a casi paralelo al piso, rodillas semi-flexionadas, espalda neutra, brazos extendidos.",
@@ -1100,7 +1105,8 @@
       "biceps"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Olímpica",
+      "Mancuernas Libres (Dumbbells)"
     ],
     "technique": {
       "posicion_inicial": "De pie con barra o mancuernas al frente, agarre pronado más estrecho que los hombros (para barra). Brazos extendidos.",
@@ -1125,7 +1131,7 @@
       "calves"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Mancuernas Libres (Dumbbells)"
     ],
     "technique": {
       "posicion_inicial": "De pie con mancuernas a los costados, palmas hacia el cuerpo, brazos extendidos con leve flexión de codo.",
@@ -1150,7 +1156,7 @@
       "calves"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Mancuernas Libres (Dumbbells)"
     ],
     "technique": {
       "posicion_inicial": "De pie con bisagra de cadera, torso casi paralelo al piso, rodillas semi-flexionadas. Mancuernas colgando bajo el pecho con palmas enfrentadas.",
@@ -1194,7 +1200,7 @@
       "biceps"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Mancuernas Libres (Dumbbells)"
     ],
     "technique": {
       "posicion_inicial": "De pie con mancuernas a los costados, palmas enfrentadas (agarre neutro), codos pegados al torso.",
@@ -1265,7 +1271,8 @@
       "biceps"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Z / EZ",
+      "Mancuernas Libres (Dumbbells)"
     ],
     "technique": {
       "posicion_inicial": "Sentado con antebrazos apoyados en los muslos o banca, palmas hacia arriba, manos colgando por el borde con barra o mancuerna.",
@@ -1288,7 +1295,8 @@
       "triceps"
     ],
     "equipment": [
-      "Peso Corporal (Calistenia)"
+      "Barra Z / EZ",
+      "Mancuernas Libres (Dumbbells)"
     ],
     "technique": {
       "posicion_inicial": "Igual al wrist curl pero con palmas hacia abajo.",

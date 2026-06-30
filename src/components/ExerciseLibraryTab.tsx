@@ -14,13 +14,13 @@
 import React, { useMemo, useState } from 'react';
 import {
   Library, Search, Filter, Plus, Pencil, Trash2, AlertTriangle, X, Check, ExternalLink,
-  Dumbbell, ChevronDown, ChevronUp, Tag as TagIcon, Image as ImageIcon
+  Dumbbell, ChevronDown, ChevronUp, Tag as TagIcon, Image as ImageIcon, RotateCcw
 } from 'lucide-react';
 import {
-  AnatomyImage, CustomExercise, ExerciseWarning, MedicalCondition
+  AnatomyImage, CustomExercise, ExerciseWarning, ExerciseOverride, MedicalCondition
 } from '../types';
 import { MovementPattern, MovementIcon, PATTERN_LABELS, patternForExercise } from '../lib/movementIcons';
-import { NSCA_EXERCISES, MUSCLE_GROUP_LABELS, MuscleGroup, NscaExercise, isEnduranceExercise } from '../lib/nsca';
+import { NSCA_EXERCISES, MUSCLE_GROUP_LABELS, MUSCLE_GROUPS_ORDERED, MuscleGroup, NscaExercise, isEnduranceExercise } from '../lib/nsca';
 import AnatomyImageBank, { AnatomyImageStrip, imagesForMuscles } from './AnatomyImageBank';
 import {
   MEDICAL_CONDITIONS, SEVERITY_META, CUSTOM_EXERCISE_CATEGORIES, EQUIPMENT_OPTIONS
@@ -29,8 +29,10 @@ import {
 interface ExerciseLibraryTabProps {
   customExercises: CustomExercise[];
   exerciseWarnings: Record<string, ExerciseWarning[]>;
+  exerciseOverrides: Record<string, ExerciseOverride>;
   onUpdateCustom: (next: CustomExercise[]) => void;
   onUpdateWarnings: (next: Record<string, ExerciseWarning[]>) => void;
+  onUpdateOverrides: (next: Record<string, ExerciseOverride>) => void;
   anatomyImages: AnatomyImage[];
   onAddAnatomyImage: (img: AnatomyImage) => void;
   onRemoveAnatomyImage: (id: string) => void;
@@ -55,6 +57,8 @@ interface LibraryEntry {
   tempo?: string;
   notes?: string;
   warnings: ExerciseWarning[];
+  /** true si el coach aplicó una corrección sobre este ejercicio NSCA. */
+  edited?: boolean;
   nsca?: NscaExercise;
   custom?: CustomExercise;
 }
@@ -66,7 +70,8 @@ const PATTERN_KEYS: MovementPattern[] = [
 ];
 
 export default function ExerciseLibraryTab({
-  customExercises, exerciseWarnings, onUpdateCustom, onUpdateWarnings,
+  customExercises, exerciseWarnings, exerciseOverrides,
+  onUpdateCustom, onUpdateWarnings, onUpdateOverrides,
   anatomyImages, onAddAnatomyImage, onRemoveAnatomyImage
 }: ExerciseLibraryTabProps) {
   const [bankOpen, setBankOpen] = useState(false);
@@ -79,25 +84,30 @@ export default function ExerciseLibraryTab({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editingCustom, setEditingCustom] = useState<CustomExercise | null>(null);
   const [editingWarningsFor, setEditingWarningsFor] = useState<string | null>(null);
+  const [editingOverrideFor, setEditingOverrideFor] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
 
-  /* Unifica NSCA + custom en lista normalizada */
+  /* Unifica NSCA + custom en lista normalizada, aplicando overrides del coach */
   const entries = useMemo<LibraryEntry[]>(() => {
     const out: LibraryEntry[] = [];
     for (const ex of NSCA_EXERCISES) {
+      const ov = exerciseOverrides[ex.id];
+      const primaryMuscle = ov?.primaryMuscle ?? ex.primaryMuscle;
       out.push({
         id: ex.id,
         source: 'nsca',
-        name: ex.name,
-        englishName: ex.englishName,
-        pattern: patternForExercise(ex),
-        primaryMuscle: ex.primaryMuscle,
-        primaryMuscleLabel: MUSCLE_GROUP_LABELS[ex.primaryMuscle] ?? ex.primaryMuscle,
-        muscleGroups: ex.muscleGroups,
-        equipment: ex.equipment,
-        category: ex.category,
-        technique: ex.technique,
+        name: ov?.name ?? ex.name,
+        englishName: ov?.englishName ?? ex.englishName,
+        pattern: ov?.pattern ?? patternForExercise(ex),
+        primaryMuscle,
+        primaryMuscleLabel: MUSCLE_GROUP_LABELS[primaryMuscle as MuscleGroup] ?? primaryMuscle,
+        muscleGroups: ov?.muscleGroups ?? ex.muscleGroups,
+        equipment: ov?.equipment ?? ex.equipment,
+        category: ov?.category ?? ex.category,
+        technique: ov?.technique ?? ex.technique,
+        notes: ov?.notes,
         warnings: exerciseWarnings[ex.id] ?? [],
+        edited: !!ov,
         nsca: ex
       });
     }
@@ -124,7 +134,7 @@ export default function ExerciseLibraryTab({
       });
     }
     return out;
-  }, [customExercises, exerciseWarnings]);
+  }, [customExercises, exerciseWarnings, exerciseOverrides]);
 
   /* Aplicar filtros */
   const filtered = useMemo(() => {
@@ -213,6 +223,26 @@ export default function ExerciseLibraryTab({
       onUpdateCustom(customExercises.map(c => c.id === entryId ? { ...c, warnings } : c));
     }
     setEditingWarningsFor(null);
+  };
+
+  /* Handlers de overrides (correcciones sobre ejercicios NSCA) */
+  const handleSaveOverride = (id: string, ov: ExerciseOverride) => {
+    const next = { ...exerciseOverrides };
+    /* Si no quedó ningún campo con valor, equivale a "restablecer". */
+    const hasAny = Object.values(ov).some(v => v !== undefined && !(Array.isArray(v) && v.length === 0) && v !== '');
+    if (!hasAny) delete next[id];
+    else next[id] = ov;
+    onUpdateOverrides(next);
+    setEditingOverrideFor(null);
+  };
+
+  const handleResetOverride = (id: string) => {
+    if (!exerciseOverrides[id]) return;
+    if (!window.confirm('¿Restablecer este movimiento a los datos originales del manual NSCA?')) return;
+    const next = { ...exerciseOverrides };
+    delete next[id];
+    onUpdateOverrides(next);
+    setEditingOverrideFor(null);
   };
 
   const resetFilters = () => {
@@ -371,6 +401,11 @@ export default function ExerciseLibraryTab({
                                 endurance
                               </span>
                             )}
+                            {e.edited && (
+                              <span className="px-1.5 py-0.5 bg-[#10B981]/15 text-[#10B981] text-[8px] font-mono uppercase tracking-wider rounded font-bold">
+                                corregido
+                              </span>
+                            )}
                             {e.warnings.length > 0 && (
                               <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[#FFB020]/15 text-[#FFB020] text-[9px] font-mono rounded font-bold">
                                 <AlertTriangle size={9} aria-hidden="true" /> {e.warnings.length}
@@ -400,6 +435,8 @@ export default function ExerciseLibraryTab({
               images={imagesForMuscles(anatomyImages, [selected.primaryMuscle, ...selected.muscleGroups])}
               onEditCustom={() => selected.custom && setEditingCustom({ ...selected.custom })}
               onDeleteCustom={() => selected.custom && handleDeleteCustom(selected.custom.id)}
+              onEditOverride={() => setEditingOverrideFor(selected.id)}
+              onResetOverride={() => handleResetOverride(selected.id)}
               onEditWarnings={() => setEditingWarningsFor(selected.id)}
               onOpenBank={() => setBankOpen(true)}
             />
@@ -435,6 +472,17 @@ export default function ExerciseLibraryTab({
           onCancel={() => setEditingWarningsFor(null)}
         />
       )}
+
+      {/* MODAL: corrección de un ejercicio NSCA (override) */}
+      {editingOverrideFor && selected && selected.nsca && (
+        <OverrideEditor
+          base={selected.nsca}
+          current={exerciseOverrides[editingOverrideFor] ?? {}}
+          onSave={(ov) => handleSaveOverride(editingOverrideFor, ov)}
+          onReset={() => handleResetOverride(editingOverrideFor)}
+          onCancel={() => setEditingOverrideFor(null)}
+        />
+      )}
     </div>
   );
 }
@@ -443,11 +491,13 @@ export default function ExerciseLibraryTab({
  * Detalle de ejercicio
  * ----------------------------------------------------------------------- */
 
-function ExerciseDetail({ entry, images, onEditCustom, onDeleteCustom, onEditWarnings, onOpenBank }: {
+function ExerciseDetail({ entry, images, onEditCustom, onDeleteCustom, onEditOverride, onResetOverride, onEditWarnings, onOpenBank }: {
   entry: LibraryEntry;
   images: AnatomyImage[];
   onEditCustom: () => void;
   onDeleteCustom: () => void;
+  onEditOverride: () => void;
+  onResetOverride: () => void;
   onEditWarnings: () => void;
   onOpenBank: () => void;
 }) {
@@ -477,16 +527,32 @@ function ExerciseDetail({ entry, images, onEditCustom, onDeleteCustom, onEditWar
                   Endurance / Cross-training
                 </span>
               )}
+              {entry.edited && (
+                <span className="px-1.5 py-0.5 bg-[#10B981]/15 text-[#10B981] text-[9px] font-mono uppercase rounded font-bold">
+                  Corregido
+                </span>
+              )}
             </div>
           </div>
         </div>
-        {entry.source === 'custom' && (
+        {entry.source === 'custom' ? (
           <div className="flex items-center gap-1">
             <button type="button" onClick={onEditCustom} className="p-1.5 text-zinc-500 hover:text-[#5D36FF] rounded" aria-label="Editar">
               <Pencil size={13} aria-hidden="true" />
             </button>
             <button type="button" onClick={onDeleteCustom} className="p-1.5 text-zinc-500 hover:text-red-400 rounded" aria-label="Eliminar">
               <Trash2 size={13} aria-hidden="true" />
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-1">
+            {entry.edited && (
+              <button type="button" onClick={onResetOverride} className="p-1.5 text-zinc-500 hover:text-[#FFB020] rounded" aria-label="Restablecer al original" title="Restablecer al original NSCA">
+                <RotateCcw size={13} aria-hidden="true" />
+              </button>
+            )}
+            <button type="button" onClick={onEditOverride} className="p-1.5 text-zinc-500 hover:text-[#5D36FF] rounded" aria-label="Corregir datos" title="Corregir catalogación / detalles">
+              <Pencil size={13} aria-hidden="true" />
             </button>
           </div>
         )}
@@ -887,6 +953,186 @@ function WarningEditor({ entryName, current, onSave, onCancel }: {
             className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded font-mono text-[10px] uppercase font-bold transition">
             <Check size={11} aria-hidden="true" /> Guardar warnings
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------------------------------------------------- *
+ * Editor de corrección (override) sobre un ejercicio NSCA
+ * ----------------------------------------------------------------------- */
+
+function OverrideEditor({ base, current, onSave, onReset, onCancel }: {
+  base: NscaExercise;
+  current: ExerciseOverride;
+  onSave: (ov: ExerciseOverride) => void;
+  onReset: () => void;
+  onCancel: () => void;
+}) {
+  const basePattern = patternForExercise(base);
+  const [equipmentFilter, setEquipmentFilter] = useState('');
+  const [draft, setDraft] = useState({
+    name: current.name ?? base.name,
+    englishName: current.englishName ?? base.englishName ?? '',
+    pattern: current.pattern ?? basePattern,
+    primaryMuscle: (current.primaryMuscle ?? base.primaryMuscle) as string,
+    muscleGroups: (current.muscleGroups ?? base.muscleGroups) as string[],
+    equipment: (current.equipment ?? base.equipment) as string[],
+    category: current.category ?? base.category,
+    technique: current.technique ?? '',
+    notes: current.notes ?? ''
+  });
+
+  const set = <K extends keyof typeof draft>(k: K, v: typeof draft[K]) => setDraft(d => ({ ...d, [k]: v }));
+
+  const toggleEquipment = (eq: string) => {
+    set('equipment', draft.equipment.includes(eq) ? draft.equipment.filter(e => e !== eq) : [...draft.equipment, eq]);
+  };
+  const toggleMuscle = (m: string) => {
+    set('muscleGroups', draft.muscleGroups.includes(m) ? draft.muscleGroups.filter(x => x !== m) : [...draft.muscleGroups, m]);
+  };
+
+  const filteredEq = useMemo(() => {
+    const q = equipmentFilter.trim().toLowerCase();
+    /* incluye equipos del ejercicio aunque no estén en el catálogo estándar */
+    const base = Array.from(new Set([...EQUIPMENT_OPTIONS, ...draft.equipment]));
+    return q ? base.filter(eq => eq.toLowerCase().includes(q)) : base;
+  }, [equipmentFilter, draft.equipment]);
+
+  const sameArr = (a: string[], b: string[]) => a.length === b.length && a.every((x, i) => x === b[i]);
+
+  const save = () => {
+    const ov: ExerciseOverride = {
+      name: draft.name.trim() && draft.name.trim() !== base.name ? draft.name.trim() : undefined,
+      englishName: draft.englishName.trim() && draft.englishName.trim() !== (base.englishName ?? '') ? draft.englishName.trim() : undefined,
+      pattern: draft.pattern !== basePattern ? draft.pattern : undefined,
+      primaryMuscle: draft.primaryMuscle && draft.primaryMuscle !== base.primaryMuscle ? draft.primaryMuscle : undefined,
+      muscleGroups: !sameArr(draft.muscleGroups, base.muscleGroups) ? draft.muscleGroups : undefined,
+      equipment: !sameArr(draft.equipment, base.equipment) ? draft.equipment : undefined,
+      category: draft.category && draft.category !== base.category ? draft.category : undefined,
+      technique: draft.technique.trim() ? draft.technique.trim() : undefined,
+      notes: draft.notes.trim() ? draft.notes.trim() : undefined
+    };
+    onSave(ov);
+  };
+
+  const isEdited = Object.keys(current).length > 0;
+
+  return (
+    <div
+      role="dialog" aria-modal="true" aria-label="Corregir ejercicio"
+      className="fixed inset-0 z-[210] flex items-start justify-center pt-[5vh] px-4 bg-black/70 backdrop-blur-sm"
+      onClick={onCancel}
+    >
+      <div onClick={e => e.stopPropagation()} className="w-full max-w-3xl bg-[#121214] border border-zinc-800 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="border-b border-zinc-800 p-4 flex items-center justify-between">
+          <div>
+            <h3 className="font-sans font-bold text-base text-white uppercase tracking-wider flex items-center gap-2">
+              <Pencil size={16} className="text-[#5D36FF]" aria-hidden="true" /> Corregir catalogación
+            </h3>
+            <p className="text-[10px] font-mono text-zinc-500 mt-0.5">
+              Ejercicio del manual NSCA · tus cambios solo afectan a tu biblioteca y se incluyen en los backups.
+            </p>
+          </div>
+          <button type="button" onClick={onCancel} className="p-1.5 text-zinc-500 hover:text-white" aria-label="Cerrar"><X size={14} /></button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto scrollbar-thin p-5 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <Field label="Nombre">
+              <input type="text" value={draft.name} onChange={e => set('name', e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-[#5D36FF]/60" />
+            </Field>
+            <Field label="Nombre en inglés">
+              <input type="text" value={draft.englishName} onChange={e => set('englishName', e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-[#5D36FF]/60" />
+            </Field>
+            <Field label="Patrón biomecánico">
+              <select value={draft.pattern} onChange={e => set('pattern', e.target.value as MovementPattern)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-[#5D36FF]/60">
+                {PATTERN_KEYS.map(p => <option key={p} value={p}>{PATTERN_LABELS[p]}</option>)}
+              </select>
+            </Field>
+            <Field label="Categoría">
+              <input type="text" value={draft.category} onChange={e => set('category', e.target.value)}
+                placeholder="isolation, squat, press, power, core..."
+                className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-[#5D36FF]/60" />
+            </Field>
+            <Field label="Músculo primario">
+              <select value={draft.primaryMuscle} onChange={e => set('primaryMuscle', e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-[#5D36FF]/60">
+                {MUSCLE_GROUPS_ORDERED.map(m => <option key={m} value={m}>{MUSCLE_GROUP_LABELS[m]}</option>)}
+              </select>
+            </Field>
+          </div>
+
+          {/* Músculos secundarios */}
+          <div className="space-y-1.5">
+            <span className="block text-[9px] uppercase tracking-wider font-mono text-zinc-500">Músculos secundarios</span>
+            <div className="flex flex-wrap gap-1.5">
+              {MUSCLE_GROUPS_ORDERED.map(m => {
+                const on = draft.muscleGroups.includes(m);
+                return (
+                  <button key={m} type="button" onClick={() => toggleMuscle(m)}
+                    className={`px-2 py-1 rounded border text-[10px] font-mono transition ${on ? 'bg-[#5D36FF]/15 border-[#5D36FF]/50 text-white' : 'border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'}`}>
+                    {MUSCLE_GROUP_LABELS[m]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Equipamiento */}
+          <div className="space-y-2">
+            <span className="block text-[9px] uppercase tracking-wider font-mono text-zinc-500">
+              Equipamiento ({draft.equipment.length})
+            </span>
+            <input type="text" value={equipmentFilter} onChange={e => setEquipmentFilter(e.target.value)} placeholder="Filtrar equipos..."
+              className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-white text-xs focus:outline-none focus:border-[#5D36FF]/60" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 max-h-[160px] overflow-y-auto scrollbar-thin bg-zinc-950/40 border border-zinc-800 rounded p-2">
+              {filteredEq.map(eq => {
+                const checked = draft.equipment.includes(eq);
+                return (
+                  <label key={eq} className={`flex items-center gap-1.5 px-2 py-1 rounded cursor-pointer text-[10px] transition ${checked ? 'bg-[#5D36FF]/15 text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-900/60'}`}>
+                    <input type="checkbox" checked={checked} onChange={() => toggleEquipment(eq)} className="sr-only" />
+                    <span className={`w-3 h-3 rounded border flex items-center justify-center shrink-0 ${checked ? 'bg-[#5D36FF] border-[#5D36FF]' : 'border-zinc-700'}`}>
+                      {checked && <Check size={9} strokeWidth={3} className="text-white" />}
+                    </span>
+                    <span className="font-mono">{eq}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          <Field label="Técnica (deja vacío para conservar la del manual)">
+            <textarea rows={3} value={draft.technique} onChange={e => set('technique', e.target.value)}
+              placeholder="Sobrescribe la descripción técnica si la del manual tiene errores..."
+              className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-white text-xs focus:outline-none focus:border-[#5D36FF]/60 font-mono resize-y" />
+          </Field>
+
+          <Field label="Notas del coach (opcional)">
+            <input type="text" value={draft.notes} onChange={e => set('notes', e.target.value)}
+              className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-[#5D36FF]/60" />
+          </Field>
+        </div>
+
+        <div className="border-t border-zinc-800 p-3 flex items-center justify-between gap-2">
+          <button type="button" onClick={onReset} disabled={!isEdited}
+            className="inline-flex items-center gap-1 px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-[#FFB020] hover:border-[#FFB020]/40 disabled:opacity-30 disabled:cursor-not-allowed rounded font-mono text-[10px] uppercase font-bold transition">
+            <RotateCcw size={11} aria-hidden="true" /> Restablecer original
+          </button>
+          <div className="flex gap-2">
+            <button type="button" onClick={onCancel}
+              className="px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded font-mono text-[10px] uppercase font-bold hover:bg-zinc-800 transition">
+              Cancelar
+            </button>
+            <button type="button" onClick={save}
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded font-mono text-[10px] uppercase font-bold transition">
+              <Check size={11} aria-hidden="true" /> Guardar corrección
+            </button>
+          </div>
         </div>
       </div>
     </div>

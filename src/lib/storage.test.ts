@@ -85,6 +85,7 @@ describe('persist y migrate — round trip', () => {
       globalReminders: original.globalReminders,
       customExercises: original.customExercises,
       exerciseWarnings: original.exerciseWarnings,
+      exerciseOverrides: original.exerciseOverrides,
       userImages: original.userImages,
       anatomyImages: original.anatomyImages
     });

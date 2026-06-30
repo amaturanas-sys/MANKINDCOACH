@@ -9,6 +9,7 @@ import {
   CommunicationLog,
   CustomExercise,
   ExerciseWarning,
+  ExerciseOverride,
   GlobalReminder,
   LoyaltyCampaign,
   MessageTemplate,
@@ -64,6 +65,7 @@ interface Workspace {
   globalReminders: GlobalReminder[];
   customExercises: CustomExercise[];
   exerciseWarnings: Record<string, ExerciseWarning[]>;
+  exerciseOverrides: Record<string, ExerciseOverride>;
   userImages: UserImage[];
   anatomyImages: AnatomyImage[];
 }
@@ -191,6 +193,7 @@ function freshWorkspace(): Workspace {
     globalReminders: [],
     customExercises: [],
     exerciseWarnings: {},
+    exerciseOverrides: {},
     userImages: [],
     anatomyImages: []
   };
@@ -225,6 +228,8 @@ export function migrateAndLoad(): Workspace {
     /* v11 → v12: biblioteca custom + warnings sobre NSCA. */
     if (!r.customExercises) r.customExercises = [];
     if (!r.exerciseWarnings) r.exerciseWarnings = {};
+    /* v14 → v15: correcciones del coach sobre ejercicios NSCA. */
+    if (!r.exerciseOverrides) r.exerciseOverrides = {};
     /* v12 → v13: banco de imágenes propias. */
     if (!r.userImages) r.userImages = [];
     /* v13 → v14: banco de ilustraciones anatómicas con licencia. */
@@ -280,6 +285,7 @@ export function migrateAndLoad(): Workspace {
     globalReminders: [],
     customExercises: [],
     exerciseWarnings: {},
+    exerciseOverrides: {},
     userImages: [],
     anatomyImages: []
   };
@@ -317,6 +323,7 @@ export function parseBackup(json: unknown): Workspace {
     if (!data.globalReminders) data.globalReminders = [];
     if (!data.customExercises) data.customExercises = [];
     if (!data.exerciseWarnings) data.exerciseWarnings = {};
+    if (!data.exerciseOverrides) data.exerciseOverrides = {};
     if (!data.userImages) data.userImages = [];
     if (!data.anatomyImages) data.anatomyImages = [];
     return { ...r, data };
@@ -348,6 +355,7 @@ export function parseBackup(json: unknown): Workspace {
       globalReminders: [],
       customExercises: [],
       exerciseWarnings: {},
+      exerciseOverrides: {},
       userImages: [],
       anatomyImages: []
     };
@@ -383,6 +391,9 @@ export function parseBackup(json: unknown): Workspace {
         customExercises: Array.isArray(data.customExercises) ? data.customExercises as CustomExercise[] : [],
         exerciseWarnings: (data.exerciseWarnings && typeof data.exerciseWarnings === 'object')
           ? data.exerciseWarnings as Record<string, ExerciseWarning[]>
+          : {},
+        exerciseOverrides: (data.exerciseOverrides && typeof data.exerciseOverrides === 'object')
+          ? data.exerciseOverrides as Record<string, ExerciseOverride>
           : {},
         userImages: Array.isArray(data.userImages) ? data.userImages as UserImage[] : [],
         anatomyImages: Array.isArray(data.anatomyImages) ? data.anatomyImages as AnatomyImage[] : []

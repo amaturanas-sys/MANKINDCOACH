@@ -172,7 +172,8 @@ export const scheduledSchema = z.array(z.object({
   routineId: z.string().min(1),
   year: z.number().int().min(1970).max(3000),
   monthIndex: z.number().int().min(0).max(11),
-  dayOfMonth: z.number().int().min(1).max(31)
+  dayOfMonth: z.number().int().min(1).max(31),
+  slot: z.enum(['am', 'pm']).optional()
 }));
 
 export const metricSampleSchema = z.object({
@@ -340,6 +341,20 @@ export const customExerciseSchema = z.object({
 export const customExercisesSchema = z.array(customExerciseSchema);
 export const exerciseWarningsMapSchema = z.record(z.string(), z.array(exerciseWarningSchema));
 
+/* v15: correcciones del coach sobre ejercicios NSCA (clave = id del ejercicio) */
+export const exerciseOverrideSchema = z.object({
+  name: z.string().optional(),
+  englishName: z.string().optional(),
+  pattern: movementPatternSchema.optional(),
+  primaryMuscle: z.string().optional(),
+  muscleGroups: z.array(z.string()).optional(),
+  equipment: z.array(z.string()).optional(),
+  category: z.string().optional(),
+  technique: z.string().optional(),
+  notes: z.string().optional()
+});
+export const exerciseOverridesMapSchema = z.record(z.string(), exerciseOverrideSchema);
+
 /* v14: ilustraciones anatómicas con licencia (CC) etiquetadas por músculo */
 export const imageLicenseSchema = z.enum([
   'CC0', 'CC BY 4.0', 'CC BY-SA 4.0', 'CC BY-NC 4.0', 'CC BY-NC-SA 4.0',
@@ -376,6 +391,7 @@ export const workspaceSchema = z.object({
   /* v12 */
   customExercises: customExercisesSchema.default([]),
   exerciseWarnings: exerciseWarningsMapSchema.default({}),
+  exerciseOverrides: exerciseOverridesMapSchema.default({}),
   /* v13 */
   userImages: z.array(z.object({
     id: z.string().min(1),
