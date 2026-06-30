@@ -19,7 +19,7 @@
     725,
     960
    ],
-   "z": 3,
+   "z": 4,
    "mirror": false
   },
   {
@@ -27,14 +27,14 @@
    "src": "frontal/abdomen.png",
    "rect": [
     568,
-    676,
+    684,
     313,
     191
    ],
    "parent": "pelvis",
    "pivot": [
     725,
-    862
+    870
    ],
    "z": 3,
    "mirror": false
@@ -44,16 +44,16 @@
    "src": "frontal/chest.png",
    "rect": [
     539,
-    323,
+    349,
     372,
     379
    ],
    "parent": "abdomen",
    "pivot": [
     725,
-    690
+    716
    ],
-   "z": 4,
+   "z": 5,
    "mirror": false
   },
   {
@@ -61,14 +61,14 @@
    "src": "frontal/head.png",
    "rect": [
     616,
-    54,
+    86,
     217,
     307
    ],
    "parent": "chest",
    "pivot": [
     725,
-    370
+    402
    ],
    "z": 6,
    "mirror": false
@@ -77,102 +77,102 @@
    "id": "upperArmR",
    "src": "frontal/upperArm.png",
    "rect": [
-    896,
-    383,
+    894,
+    405,
     198,
     369
    ],
    "parent": "chest",
    "pivot": [
-    934,
-    401
+    932,
+    423
    ],
-   "z": 4,
+   "z": 7,
    "mirror": false
   },
   {
    "id": "forearmR",
    "src": "frontal/forearm.png",
    "rect": [
-    1013,
-    734,
+    1019,
+    722,
     126,
     270
    ],
    "parent": "upperArmR",
    "pivot": [
-    1062,
-    744
+    1068,
+    732
    ],
-   "z": 5,
+   "z": 6,
    "mirror": false
   },
   {
    "id": "handR",
    "src": "frontal/hand.png",
    "rect": [
-    1037,
-    1006,
+    1045,
+    968,
     108,
     204
    ],
    "parent": "forearmR",
    "pivot": [
-    1086,
-    1014
+    1094,
+    976
    ],
-   "z": 6,
+   "z": 5,
    "mirror": false
   },
   {
    "id": "upperArmL",
    "src": "frontal/upperArm.png",
    "rect": [
-    356,
-    383,
+    358,
+    405,
     198,
     369
    ],
    "parent": "chest",
    "pivot": [
-    516,
-    401
+    518,
+    423
    ],
-   "z": 4,
+   "z": 7,
    "mirror": true
   },
   {
    "id": "forearmL",
    "src": "frontal/forearm.png",
    "rect": [
-    311,
-    734,
+    305,
+    722,
     126,
     270
    ],
    "parent": "upperArmL",
    "pivot": [
-    388,
-    744
+    382,
+    732
    ],
-   "z": 5,
+   "z": 6,
    "mirror": true
   },
   {
    "id": "handL",
    "src": "frontal/hand.png",
    "rect": [
-    305,
-    1006,
+    297,
+    968,
     108,
     204
    ],
    "parent": "forearmL",
    "pivot": [
-    364,
-    1014
+    356,
+    976
    ],
-   "z": 6,
+   "z": 5,
    "mirror": true
   },
   {
@@ -180,14 +180,14 @@
    "src": "frontal/thigh.png",
    "rect": [
     731,
-    972,
+    950,
     191,
     414
    ],
    "parent": "pelvis",
    "pivot": [
     792,
-    985
+    963
    ],
    "z": 3,
    "mirror": false
@@ -197,16 +197,16 @@
    "src": "frontal/knee.png",
    "rect": [
     783,
-    1374,
+    1336,
     101,
     109
    ],
    "parent": "thighR",
    "pivot": [
     832,
-    1430
+    1392
    ],
-   "z": 4,
+   "z": 5,
    "mirror": false
   },
   {
@@ -214,14 +214,14 @@
    "src": "frontal/shin.png",
    "rect": [
     775,
-    1465,
+    1409,
     135,
     374
    ],
    "parent": "thighR",
    "pivot": [
     832,
-    1430
+    1374
    ],
    "z": 2,
    "mirror": false
@@ -231,16 +231,16 @@
    "src": "frontal/foot.png",
    "rect": [
     786,
-    1845,
+    1767,
     157,
     150
    ],
    "parent": "shinR",
    "pivot": [
     846,
-    1852
+    1774
    ],
-   "z": 3,
+   "z": 1,
    "mirror": false
   },
   {
@@ -248,14 +248,14 @@
    "src": "frontal/thigh.png",
    "rect": [
     528,
-    972,
+    950,
     191,
     414
    ],
    "parent": "pelvis",
    "pivot": [
     658,
-    985
+    963
    ],
    "z": 3,
    "mirror": true
@@ -265,16 +265,16 @@
    "src": "frontal/knee.png",
    "rect": [
     566,
-    1374,
+    1336,
     101,
     109
    ],
    "parent": "thighL",
    "pivot": [
     618,
-    1430
+    1392
    ],
-   "z": 4,
+   "z": 5,
    "mirror": true
   },
   {
@@ -282,14 +282,14 @@
    "src": "frontal/shin.png",
    "rect": [
     540,
-    1465,
+    1409,
     135,
     374
    ],
    "parent": "thighL",
    "pivot": [
     618,
-    1430
+    1374
    ],
    "z": 2,
    "mirror": true
@@ -299,16 +299,16 @@
    "src": "frontal/foot.png",
    "rect": [
     507,
-    1845,
+    1767,
     157,
     150
    ],
    "parent": "shinL",
    "pivot": [
     604,
-    1852
+    1774
    ],
-   "z": 3,
+   "z": 1,
    "mirror": true
   }
  ]
