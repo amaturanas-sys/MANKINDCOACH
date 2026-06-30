@@ -77,15 +77,15 @@
    "id": "upperArmR",
    "src": "frontal/upperArm.png",
    "rect": [
-    894,
-    405,
+    858,
+    393,
     198,
     369
    ],
    "parent": "chest",
    "pivot": [
-    932,
-    423
+    896,
+    411
    ],
    "z": 7,
    "mirror": false
@@ -94,15 +94,15 @@
    "id": "forearmR",
    "src": "frontal/forearm.png",
    "rect": [
-    1019,
-    722,
+    983,
+    710,
     126,
     270
    ],
    "parent": "upperArmR",
    "pivot": [
-    1068,
-    732
+    1032,
+    720
    ],
    "z": 6,
    "mirror": false
@@ -111,15 +111,15 @@
    "id": "handR",
    "src": "frontal/hand.png",
    "rect": [
-    1045,
-    968,
+    1009,
+    956,
     108,
     204
    ],
    "parent": "forearmR",
    "pivot": [
-    1094,
-    976
+    1058,
+    964
    ],
    "z": 5,
    "mirror": false
@@ -128,15 +128,15 @@
    "id": "upperArmL",
    "src": "frontal/upperArm.png",
    "rect": [
-    358,
-    405,
+    394,
+    393,
     198,
     369
    ],
    "parent": "chest",
    "pivot": [
-    518,
-    423
+    554,
+    411
    ],
    "z": 7,
    "mirror": true
@@ -145,15 +145,15 @@
    "id": "forearmL",
    "src": "frontal/forearm.png",
    "rect": [
-    305,
-    722,
+    341,
+    710,
     126,
     270
    ],
    "parent": "upperArmL",
    "pivot": [
-    382,
-    732
+    418,
+    720
    ],
    "z": 6,
    "mirror": true
@@ -162,15 +162,15 @@
    "id": "handL",
    "src": "frontal/hand.png",
    "rect": [
-    297,
-    968,
+    333,
+    956,
     108,
     204
    ],
    "parent": "forearmL",
    "pivot": [
-    356,
-    976
+    392,
+    964
    ],
    "z": 5,
    "mirror": true
