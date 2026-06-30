@@ -642,6 +642,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
                   onUpdateGlobalReminder={onUpdateGlobalReminder}
                   onRemoveGlobalReminder={onRemoveGlobalReminder}
                   onOpenCommandPalette={() => setPaletteOpen(true)}
+                  loyaltyCampaigns={loyaltyCampaigns}
                 />
               )}
 

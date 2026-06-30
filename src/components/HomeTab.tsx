@@ -21,9 +21,11 @@ import {
   Briefcase,
   Plus,
   Sparkles,
-  HardDrive
+  HardDrive,
+  Gift,
+  Wallet as WalletIcon
 } from 'lucide-react';
-import { ClientProfile, GlobalReminder, MetricSample, ScheduledRoutine, WorkoutRoutine } from '../types';
+import { ClientProfile, GlobalReminder, LoyaltyCampaign, MetricSample, ScheduledRoutine, WorkoutRoutine } from '../types';
 import { DAY_NAMES, MONTH_NAMES, weekdayIndexFor } from '../constants';
 import GlobalRemindersPanel from './GlobalRemindersPanel';
 import { Avatar } from './Avatar';
@@ -42,11 +44,13 @@ interface HomeTabProps {
   onUpdateGlobalReminder?: (r: GlobalReminder) => void;
   onRemoveGlobalReminder?: (id: string) => void;
   onOpenCommandPalette?: () => void;
+  /** v14: campañas de fidelización (para alimentar la agenda de tareas) */
+  loyaltyCampaigns?: LoyaltyCampaign[];
 }
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-type TaskKind = 'control_overdue' | 'control_soon' | 'payment_overdue' | 'progress_stale' | 'birthday' | 'reminder';
+type TaskKind = 'control_overdue' | 'control_soon' | 'payment_overdue' | 'progress_stale' | 'birthday' | 'reminder' | 'loyalty';
 
 interface Task {
   id: string;
@@ -104,7 +108,8 @@ export default function HomeTab({
   globalReminders = [],
   onAddGlobalReminder,
   onUpdateGlobalReminder,
-  onRemoveGlobalReminder
+  onRemoveGlobalReminder,
+  loyaltyCampaigns = []
 }: HomeTabProps) {
 
   /* Cómputo de tareas pendientes */
@@ -232,6 +237,33 @@ export default function HomeTab({
       }
     }
 
+    /* Campañas de fidelización: planificadas = por hacer; en curso = seguimiento */
+    for (const camp of loyaltyCampaigns) {
+      if (camp.status === 'planificada') {
+        out.push({
+          id: `loy-${camp.id}`,
+          kind: 'loyalty',
+          clientId: '',
+          clientName: '',
+          title: `Activar campaña · ${camp.title}`,
+          detail: camp.targetSegment ? `Fidelización — ${camp.targetSegment}` : 'Campaña de fidelización planificada',
+          dayDelta: 50,
+          severity: 'warning'
+        });
+      } else if (camp.status === 'en_curso') {
+        out.push({
+          id: `loy-${camp.id}`,
+          kind: 'loyalty',
+          clientId: '',
+          clientName: '',
+          title: `Campaña en curso · ${camp.title}`,
+          detail: camp.targetSegment ? `Fidelización — ${camp.targetSegment}` : 'Campaña de fidelización en curso',
+          dayDelta: 100,
+          severity: 'info'
+        });
+      }
+    }
+
     /* Ordenar por urgencia y deltadías */
     const severityScore = (s: Task['severity']) => s === 'urgent' ? 0 : s === 'warning' ? 1 : 2;
     out.sort((a, b) => {
@@ -240,7 +272,7 @@ export default function HomeTab({
       return a.dayDelta - b.dayDelta;
     });
     return out;
-  }, [clients, metricSamples, scheduledRoutines]);
+  }, [clients, metricSamples, scheduledRoutines, loyaltyCampaigns]);
 
   const groupedTasks = useMemo(() => ({
     urgent: tasks.filter(t => t.severity === 'urgent'),
@@ -248,26 +280,46 @@ export default function HomeTab({
     info: tasks.filter(t => t.severity === 'info')
   }), [tasks]);
 
-  /* Agenda de la semana corriente */
-  const weekAgenda = useMemo(() => {
+  /* Agenda de los próximos 14 días: sesiones programadas + items fechados
+     (controles, cobros, cumpleaños, recordatorios). */
+  const fortnight = useMemo(() => {
     const today = new Date(); today.setHours(0, 0, 0, 0);
-    const days: Array<{ date: Date; entries: Array<{ client: ClientProfile; routine: WorkoutRoutine }> }> = [];
-    for (let i = 0; i < 7; i++) {
+    const sameDay = (ts: number, d: Date) => {
+      const x = new Date(ts);
+      return x.getFullYear() === d.getFullYear() && x.getMonth() === d.getMonth() && x.getDate() === d.getDate();
+    };
+    const days: Array<{
+      date: Date;
+      sessions: Array<{ client: ClientProfile; routine: WorkoutRoutine }>;
+      items: Array<{ kind: 'control' | 'cobro' | 'cumple' | 'recordatorio'; label: string }>;
+    }> = [];
+    for (let i = 0; i < 14; i++) {
       const d = new Date(today.getTime() + i * MS_PER_DAY);
-      const entries: Array<{ client: ClientProfile; routine: WorkoutRoutine }> = [];
+      const sessions: Array<{ client: ClientProfile; routine: WorkoutRoutine }> = [];
       for (const s of scheduledRoutines) {
         if (s.year === d.getFullYear() && s.monthIndex === d.getMonth() && s.dayOfMonth === d.getDate()) {
           const client = clients.find(c => c.id === s.clientId);
           const routine = routines.find(r => r.id === s.routineId);
-          if (client && routine) entries.push({ client, routine });
+          if (client && routine) sessions.push({ client, routine });
         }
       }
-      days.push({ date: d, entries });
+      const items: Array<{ kind: 'control' | 'cobro' | 'cumple' | 'recordatorio'; label: string }> = [];
+      for (const c of clients) {
+        const p = c.practice ?? {};
+        if (p.nextControlAt && sameDay(p.nextControlAt, d)) items.push({ kind: 'control', label: `Control · ${c.name}` });
+        if (p.nextPaymentAt && sameDay(p.nextPaymentAt, d)) items.push({ kind: 'cobro', label: `Cobro · ${c.name}` });
+        const bts = nextBirthdayTs(p.birthday);
+        if (bts !== null && sameDay(bts, d)) items.push({ kind: 'cumple', label: `Cumpleaños · ${c.name}` });
+        for (const r of (c.reminders ?? [])) {
+          if (!r.done && r.dueAt !== undefined && sameDay(r.dueAt, d)) items.push({ kind: 'recordatorio', label: `${r.text} · ${c.name}` });
+        }
+      }
+      days.push({ date: d, sessions, items });
     }
     return days;
   }, [clients, scheduledRoutines, routines]);
 
-  const totalScheduledThisWeek = weekAgenda.reduce((acc, d) => acc + d.entries.length, 0);
+  const totalScheduledFortnight = fortnight.reduce((acc, d) => acc + d.sessions.length, 0);
 
   const today = new Date();
   const greeting = today.getHours() < 12 ? 'Buenos días' : today.getHours() < 19 ? 'Buenas tardes' : 'Buenas noches';
@@ -281,53 +333,32 @@ export default function HomeTab({
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 bg-[#5D36FF]/10 border border-[#5D36FF]/30 px-3 py-1 rounded-full">
               <Sparkles size={12} className="text-[#5D36FF]" aria-hidden="true" />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#5D36FF]">Centro de práctica</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#5D36FF]">Agenda de hoy</span>
             </div>
             <h1 className="font-sans font-black text-3xl md:text-4xl tracking-tight text-white">
               {greeting}, <span className="text-[#5D36FF]">Alberto</span>.
             </h1>
             <p className="text-zinc-400 font-mono text-xs max-w-xl">
-              {today.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · {clients.length} {clients.length === 1 ? 'paciente activo' : 'pacientes activos'} en cartera · {totalScheduledThisWeek} {totalScheduledThisWeek === 1 ? 'rutina programada' : 'rutinas programadas'} esta semana.
+              {today.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · {clients.length} {clients.length === 1 ? 'paciente' : 'pacientes'} en cartera · {totalScheduledFortnight} {totalScheduledFortnight === 1 ? 'sesión' : 'sesiones'} en los próximos 14 días.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2 lg:gap-3">
-            <HeroStat label="Tareas urgentes" value={`${groupedTasks.urgent.length}`} tone={groupedTasks.urgent.length > 0 ? 'urgent' : 'neutral'} />
-            <HeroStat label="Por atender" value={`${groupedTasks.warning.length}`} tone={groupedTasks.warning.length > 0 ? 'warning' : 'neutral'} />
+            <HeroStat label="Por atender" value={`${groupedTasks.urgent.length}`} tone={groupedTasks.urgent.length > 0 ? 'urgent' : 'neutral'} />
+            <HeroStat label="Por cumplir" value={`${groupedTasks.warning.length}`} tone={groupedTasks.warning.length > 0 ? 'warning' : 'neutral'} />
             <HeroStat label="En seguimiento" value={`${groupedTasks.info.length}`} />
           </div>
         </div>
       </section>
 
-      {/* ACCESOS A SECCIONES */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <QuickAccess
-          icon={<Briefcase size={20} className="text-[#5D36FF]" />}
-          label="Práctica"
-          desc="KPIs, controles, cobros y fidelización"
-          onClick={() => onGoToTab('practica')}
+      {/* CONJUNTO 1 · NUEVA TAREA (recordatorios del coach) */}
+      {onAddGlobalReminder && onUpdateGlobalReminder && onRemoveGlobalReminder && (
+        <GlobalRemindersPanel
+          reminders={globalReminders}
+          onAdd={onAddGlobalReminder}
+          onUpdate={onUpdateGlobalReminder}
+          onRemove={onRemoveGlobalReminder}
         />
-        <QuickAccess
-          icon={<Users size={20} className="text-[#5D36FF]" />}
-          label="Pacientes"
-          desc="Tabla con todos los pacientes y su estatus"
-          onClick={() => onGoToTab('pacientes')}
-        />
-        <QuickAccess
-          icon={<Plus size={20} className="text-[#5D36FF]" />}
-          label="Nuevo paciente"
-          desc="Crear ficha y entrar a su plataforma"
-          onClick={() => {
-            const name = window.prompt('Nombre del nuevo paciente:');
-            if (name && name.trim()) onCreateClient(name.trim());
-          }}
-        />
-        <QuickAccess
-          icon={<HardDrive size={20} className="text-[#5D36FF]" />}
-          label="Datos y Respaldos"
-          desc="Backups, PWA, almacenamiento, telemetría"
-          onClick={() => onGoToTab('offline')}
-        />
-      </section>
+      )}
 
       {/* TAREAS PENDIENTES */}
       <section className="bg-[#121214] border border-zinc-800 rounded-xl p-6 shadow-lg space-y-5">
@@ -350,76 +381,75 @@ export default function HomeTab({
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <TaskColumn title="Urgentes" tone="urgent" icon={<AlertTriangle size={14} className="text-[#FF3C00]" />} items={groupedTasks.urgent} onEnterPatient={onEnterPatient} />
-            <TaskColumn title="Por atender" tone="warning" icon={<CalendarClock size={14} className="text-[#FFB020]" />} items={groupedTasks.warning} onEnterPatient={onEnterPatient} />
+            <TaskColumn title="Por atender" tone="urgent" icon={<AlertTriangle size={14} className="text-[#FF3C00]" />} items={groupedTasks.urgent} onEnterPatient={onEnterPatient} />
+            <TaskColumn title="Por cumplir" tone="warning" icon={<CalendarClock size={14} className="text-[#FFB020]" />} items={groupedTasks.warning} onEnterPatient={onEnterPatient} />
             <TaskColumn title="En seguimiento" tone="info" icon={<FileSignature size={14} className="text-[#5D36FF]" />} items={groupedTasks.info} onEnterPatient={onEnterPatient} />
           </div>
         )}
       </section>
 
-      {/* AGENDA SEMANAL */}
+      {/* CONJUNTO 3 · PRÓXIMOS 14 DÍAS (vistazo rápido horizontal) */}
       <section className="bg-[#121214] border border-zinc-800 rounded-xl p-6 shadow-lg space-y-5">
         <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
           <h2 className="font-sans font-bold text-sm text-white uppercase tracking-wider flex items-center gap-2">
-            <CalendarClock className="text-[#5D36FF]" size={16} aria-hidden="true" /> Agenda · próximos 7 días
+            <CalendarClock className="text-[#5D36FF]" size={16} aria-hidden="true" /> Próximos 14 días
           </h2>
           <span className="font-mono text-[10px] text-zinc-500 uppercase">
-            {totalScheduledThisWeek} rutinas programadas
+            {totalScheduledFortnight} {totalScheduledFortnight === 1 ? 'sesión' : 'sesiones'} · {fortnight.reduce((a, d) => a + d.items.length, 0)} eventos
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-7 gap-2">
-          {weekAgenda.map(({ date, entries }) => {
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+          {fortnight.map(({ date, sessions, items }) => {
             const isToday = date.toDateString() === new Date().toDateString();
             const weekdayLabel = DAY_NAMES[weekdayIndexFor(date.getFullYear(), date.getMonth(), date.getDate())];
+            const itemTone = (k: string) =>
+              k === 'control' ? 'text-[#5D36FF]'
+              : k === 'cobro' ? 'text-[#FFB020]'
+              : k === 'cumple' ? 'text-[#10B981]'
+              : 'text-zinc-400';
             return (
               <div
                 key={date.toISOString()}
-                className={`bg-zinc-950/40 border rounded-lg p-3 space-y-2 min-h-[120px] ${
+                className={`shrink-0 w-[140px] bg-zinc-950/40 border rounded-lg p-2.5 space-y-2 min-h-[150px] ${
                   isToday ? 'border-[#5D36FF]/50 ring-1 ring-[#5D36FF]/20' : 'border-zinc-800'
                 }`}
               >
-                <div className="border-b border-zinc-800 pb-2">
-                  <span className="block text-[9px] uppercase tracking-wider font-mono text-zinc-500">{weekdayLabel.slice(0, 3)}</span>
-                  <span className={`block text-lg font-bold ${isToday ? 'text-[#5D36FF]' : 'text-white'}`}>
-                    {date.getDate()}
+                <div className="border-b border-zinc-800 pb-1.5 flex items-baseline justify-between">
+                  <span className="text-[9px] uppercase tracking-wider font-mono text-zinc-500">{weekdayLabel.slice(0, 3)}</span>
+                  <span className={`text-base font-bold ${isToday ? 'text-[#5D36FF]' : 'text-white'}`}>
+                    {date.getDate()}<span className="text-[9px] font-mono text-zinc-500 ml-0.5">{MONTH_NAMES[date.getMonth()].slice(0, 3)}</span>
                   </span>
-                  <span className="block text-[9px] font-mono text-zinc-500">{MONTH_NAMES[date.getMonth()].slice(0, 3)}</span>
                 </div>
-                {entries.length === 0 ? (
-                  <p className="text-[10px] text-zinc-600 font-mono">Sin programar</p>
+
+                {sessions.length === 0 && items.length === 0 ? (
+                  <p className="text-[10px] text-zinc-700 font-mono">—</p>
                 ) : (
-                  <ul className="space-y-1">
-                    {entries.map(({ client, routine }, idx) => (
-                      <li key={`${client.id}-${routine.id}-${idx}`}>
-                        <button
-                          type="button"
-                          onClick={() => onEnterPatient(client.id, 'planificador')}
-                          className="w-full text-left bg-zinc-900/50 hover:bg-[#5D36FF]/10 hover:border-[#5D36FF]/40 border border-zinc-800 rounded p-1.5 transition group"
-                          title={`${client.name} · ${routine.title}`}
-                        >
-                          <span className="block text-[10px] font-bold text-white truncate">{client.name}</span>
-                          <span className="block text-[9px] font-mono text-zinc-400 truncate group-hover:text-[#5D36FF]">{routine.title}</span>
-                        </button>
-                      </li>
+                  <div className="space-y-1">
+                    {items.map((it, idx) => (
+                      <p key={`it-${idx}`} className={`text-[9px] font-mono leading-tight truncate ${itemTone(it.kind)}`} title={it.label}>
+                        • {it.label}
+                      </p>
                     ))}
-                  </ul>
+                    {sessions.map(({ client, routine }, idx) => (
+                      <button
+                        key={`s-${client.id}-${idx}`}
+                        type="button"
+                        onClick={() => onEnterPatient(client.id, 'planificador')}
+                        className="w-full text-left bg-zinc-900/50 hover:bg-[#5D36FF]/10 border border-zinc-800 hover:border-[#5D36FF]/40 rounded p-1 transition"
+                        title={`${client.name} · ${routine.title}`}
+                      >
+                        <span className="block text-[9px] font-bold text-white truncate">{client.name}</span>
+                        <span className="block text-[8px] font-mono text-zinc-500 truncate">{routine.title}</span>
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
             );
           })}
         </div>
       </section>
-
-      {/* MIS TAREAS DEL COACH (recordatorios globales) */}
-      {onAddGlobalReminder && onUpdateGlobalReminder && onRemoveGlobalReminder && (
-        <GlobalRemindersPanel
-          reminders={globalReminders}
-          onAdd={onAddGlobalReminder}
-          onUpdate={onUpdateGlobalReminder}
-          onRemove={onRemoveGlobalReminder}
-        />
-      )}
 
       {/* HINT FINAL */}
       <p className="text-center text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
@@ -489,6 +519,7 @@ function TaskColumn({ title, tone, icon, items, onEnterPatient }: {
           {items.map(task => (
             <li key={task.id}>
               <TaskRow task={task} onEnter={() => {
+                if (!task.clientId) return; /* tareas sin paciente (p. ej. fidelización) */
                 const tab = task.kind === 'progress_stale' ? 'evolucion'
                   : task.kind === 'birthday' || task.kind === 'payment_overdue' ? 'ficha'
                   : 'ficha';
@@ -507,6 +538,7 @@ function TaskRow({ task, onEnter }: { task: Task; onEnter: () => void }) {
     : task.kind === 'payment_overdue' ? Wallet
     : task.kind === 'progress_stale' ? FileSignature
     : task.kind === 'birthday' ? Cake
+    : task.kind === 'loyalty' ? Gift
     : task.kind === 'reminder' ? ClipboardCheck
     : ClipboardCheck;
   const accent = task.severity === 'urgent' ? 'border-[#FF3C00]/30 hover:border-[#FF3C00]'
