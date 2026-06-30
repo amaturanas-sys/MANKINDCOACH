@@ -427,17 +427,6 @@ export default function PreambleTab({
         />
       )}
 
-      {/* Comunicación con el paciente: formularios HTML + importador JSON + expediente */}
-      <PatientCommunicationSection
-        profile={profile}
-        coachName={coachName}
-        onUpdateProfile={onUpdateProfile}
-        onAddMetricSample={onAddMetricSample}
-        allMetricSamples={allMetricSamples}
-        allPayments={allPayments}
-        allSessionNotes={allSessionNotes}
-        scheduledRoutines={scheduledRoutines}
-      />
     </div>
   );
 }

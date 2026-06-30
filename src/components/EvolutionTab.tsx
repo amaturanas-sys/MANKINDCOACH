@@ -158,7 +158,7 @@ export default function EvolutionTab({ profile, metricSamples, onUpdateMetricSam
             Evolución de <span className="text-[#5D36FF]">{profile.name || 'el atleta'}</span>
           </h1>
           <p className="text-zinc-400 font-mono text-xs max-w-xl">
-            Registra mediciones periódicas para visualizar la curva de progreso de fuerza, biometría y capacidad aeróbica.
+            Curvas de progreso e historial de fuerza, biometría y capacidad aeróbica, alimentados por los formularios que tu paciente sube a su portal.
           </p>
         </div>
 
@@ -212,68 +212,10 @@ export default function EvolutionTab({ profile, metricSamples, onUpdateMetricSam
         )}
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="space-y-6">
 
-        {/* Formulario de nueva medición manual */}
-        <section aria-labelledby="new_sample_heading" className="lg:col-span-1 bg-[#121214] border border-zinc-800 rounded-xl p-6 shadow-lg space-y-5">
-          <div className="flex items-center gap-3 border-b border-zinc-800 pb-3">
-            <div className="p-2 bg-[#5D36FF]/10 text-[#5D36FF] rounded-lg">
-              <Plus size={16} aria-hidden="true" />
-            </div>
-            <div>
-              <h2 id="new_sample_heading" className="font-sans font-bold text-sm text-white uppercase tracking-wider">Medición manual</h2>
-              <p className="font-mono text-[9px] text-zinc-500 mt-0.5">Si preferís cargar a mano</p>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <DraftField label="Fecha">
-              <input
-                type="date"
-                value={draft.takenAt}
-                onChange={e => updateDraft('takenAt', e.target.value)}
-                className="w-full bg-zinc-900 border border-zinc-800 rounded px-2.5 py-1 text-white font-mono text-xs focus:outline-none focus:border-[#5D36FF]"
-              />
-            </DraftField>
-
-            {METRIC_FIELDS.map(f => (
-              <DraftField key={f.key} label={`${f.label} (${f.unit})`}>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={typeof draft[f.key] === 'number' ? draft[f.key] : ''}
-                  onChange={e => updateDraft(f.key, e.target.value === '' ? undefined : Number(e.target.value))}
-                  placeholder="—"
-                  className="w-full bg-zinc-900 border border-zinc-800 rounded px-2.5 py-1 text-white font-mono text-xs focus:outline-none focus:border-[#5D36FF]"
-                />
-              </DraftField>
-            ))}
-
-            <DraftField label="Notas (opcional)">
-              <textarea
-                value={draft.notes ?? ''}
-                onChange={e => updateDraft('notes', e.target.value)}
-                rows={2}
-                className="w-full bg-zinc-900 border border-zinc-800 rounded px-2.5 py-1 text-white font-mono text-xs focus:outline-none focus:border-[#5D36FF] resize-none"
-                placeholder="Sensación, dolencias, contexto…"
-              />
-            </DraftField>
-
-            {error && (
-              <p role="alert" className="text-red-400 text-[11px] font-mono">{error}</p>
-            )}
-
-            <button
-              onClick={addSample}
-              className="w-full py-2.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded font-mono text-xs uppercase tracking-wider font-bold transition flex items-center justify-center gap-2"
-            >
-              <Plus size={14} aria-hidden="true" /> Registrar medición
-            </button>
-          </div>
-        </section>
-
-        {/* Gráficos + historial */}
-        <section className="lg:col-span-2 space-y-6">
+        {/* Gráficos + historial (ancho completo) */}
+        <section className="space-y-6">
 
           <div className="bg-[#121214] border border-zinc-800 rounded-xl p-6 shadow-lg space-y-5">
             <div className="flex items-center gap-3 border-b border-zinc-800 pb-3">
