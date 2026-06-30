@@ -315,8 +315,8 @@
    "id": "d_neck",
    "kind": "disc",
    "cx": 725,
-   "cy": 402,
-   "r": 38,
+   "cy": 408,
+   "r": 34,
    "parent": "chest",
    "z": 0,
    "fill": [
@@ -333,9 +333,9 @@
   {
    "id": "d_shoulderR",
    "kind": "disc",
-   "cx": 957,
-   "cy": 411,
-   "r": 54,
+   "cx": 896,
+   "cy": 431,
+   "r": 46,
    "parent": "chest",
    "z": 0,
    "fill": [
@@ -352,9 +352,9 @@
   {
    "id": "d_shoulderL",
    "kind": "disc",
-   "cx": 493,
-   "cy": 411,
-   "r": 54,
+   "cx": 554,
+   "cy": 431,
+   "r": 46,
    "parent": "chest",
    "z": 0,
    "fill": [
@@ -371,9 +371,9 @@
   {
    "id": "d_elbowR",
    "kind": "disc",
-   "cx": 1046,
+   "cx": 1032,
    "cy": 720,
-   "r": 46,
+   "r": 48,
    "parent": "upperArmR",
    "z": 0,
    "fill": [
@@ -390,9 +390,9 @@
   {
    "id": "d_elbowL",
    "kind": "disc",
-   "cx": 404,
+   "cx": 418,
    "cy": 720,
-   "r": 46,
+   "r": 48,
    "parent": "upperArmL",
    "z": 0,
    "fill": [
@@ -409,7 +409,7 @@
   {
    "id": "d_wristR",
    "kind": "disc",
-   "cx": 1063,
+   "cx": 1058,
    "cy": 964,
    "r": 34,
    "parent": "forearmR",
@@ -428,7 +428,7 @@
   {
    "id": "d_wristL",
    "kind": "disc",
-   "cx": 387,
+   "cx": 392,
    "cy": 964,
    "r": 34,
    "parent": "forearmL",
@@ -447,8 +447,8 @@
   {
    "id": "d_hipR",
    "kind": "disc",
-   "cx": 826,
-   "cy": 963,
+   "cx": 792,
+   "cy": 969,
    "r": 50,
    "parent": "pelvis",
    "z": 0,
@@ -466,8 +466,8 @@
   {
    "id": "d_hipL",
    "kind": "disc",
-   "cx": 623,
-   "cy": 963,
+   "cx": 658,
+   "cy": 969,
    "r": 50,
    "parent": "pelvis",
    "z": 0,
@@ -483,9 +483,47 @@
    ]
   },
   {
+   "id": "d_kneeR",
+   "kind": "disc",
+   "cx": 832,
+   "cy": 1374,
+   "r": 50,
+   "parent": "thighR",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
+   "id": "d_kneeL",
+   "kind": "disc",
+   "cx": 618,
+   "cy": 1374,
+   "r": 50,
+   "parent": "thighL",
+   "z": 0,
+   "fill": [
+    229,
+    233,
+    236
+   ],
+   "stroke": [
+    20,
+    20,
+    20
+   ]
+  },
+  {
    "id": "d_ankleR",
    "kind": "disc",
-   "cx": 842,
+   "cx": 846,
    "cy": 1774,
    "r": 34,
    "parent": "shinR",
@@ -504,7 +542,7 @@
   {
    "id": "d_ankleL",
    "kind": "disc",
-   "cx": 607,
+   "cx": 604,
    "cy": 1774,
    "r": 34,
    "parent": "shinL",
