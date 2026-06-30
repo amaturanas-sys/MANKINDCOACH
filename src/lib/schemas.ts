@@ -197,6 +197,7 @@ export const microcycleTemplateSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   days: z.record(z.string(), z.array(z.string())),
+  slots: z.record(z.string(), z.array(z.enum(['am', 'pm']))).optional(),
   createdAt: z.number()
 });
 

@@ -49,7 +49,7 @@ interface WeekDay {
   monthIndex: number;
   year: number;
   isPadding: boolean;
-  sessions: { routine: WorkoutRoutine; scheduledId: string }[];
+  sessions: { routine: WorkoutRoutine; scheduledId: string; slot: 'am' | 'pm' }[];
 }
 
 interface WeekBlock {
@@ -114,8 +114,10 @@ function buildWeeksForMonth(
       cur.setDate(startDate.getDate() + w * 7 + d);
       const isPadding = cur.getMonth() !== monthIndex || cur.getFullYear() !== year;
       const list = (schedMap.get(schedKey(cur.getFullYear(), cur.getMonth(), cur.getDate())) ?? [])
-        .map(s => ({ routine: routinesById.get(s.routineId), scheduledId: s.id }))
-        .filter((x): x is { routine: WorkoutRoutine; scheduledId: string } => !!x.routine);
+        .slice()
+        .sort((a, b) => (a.slot ?? 'am').localeCompare(b.slot ?? 'am')) // AM antes que PM
+        .map(s => ({ routine: routinesById.get(s.routineId), scheduledId: s.id, slot: (s.slot ?? 'am') as 'am' | 'pm' }))
+        .filter((x): x is { routine: WorkoutRoutine; scheduledId: string; slot: 'am' | 'pm' } => !!x.routine);
 
       if (!isPadding) {
         if (!firstDate) firstDate = cur;
@@ -257,7 +259,7 @@ export default function ExportTab({ profile, routines, scheduledRoutines, active
     const clientName = escapeHtml(profile.name || 'Atleta Anónimo');
 
     const renderDayCard = (day: WeekDay): string => {
-      const sessionsHtml = day.sessions.map(({ routine: w, scheduledId }) => {
+      const sessionsHtml = day.sessions.map(({ routine: w, scheduledId, slot }) => {
         const exercisesHtml = w.exercises.map((ex, idx) => {
           if (ex.endurance) {
             const e = ex.endurance;
@@ -280,7 +282,7 @@ export default function ExportTab({ profile, routines, scheduledRoutines, active
           }
           return `<tr><td class="ex-number">${idx + 1}</td><td class="ex-name"><strong>${escapeHtml(ex.name)}</strong>${ex.notes ? `<br><small class="ex-notes">${escapeHtml(ex.notes)}</small>` : ''}</td><td class="font-mono">${ex.sets}</td><td class="font-mono">${escapeHtml(ex.reps)}</td><td class="font-mono">${escapeHtml(ex.intensity)}</td><td class="font-mono">${escapeHtml(ex.rest)}</td></tr>`;
         }).join('');
-        return `<div class="day-routine-block" data-sched="${escapeHtml(scheduledId)}"><div class="routine-header-line"><span class="routine-badge badge-${escapeHtml(w.category)}">${escapeHtml(w.category.toUpperCase())}</span><h4 class="routine-title-h">${escapeHtml(w.title)}</h4><span class="routine-duration font-mono">${w.estimatedDuration} min</span></div><p class="routine-desc-text">${escapeHtml(w.description)}</p><table class="exercises-table"><thead><tr><th style="width:5%">#</th><th style="width:45%">Ejercicio</th><th style="width:10%">Sets</th><th style="width:15%">Reps</th><th style="width:15%">Carga/RPE</th><th style="width:10%">Pausa</th></tr></thead><tbody>${exercisesHtml}</tbody></table></div>`;
+        return `<div class="day-routine-block" data-sched="${escapeHtml(scheduledId)}"><div class="routine-header-line"><span style="font-family:monospace;font-size:9px;font-weight:bold;color:#555;border:1px solid #ccc;border-radius:3px;padding:1px 4px;margin-right:4px">${slot.toUpperCase()}</span><span class="routine-badge badge-${escapeHtml(w.category)}">${escapeHtml(w.category.toUpperCase())}</span><h4 class="routine-title-h">${escapeHtml(w.title)}</h4><span class="routine-duration font-mono">${w.estimatedDuration} min</span></div><p class="routine-desc-text">${escapeHtml(w.description)}</p><table class="exercises-table"><thead><tr><th style="width:5%">#</th><th style="width:45%">Ejercicio</th><th style="width:10%">Sets</th><th style="width:15%">Reps</th><th style="width:15%">Carga/RPE</th><th style="width:10%">Pausa</th></tr></thead><tbody>${exercisesHtml}</tbody></table></div>`;
       }).join('');
 
       const dayHeader = `<div class="day-head"><span class="day-num">${String(day.dayOfMonth).padStart(2, '0')}</span> <span class="day-name">${escapeHtml(day.weekdayName)}</span></div>`;
@@ -723,9 +725,10 @@ ${glossaryHtml}
                               </p>
                             ) : (
                               <div className="space-y-3">
-                                {day.sessions.map(({ routine: w }, ix) => (
+                                {day.sessions.map(({ routine: w, slot }, ix) => (
                                   <div key={`${w.id}-${ix}`} className="space-y-1.5">
                                     <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="px-1.5 py-0.5 font-mono text-[7px] uppercase font-bold rounded border border-zinc-600 text-zinc-400">{slot}</span>
                                       <span className="px-1.5 py-0.5 font-mono text-[7px] uppercase font-bold rounded bg-[#5D36FF]/10 text-[#5D36FF]">{w.category}</span>
                                       <h5 className={`font-sans font-bold text-xs ${printTheme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{w.title}</h5>
                                       <span className="font-mono text-[9px] text-zinc-500 ml-auto">{w.estimatedDuration} min</span>

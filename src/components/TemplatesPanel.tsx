@@ -63,13 +63,19 @@ export default function TemplatesPanel({
   const captureFromMonth = () => {
     setError(null);
     const days: Record<number, string[]> = {};
+    const slots: Record<number, ('am' | 'pm')[]> = {};
     scheduledRoutines.forEach(s => {
       if (s.clientId !== activeClientId) return;
       if (s.year !== viewedMonth.year || s.monthIndex !== viewedMonth.monthIndex) return;
       const wd = weekdayIndexFor(s.year, s.monthIndex, s.dayOfMonth);
+      const slot = s.slot ?? 'am';
       const list = days[wd] ?? [];
-      if (!list.includes(s.routineId)) list.push(s.routineId);
+      const slotList = slots[wd] ?? [];
+      /* dedup por pauta + franja: una misma pauta puede ir en AM y PM. */
+      const dup = list.some((rid, i) => rid === s.routineId && (slotList[i] ?? 'am') === slot);
+      if (!dup) { list.push(s.routineId); slotList.push(slot); }
       days[wd] = list;
+      slots[wd] = slotList;
     });
     if (Object.keys(days).length === 0) {
       setError('No hay cargas en el mes activo para capturar.');
@@ -80,6 +86,7 @@ export default function TemplatesPanel({
       id: `tpl-${Date.now()}`,
       name,
       days,
+      slots,
       createdAt: Date.now()
     };
     onUpdateTemplates([...templates, template]);
@@ -102,7 +109,8 @@ export default function TemplatesPanel({
           routineId: rid,
           year: viewedMonth.year,
           monthIndex: viewedMonth.monthIndex,
-          dayOfMonth: day
+          dayOfMonth: day,
+          slot: template.slots?.[wd]?.[i] ?? 'am'
         });
       });
     }

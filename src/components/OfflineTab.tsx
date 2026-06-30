@@ -33,6 +33,7 @@ import {
 import { SCHEMA_VERSION } from '../constants';
 import { parseBackup } from '../lib/storage';
 import { buildPatientInviteLink } from '../lib/invite';
+import { useCopyToClipboard } from '../lib/useCopyToClipboard';
 import { useAuthState, signOut } from '../lib/auth';
 import { clearEvents, eventsToCsv, getEvents, isEnabled as telemetryEnabled, setEnabled as setTelemetryEnabled, summarize, track } from '../lib/telemetry';
 import {
@@ -921,16 +922,8 @@ function AccountCard({ clients }: { clients: ClientProfile[] }) {
 }
 
 function PatientInviteRow({ coachId, clientId, name }: { coachId: string; clientId: string; name: string }) {
-  const [copied, setCopied] = useState(false);
-  const link = buildPatientInviteLink(coachId, clientId, name);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(link);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch { /* ignore */ }
-  };
+  const [copied, copy] = useCopyToClipboard();
+  const link = useMemo(() => buildPatientInviteLink(coachId, clientId, name), [coachId, clientId, name]);
 
   return (
     <li className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2">
@@ -940,7 +933,7 @@ function PatientInviteRow({ coachId, clientId, name }: { coachId: string; client
       </div>
       <button
         type="button"
-        onClick={copy}
+        onClick={() => copy(link)}
         className="px-2.5 py-1.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded font-mono text-[9px] uppercase tracking-wider font-bold transition flex items-center gap-1.5 shrink-0"
       >
         {copied ? <Check size={11} aria-hidden="true" /> : <Copy size={11} aria-hidden="true" />}

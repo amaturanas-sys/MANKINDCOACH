@@ -180,7 +180,7 @@ function PatientHome(props: {
   const refresh = async () => {
     setLoadingList(true);
     try {
-      const [subs, done] = await Promise.all([listMySubmissions(), hasSubmittedIntake()]);
+      const [subs, done] = await Promise.all([listMySubmissions(), hasSubmittedIntake(coachId, patientToken)]);
       setMine(subs);
       setIntakeDone(done);
     } catch { /* silencioso */ }
@@ -411,7 +411,8 @@ function ProgressUploader(props: {
       const text = await file.text();
       let json: any;
       try { json = JSON.parse(text); } catch { throw new Error('El archivo no es un JSON válido.'); }
-      const kind = detectKind(json) ?? 'progress';
+      const kind = detectKind(json);
+      if (!kind) throw new Error('No reconozco este archivo. Sube el JSON que generó tu formulario de ingreso o de seguimiento.');
       await submitToCoach({
         coachId, patientToken, kind, data: json,
         patientEmail,

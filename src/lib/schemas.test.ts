@@ -62,6 +62,21 @@ describe('scheduledSchema', () => {
     ]);
     expect(result.success).toBe(false);
   });
+
+  it('preserva la franja slot (am/pm) sin descartarla', () => {
+    const result = scheduledSchema.safeParse([
+      { id: 's1', clientId: 'c1', routineId: 'r1', year: 2026, monthIndex: 4, dayOfMonth: 10, slot: 'pm' }
+    ]);
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data[0].slot).toBe('pm');
+  });
+
+  it('rechaza un slot inválido', () => {
+    const result = scheduledSchema.safeParse([
+      { id: 's1', clientId: 'c1', routineId: 'r1', year: 2026, monthIndex: 4, dayOfMonth: 10, slot: 'noche' }
+    ]);
+    expect(result.success).toBe(false);
+  });
 });
 
 describe('workspaceSchema', () => {

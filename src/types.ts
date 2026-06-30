@@ -281,7 +281,14 @@ export const METRIC_FIELDS: Array<{ key: keyof Omit<MetricSample, 'id' | 'client
 export interface MicrocycleTemplate {
   id: string;
   name: string;
+  /** weekday (0=lunes) → ids de pautas, en orden. */
   days: Record<number, string[]>;
+  /**
+   * Franja AM/PM por entrada, alineada por índice con `days[weekday]`.
+   * Opcional y retrocompatible: si falta, las plantillas antiguas se aplican
+   * en AM (comportamiento previo a las franjas AM/PM).
+   */
+  slots?: Record<number, ('am' | 'pm')[]>;
   createdAt: number;
 }
 

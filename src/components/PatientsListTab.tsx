@@ -48,6 +48,7 @@ import {
 import { Avatar } from './Avatar';
 import { useAuthState } from '../lib/auth';
 import { buildPatientInviteLink } from '../lib/invite';
+import { useCopyToClipboard } from '../lib/useCopyToClipboard';
 
 interface PatientsListTabProps {
   clients: ClientProfile[];
@@ -534,15 +535,7 @@ function InvitePanel({
   onClose: () => void;
   onEnter: () => void;
 }) {
-  const [copied, setCopied] = useState(false);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(invite.link);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch { /* ignore */ }
-  };
+  const [copied, copy] = useCopyToClipboard();
 
   const share = async () => {
     const nav = navigator as Navigator & { share?: (data: { title?: string; text?: string; url?: string }) => Promise<void> };
@@ -555,7 +548,7 @@ function InvitePanel({
         });
       } catch { /* cancelado */ }
     } else {
-      copy();
+      copy(invite.link);
     }
   };
 
@@ -594,7 +587,7 @@ function InvitePanel({
         />
         <button
           type="button"
-          onClick={copy}
+          onClick={() => copy(invite.link)}
           className="px-3 py-2 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition flex items-center gap-2 shrink-0"
         >
           {copied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}

@@ -83,14 +83,21 @@ export async function submitToCoach(params: {
   if (error) throw error;
 }
 
-/** ¿El paciente ya envió su ficha de ingreso? */
-export async function hasSubmittedIntake(): Promise<boolean> {
-  if (!supabase) return false;
-  const { data } = await supabase
+/**
+ * ¿El paciente ya envió su ficha de ingreso PARA ESTE COACH?
+ * Se filtra por coach (y por el token de su ficha, si lo hay) para que un mismo
+ * paciente que use enlaces de coaches distintos vea el formulario de ingreso de
+ * cada coach por separado.
+ */
+export async function hasSubmittedIntake(coachId: string, patientToken: string | null): Promise<boolean> {
+  if (!supabase || !coachId) return false;
+  let q = supabase
     .from('patient_submissions')
     .select('id')
     .eq('kind', 'intake')
-    .limit(1);
+    .eq('coach_id', coachId);
+  if (patientToken) q = q.eq('patient_token', patientToken);
+  const { data } = await q.limit(1);
   return (data?.length ?? 0) > 0;
 }
 

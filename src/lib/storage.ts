@@ -166,7 +166,8 @@ function adaptScheduledLegacy(raw: unknown, defaultClientId: string): ScheduledR
         routineId: String(entry.routineId),
         year: typeof entry.year === 'number' ? entry.year : INITIAL_CALENDAR.year,
         monthIndex: typeof entry.monthIndex === 'number' ? entry.monthIndex : INITIAL_CALENDAR.monthIndex,
-        dayOfMonth
+        dayOfMonth,
+        ...(entry.slot === 'am' || entry.slot === 'pm' ? { slot: entry.slot } : {})
       } satisfies ScheduledRoutine;
     })
     .filter((s): s is ScheduledRoutine => s !== null);

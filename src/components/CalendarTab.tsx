@@ -158,14 +158,22 @@ export default function CalendarTab({
     window.setTimeout(() => setToast(null), 2200);
   };
 
-  /* Sincroniza el mes "oficial" (para plantillas/etiquetas) con la semana central. */
-  useEffect(() => {
-    const mid = addDays(anchorMonday, 17); // ~mitad de las 5 semanas
-    if (mid.getFullYear() !== viewedMonth.year || mid.getMonth() !== viewedMonth.monthIndex) {
-      onChangeViewedMonth({ year: mid.getFullYear(), monthIndex: mid.getMonth() });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  /**
+   * Mes de referencia del planificador = mes de la semana central de las 5
+   * visibles. Se deriva en render (no se escribe al estado global) para evitar
+   * re-render del árbol completo y sobrescrituras del mes persistido al montar.
+   */
+  const plannerMonth = useMemo<MonthRef>(() => {
+    const mid = addDays(anchorMonday, 17);
+    return { year: mid.getFullYear(), monthIndex: mid.getMonth() };
   }, [anchorMonday]);
+
+  /** Mueve el ancla y propaga el mes resultante (solo en navegación explícita). */
+  const goToAnchor = (d: Date) => {
+    setAnchorMonday(d);
+    const mid = addDays(d, 17);
+    onChangeViewedMonth({ year: mid.getFullYear(), monthIndex: mid.getMonth() });
+  };
 
   const weeks = useMemo<PlannerDay[][]>(() => {
     const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -228,7 +236,11 @@ export default function CalendarTab({
   const selectedRoutine = selectedScheduled ? routinesById.get(selectedScheduled.routineId) ?? null : null;
 
   /* ------------------------------- acciones ------------------------------- */
-  const newScheduled = (routineId: string, day: PlannerDay, slot: DaySlot): ScheduledRoutine => ({
+  const newScheduled = (
+    routineId: string,
+    day: { year: number; monthIndex: number; dayOfMonth: number },
+    slot: DaySlot
+  ): ScheduledRoutine => ({
     id: `s-${Date.now()}-${Math.floor(performance.now())}`,
     clientId: activeClientId,
     routineId,
@@ -345,12 +357,7 @@ export default function CalendarTab({
     if (!Number.isFinite(target.year)) return;
 
     if (data.kind === 'new') {
-      onUpdateScheduledRoutines([...scheduledRoutines, {
-        id: `s-${Date.now()}`,
-        clientId: activeClientId,
-        routineId: data.routineId,
-        year: target.year, monthIndex: target.monthIndex, dayOfMonth: target.dayOfMonth, slot: target.slot
-      }]);
+      onUpdateScheduledRoutines([...scheduledRoutines, newScheduled(data.routineId, target, target.slot)]);
       showToast('Bloque agendado');
     } else {
       const current = scheduledRoutines.find(s => s.id === data.scheduledId);
@@ -386,15 +393,17 @@ export default function CalendarTab({
     return { blocks, time, series };
   }, [weeks, schedulesBySlot, routinesById]);
 
-  /* cerrar popovers de slot al hacer click fuera */
+  /* cerrar popovers de slot al hacer click fuera o con Escape */
   useEffect(() => {
     if (!slotMenu) return;
-    const handler = (e: MouseEvent) => {
+    const onDown = (e: MouseEvent) => {
       const t = e.target as HTMLElement;
       if (!t.closest('[data-slot-pop]')) setSlotMenu(null);
     };
-    window.addEventListener('mousedown', handler);
-    return () => window.removeEventListener('mousedown', handler);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSlotMenu(null); };
+    window.addEventListener('mousedown', onDown);
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('mousedown', onDown); window.removeEventListener('keydown', onKey); };
   }, [slotMenu]);
 
   return (
@@ -520,18 +529,18 @@ export default function CalendarTab({
             <div className="flex items-center gap-3">
               <div className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-[#5D36FF]"><LayoutGrid size={16} aria-hidden="true" /></div>
               <div>
-                <p className="font-mono text-[9px] text-zinc-500 uppercase">Planificador · {monthLabel(viewedMonth)}</p>
+                <p className="font-mono text-[9px] text-zinc-500 uppercase">Planificador · {monthLabel(plannerMonth)}</p>
                 <h2 className="text-white font-sans font-bold text-sm uppercase tracking-wide">{rangeLabel}</h2>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button onClick={() => setAnchorMonday(m => addDays(m, -7))} aria-label="Semana anterior" className="p-1.5 bg-zinc-950 border border-zinc-800 hover:bg-zinc-900 rounded text-zinc-400 hover:text-white transition">
+              <button onClick={() => goToAnchor(addDays(anchorMonday, -7))} aria-label="Semana anterior" className="p-1.5 bg-zinc-950 border border-zinc-800 hover:bg-zinc-900 rounded text-zinc-400 hover:text-white transition">
                 <ChevronLeft size={14} aria-hidden="true" />
               </button>
-              <button onClick={() => setAnchorMonday(startOfWeekMonday(new Date()))} className="px-2.5 py-1 bg-zinc-950 border border-zinc-800 hover:bg-zinc-900 rounded font-mono text-[8px] uppercase font-bold text-zinc-400 hover:text-white transition">
+              <button onClick={() => goToAnchor(startOfWeekMonday(new Date()))} className="px-2.5 py-1 bg-zinc-950 border border-zinc-800 hover:bg-zinc-900 rounded font-mono text-[8px] uppercase font-bold text-zinc-400 hover:text-white transition">
                 Hoy
               </button>
-              <button onClick={() => setAnchorMonday(m => addDays(m, 7))} aria-label="Semana siguiente" className="p-1.5 bg-zinc-950 border border-zinc-800 hover:bg-zinc-900 rounded text-zinc-400 hover:text-white transition">
+              <button onClick={() => goToAnchor(addDays(anchorMonday, 7))} aria-label="Semana siguiente" className="p-1.5 bg-zinc-950 border border-zinc-800 hover:bg-zinc-900 rounded text-zinc-400 hover:text-white transition">
                 <ChevronRight size={14} aria-hidden="true" />
               </button>
               <span className="w-px h-5 bg-zinc-800 mx-1" aria-hidden="true" />
@@ -540,7 +549,7 @@ export default function CalendarTab({
                 routines={routines}
                 scheduledRoutines={scheduledRoutines}
                 activeClientId={activeClientId}
-                viewedMonth={viewedMonth}
+                viewedMonth={plannerMonth}
                 onUpdateTemplates={onUpdateTemplates}
                 onUpdateScheduled={onUpdateScheduledRoutines}
               />
@@ -939,12 +948,9 @@ function RoutineParamsEditor({ routine, setRoutine, availableEquipment }: {
             onChange={e => setRoutine({ ...routine, category: e.target.value as WorkoutCategory })}
             className="w-full bg-zinc-900 border border-zinc-800 rounded px-2 text-xs py-1 text-white focus:outline-none focus:border-[#5D36FF] transition"
           >
-            <option value="fuerza">Fuerza Máxima</option>
-            <option value="potencia">Potencia Explosiva</option>
-            <option value="hipertrofia">Hipertrofia Estructural</option>
-            <option value="aerobico">Capacidad Aeróbica (HIIT/MetCon)</option>
-            <option value="resistencia">Resistencia / Endurance</option>
-            <option value="cross_training">Cross-Training</option>
+            {(Object.keys(CATEGORY_CONFIG) as WorkoutCategory[]).map(cat => (
+              <option key={cat} value={cat}>{CATEGORY_CONFIG[cat].label}</option>
+            ))}
           </select>
         </ModalField>
         <ModalField label="Duración (min)">
