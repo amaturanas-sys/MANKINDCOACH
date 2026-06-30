@@ -22,7 +22,7 @@ import {
   Wifi, WifiOff,
   Download, Upload, Trash2, HardDrive, FileText, CheckCircle, Database,
   Shield, Monitor, AlertTriangle, BarChart3, RefreshCw, Smartphone,
-  Lock, Tag, MessageSquare, Users, Package, Clock, Cloud, LogOut
+  Lock, Tag, MessageSquare, Users, Package, Clock, Cloud, LogOut, Copy, Check
 } from 'lucide-react';
 import {
   ClientProfile, MetricSample, MicrocycleTemplate, ScheduledRoutine, WorkoutRoutine,
@@ -863,6 +863,7 @@ function PwaInstallFallback({ browser }: { browser: 'chrome' | 'edge' | 'safari'
 function AccountCard() {
   const { configured, session, user } = useAuthState();
   const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState(false);
   if (!configured || !session) return null;
 
   const handleSignOut = async () => {
@@ -870,25 +871,66 @@ function AccountCard() {
     try { await signOut(); } finally { setBusy(false); }
   };
 
+  /* Enlace de invitación para que los pacientes suban sus formularios. */
+  const inviteLink = user
+    ? `${window.location.origin}/?portal=paciente&c=${user.id}`
+    : '';
+
+  const copyInvite = async () => {
+    try {
+      await navigator.clipboard.writeText(inviteLink);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch { /* ignore */ }
+  };
+
   return (
-    <div className="bg-[#121214] border border-[#5D36FF]/30 rounded-xl p-4 flex items-center justify-between gap-3">
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="w-9 h-9 rounded-lg bg-[#5D36FF]/15 border border-[#5D36FF]/30 flex items-center justify-center shrink-0">
-          <Cloud size={16} className="text-[#5D36FF]" aria-hidden="true" />
+    <div className="bg-[#121214] border border-[#5D36FF]/30 rounded-xl p-4 space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 rounded-lg bg-[#5D36FF]/15 border border-[#5D36FF]/30 flex items-center justify-center shrink-0">
+            <Cloud size={16} className="text-[#5D36FF]" aria-hidden="true" />
+          </div>
+          <div className="min-w-0">
+            <p className="font-mono text-[10px] uppercase tracking-wider text-[#10B981]">Sincronizado en la nube</p>
+            <p className="text-white text-sm font-semibold truncate">{user?.email ?? 'Sesión activa'}</p>
+          </div>
         </div>
-        <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-[#10B981]">Sincronizado en la nube</p>
-          <p className="text-white text-sm font-semibold truncate">{user?.email ?? 'Sesión activa'}</p>
-        </div>
+        <button
+          type="button"
+          onClick={handleSignOut}
+          disabled={busy}
+          className="px-3 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#FF3C00]/50 text-zinc-300 hover:text-[#FF3C00] rounded-lg font-mono text-[10px] uppercase tracking-wider transition flex items-center gap-2 shrink-0 disabled:opacity-50"
+        >
+          <LogOut size={12} aria-hidden="true" /> Cerrar sesión
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={handleSignOut}
-        disabled={busy}
-        className="px-3 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#FF3C00]/50 text-zinc-300 hover:text-[#FF3C00] rounded-lg font-mono text-[10px] uppercase tracking-wider transition flex items-center gap-2 shrink-0 disabled:opacity-50"
-      >
-        <LogOut size={12} aria-hidden="true" /> Cerrar sesión
-      </button>
+
+      {/* Enlace de invitación al portal del paciente */}
+      <div className="pt-3 border-t border-zinc-800">
+        <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-400 mb-1.5">
+          Enlace de invitación · portal del paciente
+        </p>
+        <div className="flex items-center gap-2">
+          <input
+            readOnly
+            value={inviteLink}
+            onFocus={e => e.currentTarget.select()}
+            className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-300 text-[11px] font-mono truncate focus:outline-none focus:border-[#5D36FF]/50"
+          />
+          <button
+            type="button"
+            onClick={copyInvite}
+            className="px-3 py-2 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition flex items-center gap-2 shrink-0"
+          >
+            {copied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
+            {copied ? 'Copiado' : 'Copiar'}
+          </button>
+        </div>
+        <p className="text-[10px] font-mono text-zinc-600 mt-1.5 leading-relaxed">
+          Compártelo con tus pacientes: se registran y suben sus JSON de ingreso y seguimiento. Tú no subes nada.
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,85 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Lógica del portal de pacientes: registro/login y envío de los JSON de
+ * ingreso (intake) y seguimiento (progress) hacia el coach correspondiente.
+ */
+import { supabase } from './supabase';
+
+export type SubmissionKind = 'intake' | 'progress';
+
+export interface PatientSubmission {
+  id: string;
+  coach_id: string;
+  patient_id: string;
+  patient_email: string | null;
+  patient_name: string | null;
+  kind: SubmissionKind;
+  data: unknown;
+  status: 'pending' | 'imported' | 'archived';
+  created_at: string;
+}
+
+export async function patientSignUp(email: string, password: string, name: string): Promise<{ needsConfirmation: boolean }> {
+  if (!supabase) throw new Error('Portal no disponible (backend no configurado).');
+  const { data, error } = await supabase.auth.signUp({
+    email: email.trim(),
+    password,
+    options: { data: { full_name: name.trim(), role: 'patient' } }
+  });
+  if (error) throw error;
+  /* Si la confirmación por email está activa, no hay sesión hasta confirmar. */
+  return { needsConfirmation: !data.session };
+}
+
+export async function patientSignIn(email: string, password: string): Promise<void> {
+  if (!supabase) throw new Error('Portal no disponible (backend no configurado).');
+  const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+  if (error) throw error;
+}
+
+/** Detecta el tipo de formulario a partir del JSON subido. */
+export function detectKind(json: any): SubmissionKind | null {
+  if (json && typeof json === 'object') {
+    if (json.formType === 'intake') return 'intake';
+    if (json.formType === 'progress') return 'progress';
+  }
+  return null;
+}
+
+/** Inserta un envío del paciente dirigido a su coach. */
+export async function submitToCoach(params: {
+  coachId: string;
+  kind: SubmissionKind;
+  data: unknown;
+  patientEmail: string | null;
+  patientName: string | null;
+}): Promise<void> {
+  if (!supabase) throw new Error('Portal no disponible.');
+  const { data: userData } = await supabase.auth.getUser();
+  const patientId = userData.user?.id;
+  if (!patientId) throw new Error('Sesión no válida. Vuelve a iniciar sesión.');
+
+  const { error } = await supabase.from('patient_submissions').insert({
+    coach_id: params.coachId,
+    patient_id: patientId,
+    patient_email: params.patientEmail,
+    patient_name: params.patientName,
+    kind: params.kind,
+    data: params.data,
+    status: 'pending'
+  });
+  if (error) throw error;
+}
+
+/** Lista los envíos del propio paciente (más recientes primero). */
+export async function listMySubmissions(): Promise<PatientSubmission[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('patient_submissions')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as PatientSubmission[];
+}
