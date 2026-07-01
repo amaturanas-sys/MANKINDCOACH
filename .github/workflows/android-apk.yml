@@ -1,0 +1,74 @@
+name: Android APK
+
+# Compila el APK del coach en la nube (sin necesidad de Android Studio local).
+#  - Ejecútalo a mano desde la pestaña "Actions" → "Android APK" → "Run workflow".
+#  - O empuja un tag "v*" (p.ej. v1.0.0) para generar además una Release con el APK.
+#
+# Secrets opcionales (Settings → Secrets and variables → Actions):
+#  - CAP_SERVER_URL       → modo "vinculado a Vercel" (recomendado). Ej: https://TU-APP.vercel.app
+#  - VITE_SUPABASE_URL    → solo modo "empaquetado" (para hornear Supabase en el APK)
+#  - VITE_SUPABASE_ANON_KEY
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CAP_SERVER_URL: ${{ secrets.CAP_SERVER_URL }}
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build web app
+        run: npm run build
+
+      - name: Capacitor sync (Android)
+        run: npx cap sync android
+
+      - name: Build debug APK
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk mankindfactory.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mankindfactory-apk
+          path: mankindfactory.apk
+          if-no-files-found: error
+
+      - name: Publish Release (solo en tags v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mankindfactory.apk
+          name: MankindFactory ${{ github.ref_name }}
+          body: |
+            APK del coach (Android). Descarga `mankindfactory.apk` e instálalo en tu
+            dispositivo (activa "Instalar apps de fuentes desconocidas").
