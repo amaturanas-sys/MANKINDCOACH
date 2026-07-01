@@ -681,6 +681,7 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
                   onCreateClient={handleCreateClient}
                   onCreatePatientForInvite={handleCreatePatientForInvite}
                   onUpdateClient={updateActiveClient}
+                  onDeleteClient={handleDeleteClient}
                 />
               )}
 

@@ -3,19 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   TrendingUp,
-  Plus,
   Trash2,
   Activity,
   Calendar as CalendarIcon,
-  Upload,
+  CloudDownload,
   CheckCircle,
-  AlertTriangle
+  AlertTriangle,
+  Loader2
 } from 'lucide-react';
 import { ClientProfile, METRIC_FIELDS, MetricSample } from '../types';
 import { applyProgress } from '../lib/intakeImporter';
+import { useAuthState } from '../lib/auth';
+import { isBackendConfigured } from '../lib/supabase';
+import { fetchPendingProgress, markSubmissionsImported } from '../lib/coachInbox';
 
 interface EvolutionTabProps {
   profile: ClientProfile;
@@ -23,73 +26,35 @@ interface EvolutionTabProps {
   onUpdateMetricSamples: (samples: MetricSample[]) => void;
 }
 
-type DraftSample = Partial<Omit<MetricSample, 'id' | 'clientId' | 'takenAt'>> & {
-  takenAt: string; // YYYY-MM-DD
-  notes?: string;
-};
-
-function isoToday(): string {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function prefillFromProfile(profile: ClientProfile): DraftSample {
-  const m = profile.metrics;
-  return {
-    takenAt: isoToday(),
-    benchPress1RM: m.benchPress1RM,
-    squat1RM: m.squat1RM,
-    deadlift1RM: m.deadlift1RM,
-    vo2Max: m.vo2Max,
-    weightKg: m.weightKg,
-    fatPercentage: m.fatPercentage,
-    pullUpMaxReps: m.pullUpMaxReps,
-    run400mSeconds: m.run400mSeconds,
-    notes: ''
-  };
-}
-
 export default function EvolutionTab({ profile, metricSamples, onUpdateMetricSamples }: EvolutionTabProps) {
-  const [draft, setDraft] = useState<DraftSample>(() => prefillFromProfile(profile));
-  const [error, setError] = useState<string | null>(null);
-  const [importStatus, setImportStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { user } = useAuthState();
+  const coachId = user?.id ?? '';
+  const [pull, setPull] = useState<{ busy: boolean; type: 'success' | 'error' | null; msg: string | null }>({ busy: false, type: null, msg: null });
 
-  const handleImportProgress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      try {
-        const json = JSON.parse(String(ev.target?.result ?? ''));
-        if (json.formType === 'progress') {
-          const sample = applyProgress(json, profile.id);
-          onUpdateMetricSamples([...metricSamples, sample]);
-          setImportStatus({
-            type: 'success',
-            message: `Reporte importado · medición del ${new Date(sample.takenAt).toLocaleDateString('es-ES')} agregada al historial.`
-          });
-        } else if (json.formType === 'intake') {
-          // Tomar solo las métricas como sample inicial
-          const sample = applyProgress({ ...json, formType: 'progress', takenAt: new Date().toISOString().slice(0, 10) }, profile.id);
-          onUpdateMetricSamples([...metricSamples, sample]);
-          setImportStatus({
-            type: 'success',
-            message: 'Intake convertido en medición baseline. Para actualizar la ficha completa usa el Dashboard del Coach.'
-          });
-        } else {
-          throw new Error('formType desconocido. Solo se aceptan archivos generados por los formularios MankindFactory.');
+  /**
+   * Rescata del portal los avances que el paciente registró (kind='progress',
+   * ligados a este paciente) y los incorpora al historial. Los marca como
+   * importados para no duplicarlos. El coach no sube nada a mano.
+   */
+  const handlePullFromPortal = async () => {
+    setPull({ busy: true, type: null, msg: null });
+    try {
+      const subs = await fetchPendingProgress(coachId, profile.id);
+      if (subs.length === 0) {
+        setPull({ busy: false, type: 'success', msg: 'No hay avances nuevos en el portal del paciente.' });
+      } else {
+        const newSamples: MetricSample[] = [];
+        for (const s of subs) {
+          try { newSamples.push(applyProgress(s.data, profile.id)); } catch { /* envío no interpretable, se omite */ }
         }
-      } catch (err) {
-        setImportStatus({
-          type: 'error',
-          message: err instanceof Error ? err.message : 'No se pudo leer el archivo JSON.'
-        });
+        if (newSamples.length) onUpdateMetricSamples([...metricSamples, ...newSamples]);
+        await markSubmissionsImported(subs.map(s => s.id));
+        setPull({ busy: false, type: 'success', msg: `${newSamples.length} avance(s) incorporado(s) desde el portal.` });
       }
-      window.setTimeout(() => setImportStatus({ type: null, message: '' }), 6000);
-    };
-    reader.readAsText(file);
+    } catch (err) {
+      setPull({ busy: false, type: 'error', msg: (err as Error)?.message ?? 'No se pudieron traer los avances.' });
+    }
+    window.setTimeout(() => setPull(p => ({ ...p, type: null, msg: null })), 7000);
   };
 
   const ofClient = useMemo(
@@ -99,43 +64,8 @@ export default function EvolutionTab({ profile, metricSamples, onUpdateMetricSam
     [metricSamples, profile.id]
   );
 
-  const addSample = () => {
-    setError(null);
-    const [y, m, d] = draft.takenAt.split('-').map(Number);
-    if (!y || !m || !d) {
-      setError('Fecha inválida.');
-      return;
-    }
-    const takenAt = new Date(y, m - 1, d).getTime();
-    const hasAny = METRIC_FIELDS.some(f => typeof draft[f.key] === 'number');
-    if (!hasAny && !draft.notes) {
-      setError('Cargá al menos una métrica o una nota.');
-      return;
-    }
-
-    const sample: MetricSample = {
-      id: `m-${Date.now()}`,
-      clientId: profile.id,
-      takenAt,
-      ...(typeof draft.benchPress1RM === 'number' ? { benchPress1RM: draft.benchPress1RM } : {}),
-      ...(typeof draft.squat1RM === 'number' ? { squat1RM: draft.squat1RM } : {}),
-      ...(typeof draft.deadlift1RM === 'number' ? { deadlift1RM: draft.deadlift1RM } : {}),
-      ...(typeof draft.vo2Max === 'number' ? { vo2Max: draft.vo2Max } : {}),
-      ...(typeof draft.weightKg === 'number' ? { weightKg: draft.weightKg } : {}),
-      ...(typeof draft.fatPercentage === 'number' ? { fatPercentage: draft.fatPercentage } : {}),
-      ...(draft.notes ? { notes: draft.notes } : {})
-    };
-
-    onUpdateMetricSamples([...metricSamples, sample]);
-    setDraft(prefillFromProfile(profile));
-  };
-
   const deleteSample = (id: string) => {
     onUpdateMetricSamples(metricSamples.filter(s => s.id !== id));
-  };
-
-  const updateDraft = (key: keyof DraftSample, value: unknown) => {
-    setDraft(prev => ({ ...prev, [key]: value }));
   };
 
   const summary = useMemo(() => {
@@ -170,44 +100,45 @@ export default function EvolutionTab({ profile, metricSamples, onUpdateMetricSam
         )}
       </div>
 
-      {/* IMPORTER del JSON de avance — sube y autocarga */}
-      <section aria-labelledby="import_heading" className="bg-[#121214] border border-[#5D36FF]/30 rounded-xl p-5 shadow-lg space-y-3">
+      {/* AVANCES DEL PORTAL — el paciente los registra, la plataforma los rescata */}
+      <section aria-labelledby="pull_heading" className="bg-[#121214] border border-[#5D36FF]/30 rounded-xl p-5 shadow-lg space-y-3">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-[#5D36FF]/10 text-[#5D36FF] rounded-lg">
-              <Upload size={16} aria-hidden="true" />
+              <CloudDownload size={16} aria-hidden="true" />
             </div>
             <div>
-              <h2 id="import_heading" className="font-sans font-bold text-sm text-white uppercase tracking-wider">Importar reporte de avance</h2>
+              <h2 id="pull_heading" className="font-sans font-bold text-sm text-white uppercase tracking-wider">Avances del portal del paciente</h2>
               <p className="font-mono text-[10px] text-zinc-500 mt-0.5">
-                Cargá el JSON que tu paciente generó completando el HTML enviado desde el Dashboard. La medición se agrega sola, sin que llenes nada.
+                El paciente registra sus avances en su portal. La plataforma los trae aquí y actualiza las curvas. Tú no cargas nada a mano.
               </p>
             </div>
           </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json,application/json"
-            onChange={handleImportProgress}
-            className="hidden"
-          />
           <button
-            onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded font-mono text-xs uppercase tracking-wider font-bold transition flex items-center gap-2 shrink-0"
+            onClick={handlePullFromPortal}
+            disabled={pull.busy || !isBackendConfigured || !coachId}
+            title={!isBackendConfigured || !coachId ? 'Inicia sesión en la nube (Datos & Respaldo) para traer avances.' : undefined}
+            className="px-4 py-2.5 bg-[#5D36FF] hover:bg-[#4A22F0] disabled:opacity-40 disabled:cursor-not-allowed text-white rounded font-mono text-xs uppercase tracking-wider font-bold transition flex items-center gap-2 shrink-0"
           >
-            <Upload size={13} aria-hidden="true" /> Subir JSON
+            {pull.busy ? <Loader2 size={13} className="animate-spin" aria-hidden="true" /> : <CloudDownload size={13} aria-hidden="true" />}
+            {pull.busy ? 'Trayendo…' : 'Traer avances'}
           </button>
         </div>
 
-        {importStatus.type && (
-          <div role={importStatus.type === 'error' ? 'alert' : 'status'}
+        {!isBackendConfigured && (
+          <p className="font-mono text-[10px] text-zinc-500">
+            Los avances viven en la nube: requiere backend configurado e inicio de sesión de coach.
+          </p>
+        )}
+        {pull.type && (
+          <div role={pull.type === 'error' ? 'alert' : 'status'}
             className={`p-3 rounded-lg border flex items-center gap-2 font-mono text-xs ${
-              importStatus.type === 'success'
+              pull.type === 'success'
                 ? 'bg-[#10B981]/10 border-[#10B981]/30 text-[#10B981]'
                 : 'bg-red-500/10 border-red-500/30 text-red-400'
             }`}>
-            {importStatus.type === 'success' ? <CheckCircle size={14} /> : <AlertTriangle size={14} />}
-            <span>{importStatus.message}</span>
+            {pull.type === 'success' ? <CheckCircle size={14} /> : <AlertTriangle size={14} />}
+            <span>{pull.msg}</span>
           </div>
         )}
       </section>
@@ -294,15 +225,6 @@ export default function EvolutionTab({ profile, metricSamples, onUpdateMetricSam
         </section>
       </div>
     </div>
-  );
-}
-
-function DraftField({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block space-y-1">
-      <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-wider">{label}</span>
-      {children}
-    </label>
   );
 }
 

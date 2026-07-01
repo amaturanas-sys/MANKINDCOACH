@@ -59,6 +59,8 @@ interface PatientsListTabProps {
   /** Crea el paciente sin navegar y devuelve su id (para generar el enlace). */
   onCreatePatientForInvite: (name: string) => string;
   onUpdateClient: (client: ClientProfile) => void;
+  /** Elimina un paciente y sus datos asociados. */
+  onDeleteClient: (clientId: string) => void;
 }
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -187,7 +189,8 @@ export default function PatientsListTab({
   onEnterPatient,
   onCreateClient,
   onCreatePatientForInvite,
-  onUpdateClient
+  onUpdateClient,
+  onDeleteClient
 }: PatientsListTabProps) {
   const { user } = useAuthState();
   const coachId = user?.id ?? '';
@@ -503,6 +506,7 @@ export default function PatientsListTab({
                             <ExpandedRow
                               client={r.client}
                               onUpdate={onUpdateClient}
+                              onDelete={() => onDeleteClient(r.client.id)}
                             />
                           </td>
                         </tr>
@@ -623,10 +627,11 @@ function InvitePanel({
  * Fila expandida: notas, tags, estado y recordatorios
  * ----------------------------------------------------------------------- */
 
-function ExpandedRow({ client, onUpdate }: { client: ClientProfile; onUpdate: (c: ClientProfile) => void }) {
+function ExpandedRow({ client, onUpdate, onDelete }: { client: ClientProfile; onUpdate: (c: ClientProfile) => void; onDelete: () => void }) {
   const [newReminder, setNewReminder] = useState('');
   const [newReminderDue, setNewReminderDue] = useState('');
   const [newTag, setNewTag] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const reminders = client.reminders ?? [];
   const tags = client.tags ?? [];
@@ -819,6 +824,31 @@ function ExpandedRow({ client, onUpdate }: { client: ClientProfile; onUpdate: (c
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Zona destructiva: eliminar paciente */}
+      <div className="lg:col-span-3 mt-2 pt-3 border-t border-red-500/20 flex items-center justify-between gap-3 flex-wrap">
+        <span className="text-[10px] font-mono text-zinc-500">
+          Eliminar libera espacio: borra al paciente y sus datos (pautas agendadas, mediciones, pagos, sesiones). Irreversible.
+        </span>
+        {confirmDelete ? (
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono text-red-400">¿Seguro?</span>
+            <button type="button" onClick={onDelete}
+              className="px-3 py-1.5 bg-red-700 hover:bg-red-600 text-white rounded font-mono text-[9px] uppercase font-bold">
+              Sí, eliminar
+            </button>
+            <button type="button" onClick={() => setConfirmDelete(false)}
+              className="px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-300 rounded font-mono text-[9px] uppercase font-bold">
+              Cancelar
+            </button>
+          </div>
+        ) : (
+          <button type="button" onClick={() => setConfirmDelete(true)}
+            className="px-3 py-1.5 border border-red-500/40 hover:border-red-500 bg-red-950/10 hover:bg-red-950/40 text-red-400 hover:text-white rounded font-mono text-[9px] uppercase font-bold transition flex items-center gap-1.5 shrink-0">
+            <Trash2 size={11} aria-hidden="true" /> Eliminar paciente
+          </button>
+        )}
       </div>
     </div>
   );
