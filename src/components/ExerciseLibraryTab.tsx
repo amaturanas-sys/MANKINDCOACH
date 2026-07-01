@@ -21,7 +21,9 @@ import {
 } from '../types';
 import { MovementPattern, MovementIcon, PATTERN_LABELS, patternForExercise } from '../lib/movementIcons';
 import { NSCA_EXERCISES, MUSCLE_GROUP_LABELS, MUSCLE_GROUPS_ORDERED, MuscleGroup, NscaExercise, isEnduranceExercise } from '../lib/nsca';
-import AnatomyImageBank, { AnatomyImageStrip, imagesForMuscles } from './AnatomyImageBank';
+import RagdollPreview from './RagdollPreview';
+import RagdollPoser from './RagdollPoser';
+import type { RagdollDoc } from '../lib/ragdoll';
 import {
   MEDICAL_CONDITIONS, SEVERITY_META, CUSTOM_EXERCISE_CATEGORIES, EQUIPMENT_OPTIONS
 } from '../constants';
@@ -59,6 +61,8 @@ interface LibraryEntry {
   warnings: ExerciseWarning[];
   /** true si el coach aplicó una corrección sobre este ejercicio NSCA. */
   edited?: boolean;
+  /** Ilustración de técnica hecha con el maniquí. */
+  poses?: RagdollDoc;
   nsca?: NscaExercise;
   custom?: CustomExercise;
 }
@@ -71,10 +75,9 @@ const PATTERN_KEYS: MovementPattern[] = [
 
 export default function ExerciseLibraryTab({
   customExercises, exerciseWarnings, exerciseOverrides,
-  onUpdateCustom, onUpdateWarnings, onUpdateOverrides,
-  anatomyImages, onAddAnatomyImage, onRemoveAnatomyImage
+  onUpdateCustom, onUpdateWarnings, onUpdateOverrides
 }: ExerciseLibraryTabProps) {
-  const [bankOpen, setBankOpen] = useState(false);
+  const [editingPosesFor, setEditingPosesFor] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [filterPattern, setFilterPattern] = useState<'all' | MovementPattern>('all');
   const [filterMuscle, setFilterMuscle] = useState<'all' | MuscleGroup>('all');
@@ -108,6 +111,7 @@ export default function ExerciseLibraryTab({
         notes: ov?.notes,
         warnings: exerciseWarnings[ex.id] ?? [],
         edited: !!ov,
+        poses: ov?.poses,
         nsca: ex
       });
     }
@@ -130,6 +134,7 @@ export default function ExerciseLibraryTab({
         tempo: c.tempo,
         notes: c.notes,
         warnings: c.warnings,
+        poses: c.poses,
         custom: c
       });
     }
@@ -245,6 +250,18 @@ export default function ExerciseLibraryTab({
     setEditingOverrideFor(null);
   };
 
+  /** Guarda la ilustración de técnica (poses del maniquí) del ejercicio. */
+  const handleSavePoses = (entry: LibraryEntry, doc: RagdollDoc) => {
+    if (entry.source === 'custom') {
+      onUpdateCustom(customExercises.map(c => c.id === entry.id ? { ...c, poses: doc } : c));
+    } else {
+      const next = { ...exerciseOverrides };
+      next[entry.id] = { ...(next[entry.id] ?? {}), poses: doc };
+      onUpdateOverrides(next);
+    }
+    setEditingPosesFor(null);
+  };
+
   const resetFilters = () => {
     setQuery(''); setFilterPattern('all'); setFilterMuscle('all');
     setFilterCondition('all'); setFilterSource('all'); setFilterEquipment('all');
@@ -270,13 +287,6 @@ export default function ExerciseLibraryTab({
         <div className="flex items-center gap-2 shrink-0">
           <button
             type="button"
-            onClick={() => setBankOpen(true)}
-            className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:border-[#5D36FF]/50 text-zinc-300 hover:text-white rounded-lg font-mono text-xs uppercase tracking-wider font-bold transition flex items-center gap-2"
-          >
-            <ImageIcon size={14} aria-hidden="true" /> Ilustraciones ({anatomyImages.length})
-          </button>
-          <button
-            type="button"
             onClick={handleCreateCustom}
             className="px-4 py-2 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded-lg font-mono text-xs uppercase tracking-wider font-bold transition flex items-center gap-2"
           >
@@ -284,14 +294,6 @@ export default function ExerciseLibraryTab({
           </button>
         </div>
       </section>
-
-      <AnatomyImageBank
-        open={bankOpen}
-        onClose={() => setBankOpen(false)}
-        images={anatomyImages}
-        onAdd={onAddAnatomyImage}
-        onRemove={onRemoveAnatomyImage}
-      />
 
       {/* FILTROS + SEARCH */}
       <div className="bg-[#121214] border border-zinc-800 rounded-xl p-4 space-y-3">
@@ -432,13 +434,12 @@ export default function ExerciseLibraryTab({
           {selected ? (
             <ExerciseDetail
               entry={selected}
-              images={imagesForMuscles(anatomyImages, [selected.primaryMuscle, ...selected.muscleGroups])}
               onEditCustom={() => selected.custom && setEditingCustom({ ...selected.custom })}
               onDeleteCustom={() => selected.custom && handleDeleteCustom(selected.custom.id)}
               onEditOverride={() => setEditingOverrideFor(selected.id)}
               onResetOverride={() => handleResetOverride(selected.id)}
               onEditWarnings={() => setEditingWarningsFor(selected.id)}
-              onOpenBank={() => setBankOpen(true)}
+              onEditPoses={() => setEditingPosesFor(selected.id)}
             />
           ) : (
             <div className="text-center py-16 space-y-3">
@@ -483,6 +484,17 @@ export default function ExerciseLibraryTab({
           onCancel={() => setEditingOverrideFor(null)}
         />
       )}
+
+      {/* EDITOR DE POSTURA: la ilustración de técnica se hace con el maniquí */}
+      {editingPosesFor && selected && selected.id === editingPosesFor && (
+        <div className="fixed inset-0 z-[220] bg-zinc-950">
+          <RagdollPoser
+            initial={selected.poses ?? null}
+            onSave={(doc) => handleSavePoses(selected, doc)}
+            onClose={() => setEditingPosesFor(null)}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -491,15 +503,14 @@ export default function ExerciseLibraryTab({
  * Detalle de ejercicio
  * ----------------------------------------------------------------------- */
 
-function ExerciseDetail({ entry, images, onEditCustom, onDeleteCustom, onEditOverride, onResetOverride, onEditWarnings, onOpenBank }: {
+function ExerciseDetail({ entry, onEditCustom, onDeleteCustom, onEditOverride, onResetOverride, onEditWarnings, onEditPoses }: {
   entry: LibraryEntry;
-  images: AnatomyImage[];
   onEditCustom: () => void;
   onDeleteCustom: () => void;
   onEditOverride: () => void;
   onResetOverride: () => void;
   onEditWarnings: () => void;
-  onOpenBank: () => void;
+  onEditPoses: () => void;
 }) {
   return (
     <div className="space-y-4">
@@ -576,19 +587,20 @@ function ExerciseDetail({ entry, images, onEditCustom, onDeleteCustom, onEditOve
         </div>
       )}
 
-      {/* Ilustraciones anatómicas (banco con licencia, emparejadas por músculo) */}
+      {/* Ilustración de técnica: se REALIZA con el maniquí articulado */}
       <div>
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[9px] uppercase font-mono tracking-wider text-zinc-500">Ilustraciones anatómicas</span>
-          <button type="button" onClick={onOpenBank} className="text-[9px] font-mono uppercase text-[#5D36FF] hover:underline">
-            {images.length ? 'Gestionar' : 'Añadir'}
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-[9px] uppercase font-mono tracking-wider text-zinc-500">Ilustración de técnica (maniquí)</span>
+          <button type="button" onClick={onEditPoses}
+            className="inline-flex items-center gap-1 text-[9px] font-mono uppercase text-[#5D36FF] hover:underline">
+            <Pencil size={10} aria-hidden="true" /> {entry.poses?.frames?.length ? 'Editar' : 'Crear'}
           </button>
         </div>
-        {images.length > 0 ? (
-          <AnatomyImageStrip images={images} />
+        {entry.poses?.frames?.length ? (
+          <RagdollPreview doc={entry.poses} />
         ) : (
           <p className="text-[10px] font-mono text-zinc-600 italic">
-            Sin ilustraciones para estos músculos. Importa imágenes con licencia (CC) y etiquétalas por músculo.
+            Sin ilustración. Créala posando el maniquí digital (frontal / sagital, uno o varios cuadros).
           </p>
         )}
       </div>

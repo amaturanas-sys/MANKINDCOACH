@@ -321,6 +321,14 @@ export const movementPatternSchema = z.enum([
   'isolation-arm', 'isolation-leg', 'cardio', 'rotation', 'generic'
 ]);
 
+/* Ilustración de técnica hecha con el maniquí articulado */
+const posePartSchema = z.object({ angle: z.number(), dx: z.number(), dy: z.number() });
+const poseSchema = z.record(z.string(), posePartSchema);
+export const ragdollDocSchema = z.object({
+  frames: z.array(z.object({ frontal: poseSchema, sagittal: poseSchema })),
+  show: z.object({ frontal: z.boolean(), sagittal: z.boolean() }).optional()
+});
+
 export const customExerciseSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
@@ -337,6 +345,7 @@ export const customExerciseSchema = z.object({
   tempo: z.string().optional(),
   warnings: z.array(exerciseWarningSchema),
   notes: z.string().optional(),
+  poses: ragdollDocSchema.optional(),
   createdAt: z.number()
 });
 export const customExercisesSchema = z.array(customExerciseSchema);
@@ -352,7 +361,8 @@ export const exerciseOverrideSchema = z.object({
   equipment: z.array(z.string()).optional(),
   category: z.string().optional(),
   technique: z.string().optional(),
-  notes: z.string().optional()
+  notes: z.string().optional(),
+  poses: ragdollDocSchema.optional()
 });
 export const exerciseOverridesMapSchema = z.record(z.string(), exerciseOverrideSchema);
 

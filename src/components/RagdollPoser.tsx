@@ -10,16 +10,25 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Loader2, RotateCcw, Plus, Minus, Move, Crosshair, Copy, Trash2
+  Loader2, RotateCcw, Plus, Minus, Move, Crosshair, Copy, Trash2, Check, X
 } from 'lucide-react';
 import RagdollMannequin from './RagdollMannequin';
 import {
-  Rig, Pose, PartPose, partPose, loadRig, buildIndex,
-  worldOf, pivotScreen, applyMat, invertAffine
+  Rig, PartPose, partPose, loadRig, buildIndex,
+  worldOf, pivotScreen, applyMat, invertAffine,
+  RagdollFrame as Frame, RagdollDoc, emptyFrame
 } from '../lib/ragdoll';
 
 type ViewKey = 'frontal' | 'sagittal';
-interface Frame { frontal: Pose; sagittal: Pose; }
+
+interface RagdollPoserProps {
+  /** Ilustración inicial (para editar la de un movimiento). */
+  initial?: RagdollDoc | null;
+  /** Si se provee, muestra "Guardar" y entrega el documento editado. */
+  onSave?: (doc: RagdollDoc) => void;
+  /** Si se provee, muestra "Cerrar" (modo modal dentro de la app). */
+  onClose?: () => void;
+}
 
 const VIEW_LABEL: Record<ViewKey, string> = { frontal: 'Frontal', sagittal: 'Sagital' };
 
@@ -54,11 +63,13 @@ interface DragState {
   parentWorldInv: number[];
 }
 
-export default function RagdollPoser() {
+export default function RagdollPoser({ initial, onSave, onClose }: RagdollPoserProps = {}) {
   const [rigs, setRigs] = useState<Record<ViewKey, Rig | null>>({ frontal: null, sagittal: null });
-  const [frames, setFrames] = useState<Frame[]>([{ frontal: {}, sagittal: {} }]);
+  const [frames, setFrames] = useState<Frame[]>(
+    () => initial?.frames?.length ? initial.frames.map(f => ({ frontal: { ...f.frontal }, sagittal: { ...f.sagittal } })) : [emptyFrame()]
+  );
   const [active, setActive] = useState(0);
-  const [show, setShow] = useState<Record<ViewKey, boolean>>({ frontal: true, sagittal: true });
+  const [show, setShow] = useState<Record<ViewKey, boolean>>(initial?.show ?? { frontal: true, sagittal: true });
   const [showJoints, setShowJoints] = useState(true);
   const [selected, setSelected] = useState<{ view: ViewKey; id: string } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -138,7 +149,7 @@ export default function RagdollPoser() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rigs, byId, frame, active]);
 
-  const resetFrame = () => setFrames(prev => prev.map((fr, i) => i === active ? { frontal: {}, sagittal: {} } : fr));
+  const resetFrame = () => setFrames(prev => prev.map((fr, i) => i === active ? emptyFrame() : fr));
   const addFrame = () => {
     setFrames(prev => {
       const copy: Frame = { frontal: { ...prev[active].frontal }, sagittal: { ...prev[active].sagittal } };
@@ -211,6 +222,18 @@ export default function RagdollPoser() {
             className="px-3 py-1.5 rounded-lg font-mono text-[10px] uppercase tracking-wider transition flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white">
             <RotateCcw size={12} /> Neutra
           </button>
+          {onSave && (
+            <button type="button" onClick={() => onSave({ frames, show })}
+              className="px-3 py-1.5 rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold transition flex items-center gap-1.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white">
+              <Check size={12} /> Guardar
+            </button>
+          )}
+          {onClose && (
+            <button type="button" onClick={onClose} aria-label="Cerrar editor"
+              className="px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white">
+              <X size={12} />
+            </button>
+          )}
         </div>
       </header>
 

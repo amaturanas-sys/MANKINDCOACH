@@ -44,6 +44,15 @@ export interface Rig {
 export interface PartPose { angle: number; dx: number; dy: number; }
 export type Pose = Record<string, PartPose>;
 
+/** Un cuadro de demostración = postura de cada perspectiva. */
+export interface RagdollFrame { frontal: Pose; sagittal: Pose; }
+/** Ilustración de técnica de un movimiento: cuadros + perspectivas visibles. */
+export interface RagdollDoc {
+  frames: RagdollFrame[];
+  show?: { frontal: boolean; sagittal: boolean };
+}
+export const emptyFrame = (): RagdollFrame => ({ frontal: {}, sagittal: {} });
+
 export const ZERO_PART: PartPose = { angle: 0, dx: 0, dy: 0 };
 export const partPose = (pose: Pose, id: string): PartPose => pose[id] ?? ZERO_PART;
 

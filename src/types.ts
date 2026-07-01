@@ -424,6 +424,8 @@ export interface CustomExercise {
   warnings: ExerciseWarning[];
   /** Notas libres adicionales. */
   notes?: string;
+  /** Ilustración de técnica hecha con el maniquí articulado. */
+  poses?: import('./lib/ragdoll').RagdollDoc;
   createdAt: number;
 }
 
@@ -444,6 +446,8 @@ export interface ExerciseOverride {
   /** Reemplaza la técnica mostrada (texto libre). */
   technique?: string;
   notes?: string;
+  /** Ilustración de técnica hecha con el maniquí articulado. */
+  poses?: import('./lib/ragdoll').RagdollDoc;
 }
 
 /* Plantillas de mensajes reusables (WhatsApp/email/etc.) */
