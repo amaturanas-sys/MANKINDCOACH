@@ -29,6 +29,9 @@ import {
 import { findNscaExerciseById, nscaTechniqueSummary, NSCA_EXERCISES } from '../lib/nsca';
 import { MovementIconForExercise, movementSvgString, patternForExercise, PATTERN_LABELS } from '../lib/movementIcons';
 import { track } from '../lib/telemetry';
+import { useAuthState } from '../lib/auth';
+import { isBackendConfigured } from '../lib/supabase';
+import { uploadDossierToPortal } from '../lib/dossiers';
 
 interface ExportTabProps {
   profile: ClientProfile;
@@ -181,7 +184,32 @@ export default function ExportTab({ profile, routines, scheduledRoutines, active
   const [printTheme, setPrintTheme] = useState<'ink' | 'dark'>('ink');
   const [exportScope, setExportScope] = useState<ExportScope>('month');
   const [pdfStatus, setPdfStatus] = useState<{ type: 'idle' | 'loading' | 'error'; message: string }>({ type: 'idle', message: '' });
+  const [portalStatus, setPortalStatus] = useState<{ type: 'success' | 'error' | 'info' | null; message: string }>({ type: null, message: '' });
   const coachName = 'MankindFactory Elite Lab';
+  const { user } = useAuthState();
+  const coachId = user?.id ?? '';
+
+  /**
+   * Además de la descarga local, sube el mismo documento al portal del paciente.
+   * El paciente lo descarga desde allí y, al hacerlo, se borra del servidor.
+   */
+  const pushToPortal = async (blob: Blob, filename: string, format: 'html' | 'pdf') => {
+    if (!isBackendConfigured || !coachId) return;
+    setPortalStatus({ type: 'info', message: 'Subiendo copia al portal del paciente…' });
+    try {
+      const res = await uploadDossierToPortal({ coachId, patientToken: activeClientId, filename, format, blob });
+      if (res === 'uploaded') {
+        setPortalStatus({ type: 'success', message: 'Copia disponible en el portal del paciente. Se borrará del servidor cuando la descargue.' });
+      } else if (res === 'no-patient') {
+        setPortalStatus({ type: 'info', message: 'Se descargó localmente. El paciente aún no creó su cuenta en el portal, así que no se subió copia.' });
+      } else {
+        setPortalStatus({ type: null, message: '' });
+      }
+    } catch (err) {
+      setPortalStatus({ type: 'error', message: `Se descargó localmente, pero falló la subida al portal: ${(err as Error)?.message ?? 'error'}` });
+    }
+    window.setTimeout(() => setPortalStatus({ type: null, message: '' }), 8000);
+  };
 
   const routinesById = useMemo(() => {
     const map = new Map<string, WorkoutRoutine>();
@@ -497,11 +525,13 @@ ${glossaryHtml}
     link.href = url;
     const slug = (profile.name || 'cliente').toLowerCase().replace(/\s+/g, '_');
     const monthSlug = exportScope === 'month' ? `_${viewedMonth.year}_${String(viewedMonth.monthIndex + 1).padStart(2, '0')}` : '_macrociclo';
-    link.download = `pauta_mankind_${slug}${monthSlug}.html`;
+    const filename = `pauta_mankind_${slug}${monthSlug}.html`;
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    void pushToPortal(blob, filename, 'html');
   };
 
   const triggerSystemPrint = () => {
@@ -536,6 +566,7 @@ ${glossaryHtml}
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
       setPdfStatus({ type: 'idle', message: '' });
+      void pushToPortal(blob, filename, 'pdf');
     } catch (err) {
       setPdfStatus({ type: 'error', message: err instanceof Error ? err.message : 'Error generando PDF.' });
       window.setTimeout(() => setPdfStatus({ type: 'idle', message: '' }), 6000);
@@ -592,6 +623,15 @@ ${glossaryHtml}
       {pdfStatus.type === 'error' && (
         <div role="alert" className="bg-red-950/20 border border-red-700/40 rounded-lg p-3 text-xs text-red-300 print:hidden">
           {pdfStatus.message}
+        </div>
+      )}
+
+      {portalStatus.type && (
+        <div role="status" className={`rounded-lg p-3 text-xs print:hidden border ${
+          portalStatus.type === 'success' ? 'bg-[#10B981]/10 border-[#10B981]/30 text-[#10B981]'
+            : portalStatus.type === 'error' ? 'bg-red-950/20 border-red-700/40 text-red-300'
+            : 'bg-[#5D36FF]/10 border-[#5D36FF]/30 text-[#5D36FF]'}`}>
+          {portalStatus.message}
         </div>
       )}
 

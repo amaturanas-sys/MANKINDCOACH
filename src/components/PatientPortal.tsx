@@ -26,6 +26,8 @@ import {
   patientSignUp, patientSignIn, detectKind, submitToCoach,
   listMySubmissions, hasSubmittedIntake, type PatientSubmission
 } from '../lib/patientPortal';
+import { listMyDossiers, downloadAndConsumeDossier, type DossierRow } from '../lib/dossiers';
+import { FileDown } from 'lucide-react';
 
 const KIND_LABEL: Record<string, string> = {
   intake: 'Ficha de ingreso',
@@ -209,12 +211,69 @@ function PatientHome(props: {
         </div>
       )}
 
+      <DossiersSection />
+
       <ProgressUploader
         coachId={coachId} coachName={coachName} patientToken={patientToken}
         patientEmail={patientEmail} onSubmitted={refresh}
       />
 
       <SubmissionsList loading={loadingList} mine={mine} />
+    </div>
+  );
+}
+
+/* --------------------------- Documentos del coach (dossiers) --------------------------- */
+function DossiersSection() {
+  const [rows, setRows] = useState<DossierRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const load = async () => {
+    setLoading(true);
+    try { setRows(await listMyDossiers()); }
+    catch { /* silencioso */ }
+    finally { setLoading(false); }
+  };
+  useEffect(() => { load(); }, []);
+
+  const download = async (row: DossierRow) => {
+    setBusyId(row.id); setError(null);
+    try {
+      await downloadAndConsumeDossier(row);
+      setRows(prev => prev.filter(r => r.id !== row.id)); // consumido: se borró del servidor
+    } catch (err) {
+      setError((err as Error)?.message ?? 'No se pudo descargar.');
+    } finally { setBusyId(null); }
+  };
+
+  if (!loading && rows.length === 0) return null;
+
+  return (
+    <div className="bg-[#121214] border border-[#5D36FF]/30 rounded-2xl p-5">
+      <p className="font-mono text-[10px] uppercase tracking-wider text-[#5D36FF] mb-1">Documentos de tu coach</p>
+      <p className="text-zinc-500 text-[11px] mb-3">Descárgalos a tu equipo. Al descargar, el archivo se elimina del servidor.</p>
+      {loading ? (
+        <Loader2 size={16} className="animate-spin text-zinc-600" />
+      ) : (
+        <ul className="space-y-2">
+          {rows.map(r => (
+            <li key={r.id} className="flex items-center justify-between gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2">
+              <div className="min-w-0">
+                <p className="text-white text-xs font-semibold truncate">{r.name}</p>
+                <p className="font-mono text-[9px] text-zinc-500 uppercase">{r.format} · {new Date(r.created_at).toLocaleDateString('es-ES')}</p>
+              </div>
+              <button type="button" onClick={() => download(r)} disabled={busyId === r.id}
+                className="px-3 py-1.5 bg-[#5D36FF] hover:bg-[#4A22F0] disabled:opacity-50 text-white rounded font-mono text-[10px] uppercase tracking-wider font-bold transition flex items-center gap-1.5 shrink-0">
+                {busyId === r.id ? <Loader2 size={12} className="animate-spin" /> : <FileDown size={12} />}
+                Descargar
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {error && <p className="mt-2 text-[11px] text-[#FF3C00] font-mono">{error}</p>}
     </div>
   );
 }
