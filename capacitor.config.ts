@@ -6,18 +6,20 @@ import type { CapacitorConfig } from '@capacitor/cli';
  *
  * Dos modos, según la variable de entorno CAP_SERVER_URL al compilar:
  *
- *  A) VINCULADO A VERCEL (recomendado): si CAP_SERVER_URL apunta a tu dominio
- *     de Vercel (p.ej. https://mankindfactory.vercel.app), el APK carga SIEMPRE
- *     la última versión publicada y usa Supabase igual que la web. Tras la
- *     primera carga, el Service Worker (PWA) la cachea y funciona offline.
- *     Instalas el APK una vez y las mejoras llegan solas por cada deploy.
+ *  A) VINCULADO A VERCEL (por defecto): el APK carga SIEMPRE la última versión
+ *     publicada en https://mankindcoach.vercel.app y usa Supabase igual que la
+ *     web. Tras la primera carga, el Service Worker (PWA) la cachea y funciona
+ *     offline. Instalas el APK una vez y las mejoras llegan solas por deploy.
+ *     (Se puede apuntar a otro dominio con la variable CAP_SERVER_URL.)
  *
- *  B) EMPAQUETADO (sin CAP_SERVER_URL): el APK incluye el build `dist/` y
- *     funciona 100% offline; para actualizar hay que recompilar el APK. En este
- *     modo, las claves VITE_SUPABASE_* deben inyectarse al compilar para tener
- *     sincronización en la nube.
+ *  B) EMPAQUETADO: para un APK 100% offline con `dist/` dentro, pon
+ *     DEFAULT_SERVER_URL = '' abajo y hornea las claves VITE_SUPABASE_* al
+ *     compilar para tener sincronización en la nube.
  */
-const serverUrl = process.env.CAP_SERVER_URL?.trim();
+const DEFAULT_SERVER_URL = 'https://mankindcoach.vercel.app';
+// Un CAP_SERVER_URL no vacío tiene prioridad; si no, usa el destino por defecto.
+const override = process.env.CAP_SERVER_URL?.trim();
+const serverUrl = override || DEFAULT_SERVER_URL;
 
 const config: CapacitorConfig = {
   appId: 'cl.mankindfactory.workspace',
