@@ -26,17 +26,28 @@ const stringOrUndef = (v: unknown): string | undefined => {
 };
 
 /**
- * Combina notas clínicas: si el paciente reportó detalles de equipamiento,
- * los anexa al final con un prefijo claro. Mantiene la nota previa del coach.
+ * Combina notas clínicas: mantiene SIEMPRE la nota previa del coach y anexa lo
+ * reportado por el paciente con prefijo claro (sin duplicar si ya se importó).
  */
 function combineNotes(previous?: string, fromForm?: string, equipmentExtras?: string): string {
   const parts: string[] = [];
-  if (fromForm && fromForm.trim()) parts.push(fromForm.trim());
-  else if (previous && previous.trim()) parts.push(previous.trim());
+  if (previous && previous.trim()) parts.push(previous.trim());
+  if (fromForm && fromForm.trim()) {
+    const tagged = `Reportado por el paciente: ${fromForm.trim()}`;
+    if (!parts.some(p => p.includes(tagged))) parts.push(tagged);
+  }
   if (equipmentExtras && equipmentExtras.trim()) {
-    parts.push(`Detalles de equipamiento (reportados por el paciente): ${equipmentExtras.trim()}`);
+    const tagged = `Detalles de equipamiento (reportados por el paciente): ${equipmentExtras.trim()}`;
+    if (!parts.some(p => p.includes(tagged))) parts.push(tagged);
   }
   return parts.join('\n\n');
+}
+
+/** Normaliza el nivel de experiencia reportado ('Avanzado' → 'avanzado'). */
+function normalizeExperience(v: unknown): ClientProfile['experienceLevel'] | undefined {
+  if (typeof v !== 'string') return undefined;
+  const s = v.trim().toLowerCase();
+  return (s === 'principiante' || s === 'intermedio' || s === 'avanzado' || s === 'elite') ? s : undefined;
 }
 
 /** Normaliza un handle de Instagram quitando @, URL y espacios. */
@@ -143,6 +154,7 @@ export function applyIntake(json: any, current: ClientProfile): IntakeApplyResul
     equipment: newEquipment,
     metrics: newMetrics,
     practice: newPractice,
+    experienceLevel: normalizeExperience(json.experienceLevel) ?? current.experienceLevel,
     clinical: {
       ...current.clinical,
       morbidities: stringOrUndef(json.morbidities) ?? current.clinical.morbidities,
@@ -150,7 +162,12 @@ export function applyIntake(json: any, current: ClientProfile): IntakeApplyResul
       allergies: stringOrUndef(json.allergies) ?? current.clinical.allergies,
       surgeries: stringOrUndef(json.surgeries) ?? current.clinical.surgeries,
       injuries: stringOrUndef(json.injuries) ?? current.clinical.injuries,
-      notes: combineNotes(current.clinical.notes, stringOrUndef(json.clinicalNotes), equipmentNoteFromIntake)
+      notes: combineNotes(
+        current.clinical.notes,
+        [stringOrUndef(json.clinicalNotes), stringOrUndef(json.weeklyAvailability) ? `Disponibilidad semanal: ${String(json.weeklyAvailability).trim()}` : undefined]
+          .filter(Boolean).join(' · ') || undefined,
+        equipmentNoteFromIntake
+      )
     },
     goals: {
       ...current.goals,
@@ -162,7 +179,7 @@ export function applyIntake(json: any, current: ClientProfile): IntakeApplyResul
 
   // Sample de baseline
   const sample: MetricSample = {
-    id: `sample-intake-${Date.now()}`,
+    id: `sample-intake-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
     clientId: current.id,
     takenAt: Date.now(),
     weightKg: newMetrics.weightKg,
@@ -194,7 +211,9 @@ export function applyProgress(json: any, clientId: string): MetricSample {
   if (json.notes) noteParts.push(String(json.notes));
 
   return {
-    id: `sample-progress-${taken}`,
+    /* Sufijo aleatorio: dos reportes con la misma fecha no deben compartir id
+       (ids duplicados rompen las keys de React y el borrado individual). */
+    id: `sample-progress-${taken}-${Math.random().toString(36).slice(2, 7)}`,
     clientId,
     takenAt: taken,
     weightKg: numberOrUndef(json.weightKg),

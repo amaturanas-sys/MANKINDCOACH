@@ -44,12 +44,22 @@ export default function EvolutionTab({ profile, metricSamples, onUpdateMetricSam
         setPull({ busy: false, type: 'success', msg: 'No hay avances nuevos en el portal del paciente.' });
       } else {
         const newSamples: MetricSample[] = [];
+        const okIds: string[] = [];
         for (const s of subs) {
-          try { newSamples.push(applyProgress(s.data, profile.id)); } catch { /* envío no interpretable, se omite */ }
+          try {
+            newSamples.push(applyProgress(s.data, profile.id));
+            okIds.push(s.id);
+          } catch { /* envío no interpretable: se deja PENDIENTE, no se marca importado */ }
         }
         if (newSamples.length) onUpdateMetricSamples([...metricSamples, ...newSamples]);
-        await markSubmissionsImported(subs.map(s => s.id));
-        setPull({ busy: false, type: 'success', msg: `${newSamples.length} avance(s) incorporado(s) desde el portal.` });
+        /* Solo lo aplicado se marca importado; lo fallido queda visible para diagnóstico. */
+        if (okIds.length) await markSubmissionsImported(okIds);
+        const failed = subs.length - okIds.length;
+        setPull({
+          busy: false,
+          type: 'success',
+          msg: `${newSamples.length} avance(s) incorporado(s) desde el portal.${failed ? ` ${failed} envío(s) no interpretable(s) quedaron pendientes.` : ''}`
+        });
       }
     } catch (err) {
       setPull({ busy: false, type: 'error', msg: (err as Error)?.message ?? 'No se pudieron traer los avances.' });

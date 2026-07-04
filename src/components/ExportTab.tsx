@@ -194,7 +194,16 @@ export default function ExportTab({ profile, routines, scheduledRoutines, active
    * El paciente lo descarga desde allí y, al hacerlo, se borra del servidor.
    */
   const pushToPortal = async (blob: Blob, filename: string, format: 'html' | 'pdf') => {
-    if (!isBackendConfigured || !coachId) return;
+    if (!isBackendConfigured || !coachId) {
+      /* Antes esto retornaba en silencio y el coach creía que el paciente ya
+         tenía su copia. Avisar explícitamente. */
+      setPortalStatus({
+        type: 'info',
+        message: 'Documento descargado localmente. NO se subió copia al portal del paciente (sin sesión de nube activa; inicia sesión en Datos & Respaldo).'
+      });
+      window.setTimeout(() => setPortalStatus({ type: null, message: '' }), 8000);
+      return;
+    }
     setPortalStatus({ type: 'info', message: 'Subiendo copia al portal del paciente…' });
     try {
       const res = await uploadDossierToPortal({ coachId, patientToken: activeClientId, filename, format, blob });
@@ -411,6 +420,8 @@ header{border-bottom:2px solid var(--border);padding-bottom:30px;margin-bottom:3
 .badge-potencia{background:rgba(255,187,0,.15);color:#FFBB00;border-color:rgba(255,187,0,.3);}
 .badge-hipertrofia{background:rgba(168,85,247,.15);color:#A855F7;border-color:rgba(168,85,247,.3);}
 .badge-aerobico{background:rgba(20,184,166,.15);color:#14B8A6;border-color:rgba(20,184,166,.3);}
+.badge-resistencia{background:rgba(245,158,11,.15);color:#F59E0B;border-color:rgba(245,158,11,.3);}
+.badge-cross_training{background:rgba(236,72,153,.15);color:#EC4899;border-color:rgba(236,72,153,.3);}
 .routine-duration{margin-left:auto;font-size:11px;color:var(--muted);}
 .routine-desc-text{margin:0 0 12px;font-size:11px;color:var(--muted);}
 .exercises-table{width:100%;border-collapse:collapse;margin-top:8px;}

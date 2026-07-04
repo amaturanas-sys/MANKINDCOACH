@@ -96,13 +96,16 @@ export function useCloudSync(
     return () => { cancelled = true; };
   }, [configured, session, user]);
 
-  /* Empuje con debounce ante cada cambio del workspace. */
+  /* Empuje con debounce ante cada cambio del workspace.
+     La serialización (costosa: el workspace puede pesar MBs con imágenes
+     base64) ocurre DENTRO del timeout, no en cada tecleo — antes bloqueaba el
+     hilo principal en cada pulsación con sesión activa. */
   useEffect(() => {
     if (!configured || !session || !user || !readyRef.current) return;
-    const serialized = JSON.stringify(workspace);
-    if (serialized === lastSyncedRef.current) return;
     const t = setTimeout(() => {
-      pushRemoteWorkspace(user.id, workspace)
+      const serialized = JSON.stringify(wsRef.current);
+      if (serialized === lastSyncedRef.current) return;
+      pushRemoteWorkspace(user.id, wsRef.current)
         .then(() => { lastSyncedRef.current = serialized; })
         .catch(e => console.warn('No se pudo sincronizar con la nube:', e));
     }, 1200);

@@ -47,6 +47,9 @@ import {
 import { intakeFormHtml, progressReportHtml } from '../lib/coachForms';
 import { applyIntake, applyProgress } from '../lib/intakeImporter';
 import { patientDossierHtml, downloadBlob } from '../lib/exporters';
+import { useAuthState } from '../lib/auth';
+import { isBackendConfigured } from '../lib/supabase';
+import { fetchPendingIntake, markSubmissionsImported } from '../lib/coachInbox';
 import PaymentLedger from './PaymentLedger';
 import { AvatarUploader } from './Avatar';
 import SessionNotesPanel from './SessionNotesPanel';
@@ -99,6 +102,48 @@ export default function PreambleTab({
   const [draft, setDraft] = useState<ClientProfile>(profile);
   useEffect(() => { setDraft(profile); }, [profile]);
 
+  /* Rescate de la ficha de ingreso que el paciente completó en su portal. */
+  const { user } = useAuthState();
+  const coachId = user?.id ?? '';
+  const [intakePull, setIntakePull] = useState<{ busy: boolean; type: 'success' | 'error' | 'info' | null; msg: string | null }>({ busy: false, type: null, msg: null });
+
+  const handlePullIntake = async () => {
+    setIntakePull({ busy: true, type: null, msg: null });
+    try {
+      const subs = await fetchPendingIntake(coachId, profile.id);
+      if (subs.length === 0) {
+        setIntakePull({ busy: false, type: 'info', msg: 'No hay fichas de ingreso nuevas en el portal para este paciente.' });
+      } else {
+        /* Aplica en orden cronológico; solo marca importado lo que se pudo aplicar. */
+        let applied = profile;
+        const okIds: string[] = [];
+        let failed = 0;
+        for (const s of subs) {
+          try {
+            const { patchedProfile, newSample } = applyIntake(s.data, applied);
+            applied = patchedProfile;
+            if (newSample && onAddMetricSample) onAddMetricSample(newSample);
+            okIds.push(s.id);
+          } catch { failed += 1; }
+        }
+        if (okIds.length) {
+          onUpdateProfile(applied);
+          await markSubmissionsImported(okIds);
+        }
+        setIntakePull({
+          busy: false,
+          type: okIds.length ? 'success' : 'error',
+          msg: okIds.length
+            ? `Ficha de ingreso aplicada (${okIds.length} envío(s)). Revisa y ajusta los datos.${failed ? ` ${failed} envío(s) no interpretable(s) quedaron pendientes.` : ''}`
+            : 'Los envíos recibidos no se pudieron interpretar; quedaron pendientes.'
+        });
+      }
+    } catch (err) {
+      setIntakePull({ busy: false, type: 'error', msg: (err as Error)?.message ?? 'No se pudo consultar el portal.' });
+    }
+    window.setTimeout(() => setIntakePull(p => ({ ...p, type: null, msg: null })), 8000);
+  };
+
   const commit = (updated: ClientProfile) => {
     setDraft(updated);
     onUpdateProfile(updated);
@@ -148,6 +193,19 @@ export default function PreambleTab({
             Workspace clínico-deportivo. Define datos antropométricos, rendimiento base, antecedentes y objetivos antes de prescribir la pauta.
           </p>
         </div>
+        <div className="flex items-center gap-2 z-10 flex-wrap">
+        {isBackendConfigured && coachId && (
+          <button
+            type="button"
+            onClick={handlePullIntake}
+            disabled={intakePull.busy}
+            title="Trae la ficha de ingreso que el paciente completó en su portal"
+            className="px-4 py-2.5 font-mono text-xs uppercase tracking-wider rounded-lg font-bold transition border bg-zinc-900 border-[#5D36FF]/40 text-[#5D36FF] hover:bg-[#5D36FF]/10 disabled:opacity-50 flex items-center gap-2"
+          >
+            <Download size={13} aria-hidden="true" />
+            {intakePull.busy ? 'Consultando…' : 'Traer ficha del portal'}
+          </button>
+        )}
         <button
           id="toggle_edit_btn"
           onClick={() => setIsEditing(prev => !prev)}
@@ -160,7 +218,20 @@ export default function PreambleTab({
         >
           {isEditing ? '✓ Finalizar Edición' : '⚙ Modificar Ficha'}
         </button>
+        </div>
       </div>
+
+      {intakePull.type && (
+        <div role={intakePull.type === 'error' ? 'alert' : 'status'}
+          className={`p-3 rounded-lg border flex items-center gap-2 font-mono text-xs ${
+            intakePull.type === 'success' ? 'bg-[#10B981]/10 border-[#10B981]/30 text-[#10B981]'
+              : intakePull.type === 'error' ? 'bg-red-500/10 border-red-500/30 text-red-400'
+              : 'bg-[#5D36FF]/10 border-[#5D36FF]/30 text-[#5D36FF]'
+          }`}>
+          {intakePull.type === 'error' ? <AlertTriangle size={14} /> : <CheckCircle size={14} />}
+          <span>{intakePull.msg}</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 

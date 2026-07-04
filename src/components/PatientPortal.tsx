@@ -34,13 +34,44 @@ const KIND_LABEL: Record<string, string> = {
   progress: 'Seguimiento / avance'
 };
 
+/**
+ * Contexto de invitación persistido: si el paciente vuelve al portal SIN los
+ * parámetros del enlace (p.ej. tras el redirect de confirmación de email o
+ * desde un marcador), se recuperan los últimos valores vistos. Sin esto, sus
+ * envíos quedarían sin coach/token y el coach jamás los recibiría.
+ */
+const INVITE_CTX_KEY = 'mankind_patient_invite';
+
+function resolveInviteContext(params: URLSearchParams): { coachId: string; coachName: string; patientToken: string; presetName: string } {
+  const fromUrl = {
+    coachId: params.get('c') ?? '',
+    coachName: params.get('coach') ?? '',
+    patientToken: params.get('p') ?? '',
+    presetName: params.get('n') ?? ''
+  };
+  try {
+    if (fromUrl.coachId) {
+      localStorage.setItem(INVITE_CTX_KEY, JSON.stringify(fromUrl));
+      return fromUrl;
+    }
+    const stored = localStorage.getItem(INVITE_CTX_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return {
+        coachId: parsed.coachId ?? '',
+        coachName: parsed.coachName ?? '',
+        patientToken: parsed.patientToken ?? '',
+        presetName: parsed.presetName ?? ''
+      };
+    }
+  } catch { /* localStorage no disponible: seguir con la URL */ }
+  return fromUrl;
+}
+
 export default function PatientPortal() {
   const { ready, session, user } = useAuthState();
   const params = useMemo(() => new URLSearchParams(window.location.search), []);
-  const coachId = params.get('c') ?? '';
-  const coachName = params.get('coach') ?? '';
-  const patientToken = params.get('p') ?? '';
-  const presetName = params.get('n') ?? '';
+  const { coachId, coachName, patientToken, presetName } = useMemo(() => resolveInviteContext(params), [params]);
 
   useEffect(() => { initAuth(); }, []);
 

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import RagdollMannequin from './RagdollMannequin';
 import {
-  Rig, PartPose, partPose, loadRig, buildIndex,
+  Rig, PartPose, partPose, loadRigs, buildIndex,
   worldOf, pivotScreen, applyMat, invertAffine,
   RagdollFrame as Frame, RagdollDoc, emptyFrame
 } from '../lib/ragdoll';
@@ -76,11 +76,14 @@ export default function RagdollPoser({ initial, onSave, onClose }: RagdollPoserP
 
   const svgRefs = useRef<Record<ViewKey, SVGSVGElement | null>>({ frontal: null, sagittal: null });
   const drag = useRef<DragState | null>(null);
+  /* Refs "vivas" para que los listeners globales (registrados una sola vez)
+     lean siempre el estado actual sin re-suscribirse en cada render. */
+  const liveRef = useRef<{ rigs: typeof rigs; byId: typeof byId; frame: Frame; active: number } | null>(null);
+  const rafPending = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    Promise.all([loadRig('frontal'), loadRig('sagittal')])
-      .then(([f, s]) => setRigs({ frontal: f, sagittal: s }))
-      .catch(() => { /* sin rig */ })
+    loadRigs()
+      .then(r => setRigs(r))
       .finally(() => setLoading(false));
   }, []);
 
@@ -94,10 +97,13 @@ export default function RagdollPoser({ initial, onSave, onClose }: RagdollPoserP
   }), [rigs]);
 
   const frame = frames[active];
+  /* Mantener las refs vivas al día en cada render. */
+  liveRef.current = { rigs, byId, frame, active };
 
   const setPartPose = (view: ViewKey, id: string, patch: Partial<PartPose>) => {
+    const idx = liveRef.current?.active ?? active;
     setFrames(prev => prev.map((fr, i) => {
-      if (i !== active) return fr;
+      if (i !== idx) return fr;
       const cur = partPose(fr[view], id);
       return { ...fr, [view]: { ...fr[view], [id]: { ...cur, ...patch } } };
     }));
@@ -123,17 +129,27 @@ export default function RagdollPoser({ initial, onSave, onClose }: RagdollPoserP
     (e.target as Element).setPointerCapture?.(e.pointerId);
   };
 
+  /*
+   * Listeners globales registrados UNA sola vez (leen el estado por refs) y
+   * coalescidos con requestAnimationFrame: como máximo un commit de pose por
+   * frame de pantalla, aunque el táctil reporte a 120 Hz. Incluye
+   * `pointercancel` (gestos del sistema en Android) para no dejar el arrastre
+   * pegado.
+   */
   useEffect(() => {
-    const onMove = (e: PointerEvent) => {
+    const applyPointer = (x: number, y: number) => {
       const d = drag.current;
-      if (!d) return;
+      const live = liveRef.current;
+      if (!d || !live) return;
       const svg = svgRefs.current[d.view];
       if (!svg) return;
-      const [sx, sy] = clientToSvg(svg, e.clientX, e.clientY);
+      const [sx, sy] = clientToSvg(svg, x, y);
       if (d.kind === 'rotate') {
-        const rig = rigs[d.view]!, index = byId[d.view]!;
-        const part = index.get(d.id)!;
-        const [pvx, pvy] = pivotScreen(rig, frame[d.view], part, index);
+        const rig = live.rigs[d.view], index = live.byId[d.view];
+        if (!rig || !index) return;
+        const part = index.get(d.id);
+        if (!part) return;
+        const [pvx, pvy] = pivotScreen(rig, live.frame[d.view], part, index);
         const ang = Math.atan2(sy - pvy, sx - pvx);
         const deltaDeg = ((ang - d.startAnglePointer) * 180) / Math.PI;
         setPartPose(d.view, d.id, { angle: d.startPart.angle + deltaDeg });
@@ -142,12 +158,29 @@ export default function RagdollPoser({ initial, onSave, onClose }: RagdollPoserP
         setPartPose(d.view, d.id, { dx: lx - d.basePivot[0], dy: ly - d.basePivot[1] });
       }
     };
-    const onUp = () => { drag.current = null; };
+    const onMove = (e: PointerEvent) => {
+      if (!drag.current) return;
+      const first = rafPending.current === null;
+      rafPending.current = { x: e.clientX, y: e.clientY };
+      if (first) {
+        requestAnimationFrame(() => {
+          const p = rafPending.current;
+          rafPending.current = null;
+          if (p) applyPointer(p.x, p.y);
+        });
+      }
+    };
+    const endDrag = () => { drag.current = null; rafPending.current = null; };
     window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
-    return () => { window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); };
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', endDrag);
+      window.removeEventListener('pointercancel', endDrag);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rigs, byId, frame, active]);
+  }, []);
 
   const resetFrame = () => setFrames(prev => prev.map((fr, i) => i === active ? emptyFrame() : fr));
   const addFrame = () => {

@@ -9,7 +9,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import RagdollMannequin from './RagdollMannequin';
-import { Rig, RagdollDoc, loadRig } from '../lib/ragdoll';
+import { Rig, RagdollDoc, loadRigs } from '../lib/ragdoll';
 
 type ViewKey = 'frontal' | 'sagittal';
 
@@ -30,9 +30,8 @@ export default function RagdollPreview({ doc }: { doc: RagdollDoc }) {
 
   useEffect(() => {
     let alive = true;
-    Promise.all([loadRig('frontal'), loadRig('sagittal')])
-      .then(([f, s]) => { if (alive) setRigs({ frontal: f, sagittal: s }); })
-      .catch(() => { /* sin rig */ })
+    loadRigs()
+      .then(r => { if (alive) setRigs(r); })
       .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
   }, []);

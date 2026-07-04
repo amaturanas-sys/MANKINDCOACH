@@ -27,6 +27,25 @@ export async function fetchPendingProgress(coachId: string, patientToken: string
   return (data ?? []) as PatientSubmission[];
 }
 
+/**
+ * Fichas de ingreso (kind='intake') pendientes dirigidas a este coach para un
+ * paciente. Es lo que el paciente completó en su portal; el coach las trae a la
+ * ficha con applyIntake.
+ */
+export async function fetchPendingIntake(coachId: string, patientToken: string): Promise<PatientSubmission[]> {
+  if (!supabase || !coachId || !patientToken) return [];
+  const { data, error } = await supabase
+    .from('patient_submissions')
+    .select('*')
+    .eq('coach_id', coachId)
+    .eq('patient_token', patientToken)
+    .eq('kind', 'intake')
+    .eq('status', 'pending')
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as PatientSubmission[];
+}
+
 /** Marca envíos como importados para no volver a traerlos. */
 export async function markSubmissionsImported(ids: string[]): Promise<void> {
   if (!supabase || ids.length === 0) return;

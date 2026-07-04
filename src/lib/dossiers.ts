@@ -30,11 +30,15 @@ export async function uploadDossierToPortal(params: {
 }): Promise<UploadResult> {
   if (!supabase || !params.coachId) return 'no-backend';
 
+  /* Destinatario = el PRIMER paciente que reclamó este token (orden cronológico
+     estable). Antes se tomaba una fila arbitraria, lo que permitía que un envío
+     posterior con token falsificado desviara el dossier a otra cuenta. */
   const { data: subs } = await supabase
     .from('patient_submissions')
     .select('patient_id')
     .eq('coach_id', params.coachId)
     .eq('patient_token', params.patientToken)
+    .order('created_at', { ascending: true })
     .limit(1);
   const patientId = subs?.[0]?.patient_id as string | undefined;
   if (!patientId) return 'no-patient';

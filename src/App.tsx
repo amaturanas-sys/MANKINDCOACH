@@ -149,12 +149,13 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
 
+  /* Siempre arranca en el MES ACTUAL: el planificador abre en la semana de hoy
+     y el export debe apuntar a lo que el coach está planificando, no al mes de
+     los datos demo (antes INITIAL_CALENDAR fijaba Mayo 2026 y el dossier salía
+     vacío o con datos viejos). */
   const [viewedMonth, setViewedMonth] = useState<MonthRef>(() => {
-    if (initialState.scheduledRoutines.length === 0) {
-      const today = new Date();
-      return { year: today.getFullYear(), monthIndex: today.getMonth() };
-    }
-    return INITIAL_CALENDAR;
+    const today = new Date();
+    return { year: today.getFullYear(), monthIndex: today.getMonth() };
   });
 
   /* Workspace completo memoizado: fuente única para persistir y sincronizar. */
@@ -231,20 +232,35 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
     setClients(prev => prev.map(c => c.id === updated.id ? updated : c));
   }, []);
 
+  /**
+   * Perfil de paciente NUEVO, completamente limpio (sin los datos demo de
+   * INITIAL_PROFILE: foco, equipamiento, métricas y precios de ejemplo).
+   * El id lleva un sufijo aleatorio: además de evitar colisiones, hace que el
+   * token del enlace de invitación no sea adivinable por fuerza bruta.
+   */
+  const blankClient = (name: string): ClientProfile => ({
+    ...INITIAL_PROFILE,
+    id: `client-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    name: name.trim() || 'Nuevo Atleta',
+    focus: '',
+    equipment: [],
+    suggestedMovements: '',
+    suggestedLoads: '',
+    metrics: {},
+    clinical: {},
+    goals: { performance: '', aesthetic: '', health: '' },
+    practice: {},
+    coachNotes: '',
+    tags: [],
+    reminders: [],
+    avatarDataUrl: undefined
+  });
+
   const handleCreateClient = useCallback((name: string) => {
     track('client_created');
-    const id = `client-${Date.now()}`;
-    const newClient: ClientProfile = {
-      ...INITIAL_PROFILE,
-      id,
-      name: name.trim() || 'Nuevo Atleta',
-      metrics: {},
-      clinical: {},
-      goals: { performance: '', aesthetic: '', health: '' },
-      practice: {}
-    };
+    const newClient = blankClient(name);
     setClients(prev => [...prev, newClient]);
-    setActiveClientId(id);
+    setActiveClientId(newClient.id);
     setPatientSection('ficha');
     setViewMode('patient');
   }, []);
@@ -256,18 +272,9 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
    */
   const handleCreatePatientForInvite = useCallback((name: string): string => {
     track('client_created');
-    const id = `client-${Date.now()}`;
-    const newClient: ClientProfile = {
-      ...INITIAL_PROFILE,
-      id,
-      name: name.trim() || 'Nuevo Atleta',
-      metrics: {},
-      clinical: {},
-      goals: { performance: '', aesthetic: '', health: '' },
-      practice: {}
-    };
+    const newClient = blankClient(name);
     setClients(prev => [...prev, newClient]);
-    return id;
+    return newClient.id;
   }, []);
 
   const handleRenameClient = useCallback((id: string, name: string) => {
@@ -276,22 +283,28 @@ export function AuthenticatedApp({ onLogout: _unused }: AuthenticatedAppProps = 
 
   const handleDeleteClient = useCallback((id: string) => {
     track('client_deleted');
-    setClients(prev => {
-      const filtered = prev.filter(c => c.id !== id);
-      if (filtered.length === 0) {
-        const fallback: ClientProfile = { ...INITIAL_PROFILE, id: `client-${Date.now()}`, name: 'Nuevo Atleta' };
-        setActiveClientId(fallback.id);
-        return [fallback];
-      }
+    /* Calcular el siguiente estado FUERA del updater (updater puro, seguro en StrictMode). */
+    const filtered = clients.filter(c => c.id !== id);
+    if (filtered.length === 0) {
+      const fallback = blankClient('Nuevo Atleta');
+      setClients([fallback]);
+      setActiveClientId(fallback.id);
+    } else {
+      setClients(filtered);
       if (id === activeClientId) setActiveClientId(filtered[0].id);
-      return filtered;
-    });
+    }
+    /* Si el coach estaba DENTRO de la ficha del paciente eliminado, volver a la
+       lista: evita seguir editando en silencio la ficha de otro paciente. */
+    if (id === activeClientId && viewMode === 'patient') {
+      setViewMode('shell');
+      setShellSection('pacientes');
+    }
     setScheduledRoutines(prev => prev.filter(s => s.clientId !== id));
     setMetricSamples(prev => prev.filter(s => s.clientId !== id));
     setPayments(prev => prev.filter(s => s.clientId !== id));
     setSessionNotes(prev => prev.filter(s => s.clientId !== id));
     setCommunicationLogs(prev => prev.filter(s => s.clientId !== id));
-  }, [activeClientId]);
+  }, [clients, activeClientId, viewMode]);
 
   const handleImportBackup = useCallback((imported: {
     clients: ClientProfile[];

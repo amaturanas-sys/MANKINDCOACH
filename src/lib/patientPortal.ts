@@ -34,7 +34,12 @@ export async function patientSignUp(email: string, password: string, name: strin
   const { data, error } = await supabase.auth.signUp({
     email: email.trim(),
     password,
-    options: { data: { full_name: name.trim(), role: 'patient' } }
+    options: {
+      data: { full_name: name.trim(), role: 'patient' },
+      /* El link de confirmación debe volver AL PORTAL con sus parámetros de
+         invitación, no a la raíz del sitio (donde vive la app del coach). */
+      emailRedirectTo: typeof window !== 'undefined' ? window.location.href : undefined
+    }
   });
   if (error) throw error;
   /* Si la confirmación por email está activa, no hay sesión hasta confirmar. */

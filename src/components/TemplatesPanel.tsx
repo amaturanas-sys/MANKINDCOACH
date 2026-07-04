@@ -104,7 +104,7 @@ export default function TemplatesPanel({
       ids.forEach((rid, i) => {
         if (!routineById.has(rid)) return; // pauta borrada — ignoramos
         newSchedules.push({
-          id: `s-tpl-${Date.now()}-${day}-${i}`,
+          id: `s-tpl-${Date.now()}-${day}-${i}-${Math.random().toString(36).slice(2, 6)}`,
           clientId: activeClientId,
           routineId: rid,
           year: viewedMonth.year,

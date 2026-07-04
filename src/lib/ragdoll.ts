@@ -127,10 +127,73 @@ export function pivotScreen(rig: Rig, pose: Pose, part: RigPart, byId: Map<strin
 
 export const buildIndex = (rig: Rig) => new Map(rig.parts.map(p => [p.id, p]));
 
-export async function loadRig(view: 'frontal' | 'sagittal'): Promise<Rig> {
-  const res = await fetch(`/ragdoll/rig_${view}.json`);
-  if (!res.ok) throw new Error(`No se pudo cargar el rig ${view}`);
-  return res.json();
+/* Caché a nivel de módulo: el rig es estático; una sola descarga por sesión. */
+const rigCache: Partial<Record<'frontal' | 'sagittal', Promise<Rig>>> = {};
+
+export function loadRig(view: 'frontal' | 'sagittal'): Promise<Rig> {
+  if (!rigCache[view]) {
+    rigCache[view] = fetch(`/ragdoll/rig_${view}.json`).then(res => {
+      if (!res.ok) throw new Error(`No se pudo cargar el rig ${view}`);
+      return res.json() as Promise<Rig>;
+    }).catch(err => {
+      delete rigCache[view]; // permitir reintento en el próximo mount
+      throw err;
+    });
+  }
+  return rigCache[view]!;
+}
+
+/**
+ * Carga ambos rigs tolerando fallos individuales: si el sagital falla, el
+ * frontal sigue disponible (antes un solo fallo tumbaba toda la herramienta).
+ */
+export async function loadRigs(): Promise<{ frontal: Rig | null; sagittal: Rig | null }> {
+  const [f, s] = await Promise.allSettled([loadRig('frontal'), loadRig('sagittal')]);
+  return {
+    frontal: f.status === 'fulfilled' ? f.value : null,
+    sagittal: s.status === 'fulfilled' ? s.value : null
+  };
+}
+
+/**
+ * Matrices mundiales de TODAS las piezas en una pasada (memoiza la cadena de
+ * padres). Para render: evita recalcular la recursión por cada sprite, disco,
+ * pivote y resalte del mismo frame.
+ */
+export function worldMap(rig: Rig, pose: Pose, byId: Map<string, RigPart>): Map<string, Mat> {
+  const out = new Map<string, Mat>();
+  const compute = (id: string): Mat => {
+    const cached = out.get(id);
+    if (cached) return cached;
+    const m = worldOfWith(rig, pose, id, byId, compute);
+    out.set(id, m);
+    return m;
+  };
+  for (const p of rig.parts) compute(p.id);
+  return out;
+}
+
+function worldOfWith(rig: Rig, pose: Pose, id: string, byId: Map<string, RigPart>, parentGetter: (id: string) => Mat): Mat {
+  const part = byId.get(id)!;
+  const local = part.kind === 'disc' ? I : localOf(part, partPose(pose, id));
+  if (!part.parent) return local;
+  return mul(parentGetter(part.parent), local);
+}
+
+/** Variante de spriteMatrix que lee de un worldMap precalculado. */
+export function spriteMatrixFrom(worlds: Map<string, Mat>, part: RigPart): Mat {
+  const world = worlds.get(part.id)!;
+  if (!part.mirror || !part.rect) return world;
+  const cx = part.rect[0] + part.rect[2] / 2;
+  const flip = mul(translate(cx, 0), mul(scale(-1, 1), translate(-cx, 0)));
+  return mul(world, flip);
+}
+
+/** Variante de pivotScreen que lee de un worldMap precalculado. */
+export function pivotScreenFrom(worlds: Map<string, Mat>, pose: Pose, part: RigPart): [number, number] {
+  if (!part.pivot || !part.parent) return part.pivot ?? [0, 0];
+  const pp = partPose(pose, part.id);
+  return applyMat(worlds.get(part.parent)!, part.pivot[0] + pp.dx, part.pivot[1] + pp.dy);
 }
 
 export const rgb = (a?: number[]) => a ? `rgb(${a[0]},${a[1]},${a[2]})` : 'none';

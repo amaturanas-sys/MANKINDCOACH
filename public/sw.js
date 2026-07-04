@@ -4,8 +4,8 @@
  * stale-while-revalidate para los assets con hash de Vite. Los datos del coach
  * NO pasan por aquí: viven en localStorage, no se cachean ni se exponen.
  */
-const CACHE = 'mankind-shell-v1';
-const APP_SHELL = ['/', '/index.html', '/manifest.json'];
+const CACHE = 'mankind-shell-v2';
+const APP_SHELL = ['/', '/index.html', '/manifest.json', '/brand/mankind-logo.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -28,16 +28,20 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return; // no tocar CDNs (fonts, etc.)
 
-  // Navegación: red primero, cae a shell cacheado (offline).
+  // Navegación: CACHÉ primero (arranque instantáneo, clave para el APK) con
+  // revalidación en segundo plano — la próxima apertura ya trae lo nuevo.
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put('/index.html', copy));
-          return res;
-        })
-        .catch(() => caches.match('/index.html').then((r) => r || caches.match('/')))
+      caches.match('/index.html').then((cached) => {
+        const network = fetch(request)
+          .then((res) => {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put('/index.html', copy));
+            return res;
+          })
+          .catch(() => cached);
+        return cached || network;
+      })
     );
     return;
   }

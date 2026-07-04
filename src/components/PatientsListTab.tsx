@@ -10,7 +10,7 @@
  *   mini-todos (recordatorios) sobre el paciente sin salir de la tabla.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Users,
   ArrowRight,
@@ -633,6 +633,22 @@ function ExpandedRow({ client, onUpdate, onDelete }: { client: ClientProfile; on
   const [newTag, setNewTag] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
+  /* Notas: borrador local + volcado diferido. Antes cada tecla subía a App y
+     re-renderizaba toda la tabla (lag visible en móvil). */
+  const [notesDraft, setNotesDraft] = useState(client.coachNotes ?? '');
+  const notesTimer = useRef<number | null>(null);
+  const commitNotes = (value: string) => {
+    if (notesTimer.current) window.clearTimeout(notesTimer.current);
+    notesTimer.current = null;
+    if (value !== (client.coachNotes ?? '')) onUpdate({ ...client, coachNotes: value });
+  };
+  const onNotesChange = (value: string) => {
+    setNotesDraft(value);
+    if (notesTimer.current) window.clearTimeout(notesTimer.current);
+    notesTimer.current = window.setTimeout(() => commitNotes(value), 500);
+  };
+  useEffect(() => () => { if (notesTimer.current) window.clearTimeout(notesTimer.current); }, []);
+
   const reminders = client.reminders ?? [];
   const tags = client.tags ?? [];
   const status = client.status ?? 'activo';
@@ -740,13 +756,14 @@ function ExpandedRow({ client, onUpdate, onDelete }: { client: ClientProfile; on
         </span>
         <textarea
           rows={9}
-          value={client.coachNotes ?? ''}
-          onChange={e => updateField('coachNotes', e.target.value)}
+          value={notesDraft}
+          onChange={e => onNotesChange(e.target.value)}
+          onBlur={e => commitNotes(e.target.value)}
           placeholder="Ideas, recordatorios, hipótesis, conversaciones, dolencias mencionadas, preferencias..."
           className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-white text-xs focus:outline-none focus:border-[#5D36FF]/60 resize-y font-mono leading-relaxed"
         />
         <p className="text-[9px] font-mono text-zinc-600">
-          {(client.coachNotes ?? '').length} caracteres · se guarda automáticamente
+          {notesDraft.length} caracteres · se guarda automáticamente
         </p>
       </div>
 

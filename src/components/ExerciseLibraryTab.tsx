@@ -11,7 +11,7 @@
  * equipamiento · solo con warnings · solo custom · solo NSCA
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useDeferredValue, useMemo, useState } from 'react';
 import {
   Library, Search, Filter, Plus, Pencil, Trash2, AlertTriangle, X, Check, ExternalLink,
   Dumbbell, ChevronDown, ChevronUp, Tag as TagIcon, Image as ImageIcon, RotateCcw
@@ -141,9 +141,11 @@ export default function ExerciseLibraryTab({
     return out;
   }, [customExercises, exerciseWarnings, exerciseOverrides]);
 
-  /* Aplicar filtros */
+  /* Aplicar filtros (búsqueda diferida: el input responde al instante y el
+     filtrado de ~160 filas con SVG se hace sin bloquear el tecleo) */
+  const deferredQuery = useDeferredValue(query);
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = deferredQuery.trim().toLowerCase();
     return entries.filter(e => {
       // Filtro de origen extendido: 'endurance' (subset de nsca con sourceFile='endurance')
       if (filterSource === 'endurance') {
@@ -164,7 +166,7 @@ export default function ExerciseLibraryTab({
       }
       return true;
     });
-  }, [entries, query, filterPattern, filterMuscle, filterCondition, filterSource, filterEquipment]);
+  }, [entries, deferredQuery, filterPattern, filterMuscle, filterCondition, filterSource, filterEquipment]);
 
   const selected = useMemo(() => entries.find(e => e.id === selectedId) ?? null, [entries, selectedId]);
 
@@ -1024,7 +1026,10 @@ function OverrideEditor({ base, current, onSave, onReset, onCancel }: {
       equipment: !sameArr(draft.equipment, base.equipment) ? draft.equipment : undefined,
       category: draft.category && draft.category !== base.category ? draft.category : undefined,
       technique: draft.technique.trim() ? draft.technique.trim() : undefined,
-      notes: draft.notes.trim() ? draft.notes.trim() : undefined
+      notes: draft.notes.trim() ? draft.notes.trim() : undefined,
+      /* PRESERVAR la ilustración de técnica: este editor no la toca, pero antes
+         reconstruía el override sin ella y la borraba en silencio. */
+      poses: current.poses
     };
     onSave(ov);
   };

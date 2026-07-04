@@ -153,9 +153,11 @@ export default function CalendarTab({
     useSensor(KeyboardSensor)
   );
 
+  const toastTimer = useRef<number | null>(null);
   const showToast = (msg: string) => {
     setToast(msg);
-    window.setTimeout(() => setToast(null), 2200);
+    if (toastTimer.current) window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(null), 2200);
   };
 
   /**
@@ -286,6 +288,14 @@ export default function CalendarTab({
   };
 
   const deleteRoutineEverywhere = (routineId: string) => {
+    /* Borra el bloque de la biblioteca Y de TODOS los calendarios (todos los
+       pacientes, todos los meses): exige confirmación explícita. */
+    const inUse = scheduledRoutines.filter(s => s.routineId === routineId).length;
+    const title = routinesById.get(routineId)?.title ?? 'este bloque';
+    const msg = inUse > 0
+      ? `¿Eliminar "${title}"? Se quitará de la biblioteca y de ${inUse} sesión(es) agendada(s) de todos los pacientes. Esta acción no se puede deshacer.`
+      : `¿Eliminar "${title}" de la biblioteca? Esta acción no se puede deshacer.`;
+    if (!window.confirm(msg)) return;
     onUpdateRoutines(routines.filter(r => r.id !== routineId));
     onUpdateScheduledRoutines(scheduledRoutines.filter(s => s.routineId !== routineId));
     showToast('Pauta eliminada de la biblioteca');
