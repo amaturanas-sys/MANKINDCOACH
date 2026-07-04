@@ -27,6 +27,7 @@ import {
   listMySubmissions, hasSubmittedIntake, type PatientSubmission
 } from '../lib/patientPortal';
 import { listMyDossiers, downloadAndConsumeDossier, type DossierRow } from '../lib/dossiers';
+import { ensureEnrollment } from '../lib/patientLinks';
 import { FileDown } from 'lucide-react';
 
 const KIND_LABEL: Record<string, string> = {
@@ -201,6 +202,8 @@ function AuthPanel({ coachName, presetName }: { coachName: string; presetName: s
 }
 
 /* --------------------------- Home (autenticado) --------------------------- */
+type Enrollment = 'checking' | 'enrolled' | 'conflict' | 'missing' | 'error';
+
 function PatientHome(props: {
   coachId: string; coachName: string; patientToken: string | null;
   patientEmail: string | null; presetName: string;
@@ -209,6 +212,20 @@ function PatientHome(props: {
   const [intakeDone, setIntakeDone] = useState<boolean | null>(null);
   const [mine, setMine] = useState<PatientSubmission[]>([]);
   const [loadingList, setLoadingList] = useState(true);
+  const [enrollment, setEnrollment] = useState<Enrollment>('checking');
+
+  /* Reclamar el vínculo token→cuenta (primera visita) o verificarlo. Sin
+     vínculo no se puede enviar nada: es la garantía anti-suplantación. */
+  const enroll = async () => {
+    if (!coachId || !patientToken) { setEnrollment('missing'); return; }
+    setEnrollment('checking');
+    try {
+      const status = await ensureEnrollment(coachId, patientToken, presetName || null, patientEmail);
+      setEnrollment(status);
+    } catch {
+      setEnrollment('error');
+    }
+  };
 
   const refresh = async () => {
     setLoadingList(true);
@@ -219,11 +236,45 @@ function PatientHome(props: {
     } catch { /* silencioso */ }
     finally { setLoadingList(false); }
   };
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => { enroll(); refresh(); }, []);
+
+  const canSubmit = enrollment === 'enrolled';
 
   return (
     <div className="space-y-6">
-      {intakeDone === false && (
+      {enrollment === 'conflict' && (
+        <div className="bg-[#FF3C00]/10 border border-[#FF3C00]/30 rounded-2xl p-4 flex items-start gap-2.5" role="alert">
+          <AlertTriangle size={16} className="text-[#FF3C00] mt-0.5 shrink-0" />
+          <div>
+            <p className="text-[#FF3C00] font-semibold text-sm">Este enlace ya está vinculado a otra cuenta</p>
+            <p className="text-zinc-400 text-xs mt-0.5">
+              Por seguridad, cada enlace de invitación queda ligado a la primera cuenta que lo usa. Si eres tú desde otra cuenta,
+              pídele a tu coach que revoque el vínculo y vuelve a intentarlo, o que te envíe un enlace nuevo.
+            </p>
+          </div>
+        </div>
+      )}
+      {enrollment === 'missing' && (
+        <div className="bg-[#FFB020]/10 border border-[#FFB020]/30 rounded-2xl p-4 flex items-start gap-2.5" role="alert">
+          <AlertTriangle size={16} className="text-[#FFB020] mt-0.5 shrink-0" />
+          <div>
+            <p className="text-[#FFB020] font-semibold text-sm">Enlace incompleto</p>
+            <p className="text-zinc-400 text-xs mt-0.5">
+              Para enviar formularios necesitas abrir el enlace de invitación personal que te compartió tu coach (incluye tu código de paciente).
+            </p>
+          </div>
+        </div>
+      )}
+      {enrollment === 'error' && (
+        <div className="bg-[#FFB020]/10 border border-[#FFB020]/30 rounded-2xl p-4 flex items-center justify-between gap-3" role="alert">
+          <p className="text-zinc-300 text-xs">No se pudo verificar tu vínculo con el coach.</p>
+          <button type="button" onClick={enroll} className="px-3 py-1.5 bg-[#FFB020] text-zinc-950 rounded font-mono text-[10px] uppercase font-bold shrink-0">
+            Reintentar
+          </button>
+        </div>
+      )}
+
+      {canSubmit && intakeDone === false && (
         <IntakeForm
           coachId={coachId} coachName={coachName} patientToken={patientToken}
           patientEmail={patientEmail} presetName={presetName}
@@ -244,10 +295,12 @@ function PatientHome(props: {
 
       <DossiersSection />
 
-      <ProgressUploader
-        coachId={coachId} coachName={coachName} patientToken={patientToken}
-        patientEmail={patientEmail} onSubmitted={refresh}
-      />
+      {canSubmit && (
+        <ProgressUploader
+          coachId={coachId} coachName={coachName} patientToken={patientToken}
+          patientEmail={patientEmail} onSubmitted={refresh}
+        />
+      )}
 
       <SubmissionsList loading={loadingList} mine={mine} />
     </div>

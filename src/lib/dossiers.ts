@@ -17,9 +17,10 @@ const BUCKET = 'dossiers';
 export type UploadResult = 'uploaded' | 'no-patient' | 'no-backend';
 
 /**
- * Sube el dossier al portal del paciente. Busca el patient_id del paciente
- * (por sus envíos con este patient_token) para dirigírselo. Devuelve
- * 'no-patient' si el paciente aún no creó su cuenta en el portal.
+ * Sube el dossier al portal del paciente. El destinatario se resuelve desde
+ * patient_links: el vínculo token→cuenta es único e inmutable (primer reclamo,
+ * garantizado por la BD), así que el documento clínico no puede desviarse a
+ * otra cuenta. Devuelve 'no-patient' si el paciente aún no reclamó su enlace.
  */
 export async function uploadDossierToPortal(params: {
   coachId: string;
@@ -30,17 +31,13 @@ export async function uploadDossierToPortal(params: {
 }): Promise<UploadResult> {
   if (!supabase || !params.coachId) return 'no-backend';
 
-  /* Destinatario = el PRIMER paciente que reclamó este token (orden cronológico
-     estable). Antes se tomaba una fila arbitraria, lo que permitía que un envío
-     posterior con token falsificado desviara el dossier a otra cuenta. */
-  const { data: subs } = await supabase
-    .from('patient_submissions')
+  const { data: link } = await supabase
+    .from('patient_links')
     .select('patient_id')
     .eq('coach_id', params.coachId)
     .eq('patient_token', params.patientToken)
-    .order('created_at', { ascending: true })
-    .limit(1);
-  const patientId = subs?.[0]?.patient_id as string | undefined;
+    .maybeSingle();
+  const patientId = link?.patient_id as string | undefined;
   if (!patientId) return 'no-patient';
 
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');

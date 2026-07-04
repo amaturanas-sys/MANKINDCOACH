@@ -85,7 +85,13 @@ export async function submitToCoach(params: {
     data: params.data,
     status: 'pending'
   });
-  if (error) throw error;
+  if (error) {
+    /* La política exige que tu cuenta esté vinculada a este enlace (anti-suplantación). */
+    if ((error as { code?: string }).code === '42501' || /row-level security/i.test(error.message ?? '')) {
+      throw new Error('Tu cuenta no está vinculada a este enlace de invitación. Abre el enlace personal que te compartió tu coach y vuelve a intentarlo.');
+    }
+    throw error;
+  }
 }
 
 /**

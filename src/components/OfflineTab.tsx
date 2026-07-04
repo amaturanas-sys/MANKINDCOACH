@@ -33,6 +33,7 @@ import {
 import { SCHEMA_VERSION } from '../constants';
 import { parseBackup } from '../lib/storage';
 import { buildPatientInviteLink } from '../lib/invite';
+import { listPatientLinks, revokePatientLink, type PatientLink } from '../lib/patientLinks';
 import { useCopyToClipboard } from '../lib/useCopyToClipboard';
 import { useAuthState, signOut } from '../lib/auth';
 import { clearEvents, eventsToCsv, getEvents, isEnabled as telemetryEnabled, setEnabled as setTelemetryEnabled, summarize, track } from '../lib/telemetry';
@@ -897,43 +898,107 @@ function AccountCard({ clients }: { clients: ClientProfile[] }) {
         </button>
       </div>
 
-      {/* Enlaces de invitación por paciente */}
-      <div className="pt-3 border-t border-zinc-800 space-y-2">
-        <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
-          Enlaces de invitación · uno por paciente
-        </p>
-        <p className="text-[10px] font-mono text-zinc-600 leading-relaxed">
-          Cada paciente abre su enlace, crea su acceso (9 dígitos) y completa su ingreso. La identidad mostrada es el nombre con el que lo registraste; se actualiza si el paciente se nombra distinto al ingresar.
-        </p>
-        {clients.length === 0 ? (
-          <p className="text-[11px] font-mono text-zinc-600 italic py-2">
-            Aún no hay pacientes. Crea uno en «Pacientes» para generar su enlace.
-          </p>
-        ) : (
-          <ul className="space-y-1.5 max-h-[280px] overflow-y-auto scrollbar-thin pr-1">
-            {clients.map(c => (
-              <PatientInviteRow key={c.id} coachId={coachId} clientId={c.id} name={c.name} />
-            ))}
-          </ul>
-        )}
-      </div>
+      {/* Enlaces de invitación por paciente + estado del vínculo */}
+      <PatientLinksSection coachId={coachId} clients={clients} />
     </div>
   );
 }
 
-function PatientInviteRow({ coachId, clientId, name }: { coachId: string; clientId: string; name: string }) {
+/**
+ * Enlaces de invitación por paciente con su ESTADO DE VÍNCULO: cada enlace
+ * queda ligado a la primera cuenta que lo usa (anti-suplantación). Aquí el
+ * coach verifica con qué email se reclamó cada uno y puede revocarlo para
+ * reemitir la invitación.
+ */
+function PatientLinksSection({ coachId, clients }: { coachId: string; clients: ClientProfile[] }) {
+  const [links, setLinks] = useState<Map<string, PatientLink>>(new Map());
+  const [loaded, setLoaded] = useState(false);
+
+  const loadLinks = async () => {
+    try {
+      const rows = await listPatientLinks(coachId);
+      setLinks(new Map(rows.map(l => [l.patient_token, l])));
+    } catch { /* sin tabla aún o sin red: se muestra sin estado */ }
+    finally { setLoaded(true); }
+  };
+  useEffect(() => { if (coachId) loadLinks(); }, [coachId]);
+
+  const revoke = async (token: string) => {
+    if (!window.confirm('¿Revocar el vínculo de este enlace? La cuenta actual del paciente dejará de poder enviar formularios con él, y la próxima persona que abra el enlace podrá reclamarlo.')) return;
+    try {
+      await revokePatientLink(coachId, token);
+      await loadLinks();
+    } catch { /* silencioso */ }
+  };
+
+  return (
+    <div className="pt-3 border-t border-zinc-800 space-y-2">
+      <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
+        Enlaces de invitación · uno por paciente
+      </p>
+      <p className="text-[10px] font-mono text-zinc-600 leading-relaxed">
+        Cada enlace queda vinculado a la PRIMERA cuenta que lo usa. Verifica aquí el email vinculado; si no corresponde a tu paciente, revoca el vínculo y reenvíale el enlace.
+      </p>
+      {clients.length === 0 ? (
+        <p className="text-[11px] font-mono text-zinc-600 italic py-2">
+          Aún no hay pacientes. Crea uno en «Pacientes» para generar su enlace.
+        </p>
+      ) : (
+        <ul className="space-y-1.5 max-h-[280px] overflow-y-auto scrollbar-thin pr-1">
+          {clients.map(c => (
+            <PatientInviteRow
+              key={c.id}
+              coachId={coachId}
+              clientId={c.id}
+              name={c.name}
+              link={loaded ? (links.get(c.id) ?? null) : undefined}
+              onRevoke={() => revoke(c.id)}
+            />
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function PatientInviteRow({ coachId, clientId, name, link, onRevoke }: {
+  coachId: string; clientId: string; name: string;
+  /** undefined = cargando; null = sin reclamar; PatientLink = vinculado */
+  link: PatientLink | null | undefined;
+  onRevoke: () => void;
+}) {
   const [copied, copy] = useCopyToClipboard();
-  const link = useMemo(() => buildPatientInviteLink(coachId, clientId, name), [coachId, clientId, name]);
+  const inviteUrl = useMemo(() => buildPatientInviteLink(coachId, clientId, name), [coachId, clientId, name]);
 
   return (
     <li className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2">
       <div className="min-w-0 flex-1">
-        <p className="text-white text-xs font-semibold truncate">{name}</p>
-        <p className="font-mono text-[9px] text-zinc-500 truncate" title={link}>{link}</p>
+        <div className="flex items-center gap-2 flex-wrap">
+          <p className="text-white text-xs font-semibold truncate">{name}</p>
+          {link === null && (
+            <span className="px-1.5 py-0.5 bg-zinc-800 text-zinc-400 text-[8px] font-mono uppercase tracking-wider rounded">sin reclamar</span>
+          )}
+          {link && (
+            <span className="px-1.5 py-0.5 bg-[#10B981]/15 text-[#10B981] text-[8px] font-mono uppercase tracking-wider rounded font-bold" title={`Vinculado el ${new Date(link.created_at).toLocaleDateString('es-ES')}`}>
+              ✓ {link.patient_email ?? 'vinculado'}
+            </span>
+          )}
+        </div>
+        <p className="font-mono text-[9px] text-zinc-500 truncate" title={inviteUrl}>{inviteUrl}</p>
       </div>
+      {link && (
+        <button
+          type="button"
+          onClick={onRevoke}
+          title="Revocar vínculo (reemitir invitación)"
+          className="px-2 py-1.5 bg-zinc-950 border border-zinc-800 hover:border-[#FF3C00]/50 text-zinc-400 hover:text-[#FF3C00] rounded font-mono text-[9px] uppercase tracking-wider transition shrink-0"
+        >
+          Revocar
+        </button>
+      )}
       <button
         type="button"
-        onClick={() => copy(link)}
+        onClick={() => copy(inviteUrl)}
         className="px-2.5 py-1.5 bg-[#5D36FF] hover:bg-[#4A22F0] text-white rounded font-mono text-[9px] uppercase tracking-wider font-bold transition flex items-center gap-1.5 shrink-0"
       >
         {copied ? <Check size={11} aria-hidden="true" /> : <Copy size={11} aria-hidden="true" />}
